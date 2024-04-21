@@ -1,3 +1,4 @@
 # Overrides for production environment
+title = "Home"
 baseline="https://tensortheorist.github.io/"
 canonifyURLs = true
