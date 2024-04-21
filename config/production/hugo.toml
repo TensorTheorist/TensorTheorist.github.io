@@ -1,1 +1,3 @@
 # Overrides for production environment
+baseline="https://tensortheorist.github.io/"
+canonifyURLs = true
