@@ -1,1 +1,2 @@
-# Overrides for next environment
+theme = ["hugo-embed-pdf-shortcode", "doks"]
+enableInlineShortcodes = true
