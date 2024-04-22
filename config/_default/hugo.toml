@@ -1,4 +1,6 @@
 title = "My Docs"
+theme = ["hugo-embed-pdf-shortcode", "doks"]
+enableInlineShortcodes = true
 baseurl = "/"
 canonifyURLs = false
 disableAliases = true
