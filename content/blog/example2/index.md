@@ -40,7 +40,7 @@ npm create hyas@latest -- --template doks
 <html>
 <body>
     <div class="container">
-    <embed src="Latex_Tikz.pdf" type="application/pdf" width="100%" height="800px" />
+    <embed src="Latex_Tikz.pdf" type="application/pdf" width="100%" height="1200px" />
     </div>
 </body>
 </html>
