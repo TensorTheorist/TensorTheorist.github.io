@@ -20,10 +20,12 @@ seo:
 
 Well-thought-through product announcements will help increase feature awareness and engage users with new functionality. Just like [sharing your public roadmap](https://canny.io/blog/should-you-have-a-public-roadmap/), it's also a great way to let potential customers see that you're constantly improving.
 ```python
-  from sklearn.datasets import fetch_openml
-  mnist = fetch_openml('mnist_784', version=1, as_frame=False)
-  mnist.keys()
+from sklearn.datasets import fetch_openml
+mnist = fetch_openml('mnist_784', version=1, as_frame=False)
+mnist.keys()
 ```
 ## Further reading
 
 - Read [How to announce product updates and features](https://canny.io/blog/announce-product-updates-features/)
+
+{{ < embed-pdf url="/Users/ayan/Downloads/Latex_Tikz.pdf"  > }}
