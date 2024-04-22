@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e511c16e-d2d4-420a-b665-a21ef4286a86" name="Changes" comment="" />
+    <list default="true" id="e511c16e-d2d4-420a-b665-a21ef4286a86" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/content/blog/example2/index.md" beforeDir="false" afterPath="$PROJECT_DIR$/content/blog/example2/index.md" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -31,12 +33,13 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "/Users/ayan/Documents/Learning/TensorTheorist.github.io/config/_default/menus",
+    "last_opened_file_path": "/Users/ayan/Documents/Learning/TensorTheorist.github.io/content/blog/example2",
     "settings.editor.selected.configurable": "editor.preferences.tabs"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/content/blog/example2" />
       <recent name="$PROJECT_DIR$/config/_default/menus" />
       <recent name="$PROJECT_DIR$/assets/pdf" />
       <recent name="$PROJECT_DIR$/content/blog" />
