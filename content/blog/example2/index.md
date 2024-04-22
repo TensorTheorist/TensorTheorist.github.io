@@ -40,7 +40,7 @@ npm create hyas@latest -- --template doks
 <html>
 <body>
     <div class="container">
-    <embed src="https://github.com/TensorTheorist/TensorTheorist.github.io/blob/main/assets/pdf/Latex_Tikz.pdf" type="application/pdf" width="100%" height="600px" />
+    <embed src="Latex_Tikz.pdf" type="application/pdf" width="100%" height="600px" />
     </div>
 </body>
 </html>
