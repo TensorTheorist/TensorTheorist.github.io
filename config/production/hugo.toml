@@ -2,3 +2,5 @@
 title = "Home"
 baseline="https://tensortheorist.github.io/"
 canonifyURLs = true
+theme = ["hugo-embed-pdf-shortcode"]
+enableInlineShortcodes = true

@@ -25,7 +25,7 @@ mnist = fetch_openml('mnist_784', version=1, as_frame=False)
 mnist.keys()
 ```
 ## Further reading
+{{< embed-pdf url="../../../assets/pdf/Latex_Tikz.pdf" renderPageNum="1" >}}
 
 - Read [How to announce product updates and features](https://canny.io/blog/announce-product-updates-features/)
 
-{{ < embed-pdf url="../../../assets/pdf/Latex_Tikz.pdf"  > }}
