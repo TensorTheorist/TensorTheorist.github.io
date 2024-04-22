@@ -38,11 +38,10 @@ npm create hyas@latest -- --template doks
 {{< /callout >}}
 
 <html>
-  <head>
-    <title>Title of the document</title>
-  </head>
-  <body>
-    <h1>PDF Example</h1>
-    <p>Open a PDF file <a href="../../../assets/pdf/Latex_Tikz.pdf">example</a>.</p>
-  </body>
+<body>
+    <div class="container">
+    <embed src="files/Brochure.pdf" type="application/pdf" width="100%" height="600px" />
+    </div>
+</body>
 </html>
+
