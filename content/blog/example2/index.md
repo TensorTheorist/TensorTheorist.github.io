@@ -28,4 +28,4 @@ mnist.keys()
 
 - Read [How to announce product updates and features](https://canny.io/blog/announce-product-updates-features/)
 
-{{ < embed-pdf url="/Users/ayan/Downloads/Latex_Tikz.pdf"  > }}
+{{ < embed-pdf url="../../../assets/pdf/Latex_Tikz.pdf"  > }}
