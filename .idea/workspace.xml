@@ -5,10 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e511c16e-d2d4-420a-b665-a21ef4286a86" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/config/_default/menus/config.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/_default/hugo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/config/_default/hugo.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/next/hugo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/config/next/hugo.toml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
