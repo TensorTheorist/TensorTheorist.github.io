@@ -37,4 +37,4 @@ npm create hyas@latest -- --template doks
 
 {{< /callout >}}
 
-<li><iframe src="file:///Users/ayan/Documents/Learning/TensorTheorist.github.io/assets/pdf/Latex_Tikz.pdf"></iframe></li>
+<embed src="https://github.com/TensorTheorist/TensorTheorist.github.io/blob/main/assets/pdf/Latex_Tikz.pdf" width="500" height="375" />
