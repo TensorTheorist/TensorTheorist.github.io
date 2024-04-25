@@ -1,4 +1,4 @@
 # Overrides for production environment
-title = "Home"
+title = "AI Anonymous"
 baseline="https://tensortheorist.github.io/"
 canonifyURLs = true
