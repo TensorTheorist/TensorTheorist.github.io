@@ -5,13 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e511c16e-d2d4-420a-b665-a21ef4286a86" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/content/aiml/_index.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/content/aiml/example/index.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/content/aiml/example2/Latex_Tikz.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/content/aiml/example2/index.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/_default/menus/menus.en.toml" beforeDir="false" afterPath="$PROJECT_DIR$/config/_default/menus/menus.en.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/production/hugo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/config/production/hugo.toml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
