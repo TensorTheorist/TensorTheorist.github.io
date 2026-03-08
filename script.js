@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    initThemeToggle();
     initNavigation();
     initTypingEffect();
     initScrollAnimations();
@@ -10,6 +11,34 @@ document.addEventListener('DOMContentLoaded', () => {
     initGitHubSection();
     initKaTeX();
 });
+
+function initThemeToggle() {
+    const themeToggle = document.getElementById('themeToggle');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    } else if (prefersDark.matches) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+    }
+    
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        });
+    }
+    
+    prefersDark.addEventListener('change', (e) => {
+        if (!localStorage.getItem('theme')) {
+            document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+        }
+    });
+}
 
 function initNavigation() {
     const nav = document.getElementById('nav');
@@ -80,11 +109,11 @@ function initTypingEffect() {
     if (!typingElement) return;
     
     const roles = [
-        'AI Engineer',
-        'Machine Learning Researcher',
+        'AI/ML Research Engineer',
+        'Machine Learning Specialist',
         'Optimization Systems Expert',
         'Mathematics Enthusiast',
-        'Deep Learning Specialist',
+        'Deep Learning Researcher',
         'LLM Developer'
     ];
     
