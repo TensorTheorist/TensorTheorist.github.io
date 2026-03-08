@@ -3,36 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Ayan Chattopadhyay - AI Engineer, Machine Learning Researcher, Optimization Systems Expert">
+    <meta name="description" content="Ayan Chattopadhyay - AI/ML Research Engineer, Machine Learning, Optimization Systems">
     <meta name="keywords" content="AI, Machine Learning, Deep Learning, Optimization, LLM, Knowledge Graphs">
     <meta name="author" content="Ayan Chattopadhyay">
-    <title>Ayan Chattopadhyay | AI Engineer & ML Researcher</title>
+    <title>Ayan Chattopadhyay | AI/ML Research Engineer</title>
     
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    
-    <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
-    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Navigation -->
     <nav class="nav" id="nav">
         <div class="nav-container">
-            <a href="#home" class="nav-logo">
+            <a href="index.html" class="nav-logo">
                 <span class="logo-bracket">&lt;</span>AC<span class="logo-bracket">/&gt;</span>
             </a>
             <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
@@ -41,14 +27,14 @@
                 <span></span>
             </button>
             <ul class="nav-menu" id="navMenu">
-                <li><a href="#home" class="nav-link active">Home</a></li>
-                <li><a href="#research" class="nav-link">Research</a></li>
-                <li><a href="#projects" class="nav-link">Projects</a></li>
-                <li><a href="#visualizations" class="nav-link">Visualizations</a></li>
-                <li><a href="#blog" class="nav-link">Blog</a></li>
-                <li><a href="#math" class="nav-link">Math Notes</a></li>
-                <li><a href="#about" class="nav-link">About</a></li>
-                <li><a href="#contact" class="nav-link">Contact</a></li>
+                <li><a href="index.html" class="nav-link active">Home</a></li>
+                <li><a href="research.html" class="nav-link">Research</a></li>
+                <li><a href="projects.html" class="nav-link">Projects</a></li>
+                <li><a href="visualizations.html" class="nav-link">Visualizations</a></li>
+                <li><a href="blog.html" class="nav-link">Blog</a></li>
+                <li><a href="math.html" class="nav-link">Math Notes</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
             </ul>
             <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
                 <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -69,13 +55,41 @@
         </div>
     </nav>
 
-    <!-- Hero Section with Three.js Particle Field -->
-    <section id="home" class="hero">
-        <canvas id="particleCanvas"></canvas>
+    <section class="hero hero-home">
+        <div class="hero-geometric-bg">
+            <svg class="geo-pattern geo-left" viewBox="0 0 400 800" preserveAspectRatio="none">
+                <polygon points="0,0 150,0 80,200 0,180" fill="rgba(180,180,180,0.08)"/>
+                <polygon points="0,150 120,200 60,400 0,350" fill="rgba(160,160,160,0.06)"/>
+                <polygon points="20,350 140,380 100,600 0,550" fill="rgba(170,170,170,0.05)"/>
+                <polygon points="0,500 100,520 40,700 0,680" fill="rgba(150,150,150,0.07)"/>
+                <line x1="0" y1="100" x2="120" y2="150" stroke="rgba(150,150,150,0.1)" stroke-width="1"/>
+                <line x1="30" y1="250" x2="150" y2="320" stroke="rgba(150,150,150,0.08)" stroke-width="1"/>
+                <line x1="0" y1="400" x2="100" y2="450" stroke="rgba(150,150,150,0.1)" stroke-width="1"/>
+                <line x1="50" y1="550" x2="130" y2="620" stroke="rgba(150,150,150,0.08)" stroke-width="1"/>
+                <circle cx="80" cy="120" r="3" fill="rgba(150,150,150,0.15)"/>
+                <circle cx="40" cy="300" r="4" fill="rgba(150,150,150,0.12)"/>
+                <circle cx="100" cy="480" r="3" fill="rgba(150,150,150,0.15)"/>
+                <circle cx="60" cy="650" r="4" fill="rgba(150,150,150,0.1)"/>
+            </svg>
+            <svg class="geo-pattern geo-right" viewBox="0 0 400 800" preserveAspectRatio="none">
+                <polygon points="400,0 250,0 320,200 400,180" fill="rgba(180,180,180,0.08)"/>
+                <polygon points="400,150 280,200 340,400 400,350" fill="rgba(160,160,160,0.06)"/>
+                <polygon points="380,350 260,380 300,600 400,550" fill="rgba(170,170,170,0.05)"/>
+                <polygon points="400,500 300,520 360,700 400,680" fill="rgba(150,150,150,0.07)"/>
+                <line x1="400" y1="100" x2="280" y2="150" stroke="rgba(150,150,150,0.1)" stroke-width="1"/>
+                <line x1="370" y1="250" x2="250" y2="320" stroke="rgba(150,150,150,0.08)" stroke-width="1"/>
+                <line x1="400" y1="400" x2="300" y2="450" stroke="rgba(150,150,150,0.1)" stroke-width="1"/>
+                <line x1="350" y1="550" x2="270" y2="620" stroke="rgba(150,150,150,0.08)" stroke-width="1"/>
+                <circle cx="320" cy="120" r="3" fill="rgba(150,150,150,0.15)"/>
+                <circle cx="360" cy="300" r="4" fill="rgba(150,150,150,0.12)"/>
+                <circle cx="300" cy="480" r="3" fill="rgba(150,150,150,0.15)"/>
+                <circle cx="340" cy="650" r="4" fill="rgba(150,150,150,0.1)"/>
+            </svg>
+        </div>
         <div class="hero-content">
             <div class="hero-badge">AI/ML Research Engineer</div>
             <h1 class="hero-title">
-                <span class="hero-name">Ayan Chattopadhyay</span>
+                <span class="hero-name-dark">Ayan Chattopadhyay</span>
             </h1>
             <div class="hero-subtitle">
                 <span class="typing-text" id="typingText"></span>
@@ -85,496 +99,58 @@
                 Building intelligent systems at the intersection of machine learning, optimization, and mathematical foundations.
             </p>
             <div class="hero-buttons">
-                <a href="#projects" class="btn btn-primary">
+                <a href="projects.html" class="btn btn-green-1">
                     <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
                     </svg>
                     View Projects
                 </a>
-                <a href="#blog" class="btn btn-secondary">
+                <a href="blog.html" class="btn btn-green-2">
                     <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
                         <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
                     </svg>
                     Read Blog
                 </a>
-                <a href="https://github.com/TensorTheorist" target="_blank" class="btn btn-outline">
+                <a href="https://github.com/TensorTheorist" target="_blank" class="btn btn-blue-1">
                     <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
                     </svg>
                     GitHub
                 </a>
-                <a href="https://www.linkedin.com/in/ayanchattopadhyay1989/" target="_blank" class="btn btn-outline">
+                <a href="https://www.linkedin.com/in/ayanchattopadhyay1989/" target="_blank" class="btn btn-blue-2">
                     <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
                     </svg>
                     LinkedIn
                 </a>
             </div>
-            <div class="scroll-indicator">
-                <div class="scroll-mouse">
-                    <div class="scroll-wheel"></div>
-                </div>
-                <span>Scroll to explore</span>
+            <div class="github-mini-stats">
+                <a href="https://github.com/TensorTheorist" target="_blank" class="mini-stat">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                    <span id="repoCount">10+</span> Repos
+                </a>
+                <a href="https://github.com/TensorTheorist" target="_blank" class="mini-stat">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                    </svg>
+                    <span id="starCount">50+</span> Stars
+                </a>
+                <a href="https://github.com/TensorTheorist" target="_blank" class="mini-stat">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                    <span id="followerCount">100+</span> Followers
+                </a>
             </div>
         </div>
     </section>
 
-    <!-- Knowledge Graph Section -->
-    <section id="knowledge-graph" class="section knowledge-graph-section">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">Expertise</span>
-                <h2 class="section-title">Interactive Knowledge Graph</h2>
-                <p class="section-subtitle">Explore the interconnected domains of my expertise. Click nodes to discover related projects and research.</p>
-            </div>
-            <div class="graph-container">
-                <div id="knowledgeGraph" class="graph-canvas"></div>
-                <div id="graphInfo" class="graph-info">
-                    <h3 id="graphInfoTitle">Select a node</h3>
-                    <p id="graphInfoDesc">Click on any node in the graph to see related projects and research areas.</p>
-                    <div id="graphInfoLinks" class="graph-info-links"></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Projects Section -->
-    <section id="projects" class="section projects-section">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">Portfolio</span>
-                <h2 class="section-title">Project Visualizer</h2>
-                <p class="section-subtitle">An interactive exploration of my engineering projects and systems.</p>
-            </div>
-            <div class="project-filters">
-                <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="ai">AI Systems</button>
-                <button class="filter-btn" data-filter="ml">Machine Learning</button>
-                <button class="filter-btn" data-filter="optimization">Optimization</button>
-                <button class="filter-btn" data-filter="systems">Systems</button>
-            </div>
-            <div class="projects-network" id="projectsNetwork"></div>
-            <div class="projects-grid" id="projectsGrid">
-                <!-- Projects will be dynamically loaded -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Research Section -->
-    <section id="research" class="section research-section">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">Publications</span>
-                <h2 class="section-title">Research</h2>
-                <p class="section-subtitle">Academic-style documentation of my research and development work.</p>
-            </div>
-            <div class="research-domains">
-                <div class="research-domain" data-domain="ai-systems">
-                    <div class="domain-header">
-                        <div class="domain-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="3"></circle>
-                                <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"></path>
-                            </svg>
-                        </div>
-                        <h3>AI Systems</h3>
-                    </div>
-                    <div class="research-items" id="aiSystemsResearch"></div>
-                </div>
-                <div class="research-domain" data-domain="machine-learning">
-                    <div class="domain-header">
-                        <div class="domain-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                                <line x1="12" y1="22.08" x2="12" y2="12"></line>
-                            </svg>
-                        </div>
-                        <h3>Machine Learning</h3>
-                    </div>
-                    <div class="research-items" id="mlResearch"></div>
-                </div>
-                <div class="research-domain" data-domain="optimization">
-                    <div class="domain-header">
-                        <div class="domain-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-                            </svg>
-                        </div>
-                        <h3>Optimization</h3>
-                    </div>
-                    <div class="research-items" id="optimizationResearch"></div>
-                </div>
-                <div class="research-domain" data-domain="mathematics">
-                    <div class="domain-header">
-                        <div class="domain-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-                            </svg>
-                        </div>
-                        <h3>Mathematics</h3>
-                    </div>
-                    <div class="research-items" id="mathResearch"></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Visualizations Lab Section -->
-    <section id="visualizations" class="section visualizations-section">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">Interactive</span>
-                <h2 class="section-title">Visualization Lab</h2>
-                <p class="section-subtitle">Interactive demonstrations of machine learning and optimization concepts.</p>
-            </div>
-            <div class="viz-tabs">
-                <button class="viz-tab active" data-viz="gradient">Gradient Descent</button>
-                <button class="viz-tab" data-viz="neural">Neural Network</button>
-                <button class="viz-tab" data-viz="embedding">Embedding Space</button>
-                <button class="viz-tab" data-viz="optimization">Optimization</button>
-            </div>
-            <div class="viz-container">
-                <div id="gradientViz" class="viz-panel active">
-                    <div class="viz-canvas" id="gradientCanvas"></div>
-                    <div class="viz-controls">
-                        <div class="control-group">
-                            <label>Learning Rate</label>
-                            <input type="range" id="learningRate" min="0.01" max="0.5" step="0.01" value="0.1">
-                            <span id="learningRateValue">0.1</span>
-                        </div>
-                        <div class="control-group">
-                            <label>Function</label>
-                            <select id="functionSelect">
-                                <option value="quadratic">Quadratic</option>
-                                <option value="rosenbrock">Rosenbrock</option>
-                                <option value="beale">Beale</option>
-                            </select>
-                        </div>
-                        <button class="viz-btn" id="startGradient">Start Descent</button>
-                        <button class="viz-btn" id="resetGradient">Reset</button>
-                    </div>
-                </div>
-                <div id="neuralViz" class="viz-panel">
-                    <div class="viz-canvas" id="neuralCanvas"></div>
-                    <div class="viz-controls">
-                        <div class="control-group">
-                            <label>Hidden Layers</label>
-                            <input type="range" id="hiddenLayers" min="1" max="4" step="1" value="2">
-                            <span id="hiddenLayersValue">2</span>
-                        </div>
-                        <div class="control-group">
-                            <label>Dataset</label>
-                            <select id="datasetSelect">
-                                <option value="xor">XOR</option>
-                                <option value="circle">Circle</option>
-                                <option value="spiral">Spiral</option>
-                            </select>
-                        </div>
-                        <button class="viz-btn" id="trainNetwork">Train</button>
-                        <button class="viz-btn" id="resetNetwork">Reset</button>
-                    </div>
-                </div>
-                <div id="embeddingViz" class="viz-panel">
-                    <div class="viz-canvas" id="embeddingCanvas"></div>
-                    <div class="viz-controls">
-                        <div class="control-group">
-                            <label>Perplexity</label>
-                            <input type="range" id="perplexity" min="5" max="50" step="5" value="30">
-                            <span id="perplexityValue">30</span>
-                        </div>
-                        <button class="viz-btn" id="runTsne">Run t-SNE</button>
-                    </div>
-                </div>
-                <div id="optimizationViz" class="viz-panel">
-                    <div class="viz-canvas" id="optimizationCanvas"></div>
-                    <div class="viz-controls">
-                        <div class="control-group">
-                            <label>Algorithm</label>
-                            <select id="algorithmSelect">
-                                <option value="genetic">Genetic Algorithm</option>
-                                <option value="pso">Particle Swarm</option>
-                                <option value="annealing">Simulated Annealing</option>
-                            </select>
-                        </div>
-                        <button class="viz-btn" id="runOptimization">Run</button>
-                        <button class="viz-btn" id="resetOptimization">Reset</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Blog Section -->
-    <section id="blog" class="section blog-section">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">Insights</span>
-                <h2 class="section-title">Blog</h2>
-                <p class="section-subtitle">Technical writings on AI, machine learning, systems, and mathematics.</p>
-            </div>
-            <div class="blog-categories">
-                <button class="category-btn active" data-category="all">All</button>
-                <button class="category-btn" data-category="ai">AI</button>
-                <button class="category-btn" data-category="ml">Machine Learning</button>
-                <button class="category-btn" data-category="systems">Systems</button>
-                <button class="category-btn" data-category="math">Mathematics</button>
-            </div>
-            <div class="blog-grid" id="blogGrid">
-                <!-- Blog posts will be dynamically loaded -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Blog Post Modal -->
-    <div id="blogModal" class="modal">
-        <div class="modal-content">
-            <button class="modal-close" id="closeBlogModal">&times;</button>
-            <article class="blog-post" id="blogPostContent">
-                <!-- Blog post content will be loaded here -->
-            </article>
-        </div>
-    </div>
-
-    <!-- Math Notes Section -->
-    <section id="math" class="section math-section">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">Foundations</span>
-                <h2 class="section-title">Math Notes</h2>
-                <p class="section-subtitle">Mathematical foundations of machine learning and optimization.</p>
-            </div>
-            <div class="math-topics">
-                <div class="math-topic" data-topic="linear-algebra">
-                    <div class="topic-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                            <line x1="3" y1="9" x2="21" y2="9"></line>
-                            <line x1="3" y1="15" x2="21" y2="15"></line>
-                            <line x1="9" y1="3" x2="9" y2="21"></line>
-                            <line x1="15" y1="3" x2="15" y2="21"></line>
-                        </svg>
-                    </div>
-                    <h3>Linear Algebra</h3>
-                    <p>Vectors, matrices, eigenvalues, and SVD</p>
-                </div>
-                <div class="math-topic" data-topic="optimization">
-                    <div class="topic-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <line x1="12" y1="20" x2="12" y2="10"></line>
-                            <line x1="18" y1="20" x2="18" y2="4"></line>
-                            <line x1="6" y1="20" x2="6" y2="16"></line>
-                        </svg>
-                    </div>
-                    <h3>Optimization</h3>
-                    <p>Convex optimization, gradient methods, constraints</p>
-                </div>
-                <div class="math-topic" data-topic="probability">
-                    <div class="topic-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"></path>
-                            <path d="M12 2v10l7 7"></path>
-                        </svg>
-                    </div>
-                    <h3>Probability</h3>
-                    <p>Distributions, Bayes theorem, information theory</p>
-                </div>
-                <div class="math-topic" data-topic="ml-theory">
-                    <div class="topic-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-                            <line x1="12" y1="17" x2="12.01" y2="17"></line>
-                        </svg>
-                    </div>
-                    <h3>ML Theory</h3>
-                    <p>PAC learning, VC dimension, generalization</p>
-                </div>
-            </div>
-            <div class="math-content" id="mathContent">
-                <div class="math-note" id="selectedMathNote">
-                    <h3>Select a topic to view notes</h3>
-                    <p>Click on any of the mathematical topics above to see detailed notes with equations and explanations.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- GitHub Section -->
-    <section id="github" class="section github-section">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">Open Source</span>
-                <h2 class="section-title">GitHub Activity</h2>
-                <p class="section-subtitle">My open source contributions and repositories.</p>
-            </div>
-            <div class="github-stats">
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
-                        </svg>
-                    </div>
-                    <div class="stat-value" id="repoCount">--</div>
-                    <div class="stat-label">Repositories</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                        </svg>
-                    </div>
-                    <div class="stat-value" id="starCount">--</div>
-                    <div class="stat-label">Stars</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="4"></circle>
-                            <line x1="1.05" y1="12" x2="7" y2="12"></line>
-                            <line x1="17.01" y1="12" x2="22.96" y2="12"></line>
-                        </svg>
-                    </div>
-                    <div class="stat-value" id="followerCount">--</div>
-                    <div class="stat-label">Followers</div>
-                </div>
-            </div>
-            <div class="github-graph" id="contributionGraph">
-                <!-- Contribution graph will be rendered here -->
-            </div>
-            <div class="recent-repos" id="recentRepos">
-                <!-- Recent repositories will be loaded here -->
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="section about-section">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">Background</span>
-                <h2 class="section-title">About Me</h2>
-            </div>
-            <div class="about-content">
-                <div class="about-image">
-                    <div class="image-frame">
-                        <img src="assets/images/profile.jpg" alt="Ayan Chattopadhyay" class="profile-image">
-                    </div>
-                    <div class="about-socials">
-                        <a href="https://github.com/TensorTheorist" target="_blank" class="social-link" aria-label="GitHub">
-                            <svg viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                            </svg>
-                        </a>
-                        <a href="https://www.linkedin.com/in/ayanchattopadhyay1989/" target="_blank" class="social-link" aria-label="LinkedIn">
-                            <svg viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                            </svg>
-                        </a>
-                        <a href="mailto:ayankgpchatterjee@gmail.com" class="social-link" aria-label="Email">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                                <polyline points="22,6 12,13 2,6"></polyline>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-                <div class="about-text">
-                    <p class="about-intro">
-                        I'm an <strong>AI Engineer</strong> and <strong>Machine Learning Researcher</strong> focused on building intelligent systems that solve complex real-world problems.
-                    </p>
-                    <div class="about-details">
-                        <div class="detail-block">
-                            <h4>AI Engineering</h4>
-                            <p>Building production-ready AI systems including LLM applications, RAG pipelines, and intelligent agents that combine reasoning with action.</p>
-                        </div>
-                        <div class="detail-block">
-                            <h4>Machine Learning Systems</h4>
-                            <p>Designing end-to-end ML pipelines from data processing to model deployment, with focus on scalability and reliability.</p>
-                        </div>
-                        <div class="detail-block">
-                            <h4>Optimization</h4>
-                            <p>Specializing in combinatorial optimization, scheduling algorithms, and constraint satisfaction for industrial applications.</p>
-                        </div>
-                        <div class="detail-block">
-                            <h4>Mathematical Foundations</h4>
-                            <p>Strong background in linear algebra, probability theory, and optimization that underpins effective ML system design.</p>
-                        </div>
-                    </div>
-                    <div class="tech-stack">
-                        <h4>Technologies</h4>
-                        <div class="tech-tags">
-                            <span class="tech-tag">Python</span>
-                            <span class="tech-tag">PyTorch</span>
-                            <span class="tech-tag">TensorFlow</span>
-                            <span class="tech-tag">LangChain</span>
-                            <span class="tech-tag">Transformers</span>
-                            <span class="tech-tag">scikit-learn</span>
-                            <span class="tech-tag">Docker</span>
-                            <span class="tech-tag">Kubernetes</span>
-                            <span class="tech-tag">AWS</span>
-                            <span class="tech-tag">Neo4j</span>
-                            <span class="tech-tag">PostgreSQL</span>
-                            <span class="tech-tag">FastAPI</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="section contact-section">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">Get in Touch</span>
-                <h2 class="section-title">Contact</h2>
-                <p class="section-subtitle">Interested in collaboration or have questions? Let's connect.</p>
-            </div>
-            <div class="contact-content">
-                <div class="contact-methods">
-                    <a href="mailto:ayankgpchatterjee@gmail.com" class="contact-card">
-                        <div class="contact-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                                <polyline points="22,6 12,13 2,6"></polyline>
-                            </svg>
-                        </div>
-                        <div class="contact-info">
-                            <h4>Email</h4>
-                            <p class="contact-email">ayankgpchatterjee@gmail.com</p>
-                        </div>
-                    </a>
-                    <a href="https://github.com/TensorTheorist" target="_blank" class="contact-card">
-                        <div class="contact-icon">
-                            <svg viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                            </svg>
-                        </div>
-                        <div class="contact-info">
-                            <h4>GitHub</h4>
-                            <p>@TensorTheorist</p>
-                        </div>
-                    </a>
-                    <a href="https://www.linkedin.com/in/ayanchattopadhyay1989/" target="_blank" class="contact-card">
-                        <div class="contact-icon">
-                            <svg viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                            </svg>
-                        </div>
-                        <div class="contact-info">
-                            <h4>LinkedIn</h4>
-                            <p>Ayan Chattopadhyay</p>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
@@ -587,10 +163,6 @@
         </div>
     </footer>
 
-    <!-- Scripts -->
-    <script src="js/threeScene.js"></script>
-    <script src="js/graph.js"></script>
-    <script src="js/visualizations.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

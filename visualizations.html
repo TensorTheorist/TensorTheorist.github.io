@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Visualizations - Ayan Chattopadhyay">
+    <title>Visualizations | Ayan Chattopadhyay</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="nav" id="nav">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <span class="logo-bracket">&lt;</span>AC<span class="logo-bracket">/&gt;</span>
+            </a>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="research.html" class="nav-link">Research</a></li>
+                <li><a href="projects.html" class="nav-link">Projects</a></li>
+                <li><a href="visualizations.html" class="nav-link active">Visualizations</a></li>
+                <li><a href="blog.html" class="nav-link">Blog</a></li>
+                <li><a href="math.html" class="nav-link">Math Notes</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <main class="page-content">
+        <section class="section visualizations-section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Interactive</span>
+                    <h2 class="section-title">Visualization Lab</h2>
+                    <p class="section-subtitle">Interactive demonstrations of machine learning and optimization concepts.</p>
+                </div>
+                <div class="viz-tabs">
+                    <button class="viz-tab active" data-viz="gradient">Gradient Descent</button>
+                    <button class="viz-tab" data-viz="neural">Neural Network</button>
+                    <button class="viz-tab" data-viz="embedding">Embedding Space</button>
+                    <button class="viz-tab" data-viz="optimization">Optimization</button>
+                </div>
+                <div class="viz-container">
+                    <div id="gradientViz" class="viz-panel active">
+                        <div class="viz-canvas" id="gradientCanvas"></div>
+                        <div class="viz-controls">
+                            <div class="control-group">
+                                <label>Learning Rate</label>
+                                <input type="range" id="learningRate" min="0.01" max="0.5" step="0.01" value="0.1">
+                                <span id="learningRateValue">0.1</span>
+                            </div>
+                            <div class="control-group">
+                                <label>Function</label>
+                                <select id="functionSelect">
+                                    <option value="quadratic">Quadratic</option>
+                                    <option value="rosenbrock">Rosenbrock</option>
+                                    <option value="beale">Beale</option>
+                                </select>
+                            </div>
+                            <button class="viz-btn" id="startGradient">Start Descent</button>
+                            <button class="viz-btn" id="resetGradient">Reset</button>
+                        </div>
+                    </div>
+                    <div id="neuralViz" class="viz-panel">
+                        <div class="viz-canvas" id="neuralCanvas"></div>
+                        <div class="viz-controls">
+                            <div class="control-group">
+                                <label>Hidden Layers</label>
+                                <input type="range" id="hiddenLayers" min="1" max="4" step="1" value="2">
+                                <span id="hiddenLayersValue">2</span>
+                            </div>
+                            <div class="control-group">
+                                <label>Dataset</label>
+                                <select id="datasetSelect">
+                                    <option value="xor">XOR</option>
+                                    <option value="circle">Circle</option>
+                                    <option value="spiral">Spiral</option>
+                                </select>
+                            </div>
+                            <button class="viz-btn" id="trainNetwork">Train</button>
+                            <button class="viz-btn" id="resetNetwork">Reset</button>
+                        </div>
+                    </div>
+                    <div id="embeddingViz" class="viz-panel">
+                        <div class="viz-canvas" id="embeddingCanvas"></div>
+                        <div class="viz-controls">
+                            <div class="control-group">
+                                <label>Perplexity</label>
+                                <input type="range" id="perplexity" min="5" max="50" step="5" value="30">
+                                <span id="perplexityValue">30</span>
+                            </div>
+                            <button class="viz-btn" id="runTsne">Run t-SNE</button>
+                        </div>
+                    </div>
+                    <div id="optimizationViz" class="viz-panel">
+                        <div class="viz-canvas" id="optimizationCanvas"></div>
+                        <div class="viz-controls">
+                            <div class="control-group">
+                                <label>Algorithm</label>
+                                <select id="algorithmSelect">
+                                    <option value="genetic">Genetic Algorithm</option>
+                                    <option value="pso">Particle Swarm</option>
+                                    <option value="annealing">Simulated Annealing</option>
+                                </select>
+                            </div>
+                            <button class="viz-btn" id="runOptimization">Run</button>
+                            <button class="viz-btn" id="resetOptimization">Reset</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span class="logo-bracket">&lt;</span>AC<span class="logo-bracket">/&gt;</span>
+                </div>
+                <p class="footer-text">Building intelligent systems at the intersection of AI, optimization, and mathematics.</p>
+                <p class="footer-copyright">&copy; 2024 Ayan Chattopadhyay. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/visualizations.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

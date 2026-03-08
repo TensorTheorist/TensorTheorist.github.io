@@ -1,15 +1,35 @@
 document.addEventListener('DOMContentLoaded', () => {
     initThemeToggle();
     initNavigation();
-    initTypingEffect();
-    initScrollAnimations();
-    initProjectsSection();
-    initResearchSection();
-    initVisualizationTabs();
-    initBlogSection();
-    initMathSection();
-    initGitHubSection();
-    initKaTeX();
+    
+    if (document.getElementById('typingText')) {
+        initTypingEffect();
+        initGitHubStats();
+    }
+    
+    if (document.getElementById('projectsGrid')) {
+        initProjectsSection();
+    }
+    
+    if (document.getElementById('aiSystemsResearch')) {
+        initResearchSection();
+    }
+    
+    if (document.querySelector('.viz-tab')) {
+        initVisualizationTabs();
+    }
+    
+    if (document.getElementById('blogGrid')) {
+        initBlogSection();
+    }
+    
+    if (document.querySelector('.math-topic')) {
+        initMathSection();
+    }
+    
+    if (document.getElementById('profileImageContainer')) {
+        initImageZoom();
+    }
 });
 
 function initThemeToggle() {
@@ -19,32 +39,24 @@ function initThemeToggle() {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
         document.documentElement.setAttribute('data-theme', savedTheme);
-    } else if (prefersDark.matches) {
-        document.documentElement.setAttribute('data-theme', 'dark');
+    } else if (!prefersDark.matches) {
+        document.documentElement.setAttribute('data-theme', 'light');
     }
     
     if (themeToggle) {
         themeToggle.addEventListener('click', () => {
             const currentTheme = document.documentElement.getAttribute('data-theme');
             const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            
             document.documentElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
         });
     }
-    
-    prefersDark.addEventListener('change', (e) => {
-        if (!localStorage.getItem('theme')) {
-            document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
-        }
-    });
 }
 
 function initNavigation() {
     const nav = document.getElementById('nav');
     const navToggle = document.getElementById('navToggle');
     const navMenu = document.getElementById('navMenu');
-    const navLinks = document.querySelectorAll('.nav-link');
 
     window.addEventListener('scroll', () => {
         if (window.scrollY > 50) {
@@ -52,56 +64,14 @@ function initNavigation() {
         } else {
             nav.classList.remove('scrolled');
         }
-        
-        updateActiveNavLink();
     });
 
-    navToggle.addEventListener('click', () => {
-        navMenu.classList.toggle('active');
-        navToggle.classList.toggle('active');
-    });
-
-    navLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const targetId = link.getAttribute('href');
-            const targetElement = document.querySelector(targetId);
-            
-            if (targetElement) {
-                const offsetTop = targetElement.offsetTop - 80;
-                window.scrollTo({
-                    top: offsetTop,
-                    behavior: 'smooth'
-                });
-            }
-
-            navMenu.classList.remove('active');
-            navToggle.classList.remove('active');
+    if (navToggle) {
+        navToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            navToggle.classList.toggle('active');
         });
-    });
-}
-
-function updateActiveNavLink() {
-    const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('.nav-link');
-    
-    let currentSection = '';
-    
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop - 100;
-        const sectionHeight = section.offsetHeight;
-        
-        if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
-            currentSection = section.getAttribute('id');
-        }
-    });
-    
-    navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === `#${currentSection}`) {
-            link.classList.add('active');
-        }
-    });
+    }
 }
 
 function initTypingEffect() {
@@ -150,36 +120,38 @@ function initTypingEffect() {
     type();
 }
 
-function initScrollAnimations() {
-    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-        gsap.registerPlugin(ScrollTrigger);
+async function initGitHubStats() {
+    const username = 'TensorTheorist';
+    
+    try {
+        const userResponse = await fetch(`https://api.github.com/users/${username}`);
+        const userData = await userResponse.json();
         
-        gsap.utils.toArray('.section-header').forEach(header => {
-            gsap.from(header, {
-                y: 50,
-                opacity: 0,
-                duration: 0.8,
-                scrollTrigger: {
-                    trigger: header,
-                    start: 'top 80%',
-                    toggleActions: 'play none none reverse'
-                }
-            });
-        });
+        const repoCountEl = document.getElementById('repoCount');
+        const followerCountEl = document.getElementById('followerCount');
         
-        gsap.utils.toArray('.project-card, .blog-card, .research-domain, .stat-card').forEach((card, i) => {
-            gsap.from(card, {
-                y: 30,
-                opacity: 0,
-                duration: 0.5,
-                delay: i * 0.1,
-                scrollTrigger: {
-                    trigger: card,
-                    start: 'top 85%',
-                    toggleActions: 'play none none reverse'
-                }
+        if (repoCountEl && userData.public_repos) {
+            repoCountEl.textContent = userData.public_repos;
+        }
+        if (followerCountEl && userData.followers) {
+            followerCountEl.textContent = userData.followers;
+        }
+        
+        const reposResponse = await fetch(`https://api.github.com/users/${username}/repos?per_page=100`);
+        const reposData = await reposResponse.json();
+        
+        if (Array.isArray(reposData)) {
+            let totalStars = 0;
+            reposData.forEach(repo => {
+                totalStars += repo.stargazers_count || 0;
             });
-        });
+            const starCountEl = document.getElementById('starCount');
+            if (starCountEl) {
+                starCountEl.textContent = totalStars;
+            }
+        }
+    } catch (error) {
+        console.log('GitHub API unavailable');
     }
 }
 
@@ -299,70 +271,32 @@ function initProjectsSection() {
 
 const researchItems = {
     aiSystems: [
-        {
-            title: 'RAG Architecture Patterns',
-            abstract: 'Analysis of retrieval-augmented generation architectures for knowledge-intensive NLP tasks.',
-            method: 'Comparative study of naive RAG, advanced RAG, and modular RAG patterns.',
-            results: 'Identified optimal configurations for different use cases and document types.'
-        },
-        {
-            title: 'Multi-Agent Coordination',
-            abstract: 'Framework for coordinating multiple AI agents on complex tasks.',
-            method: 'Hierarchical task decomposition with dynamic agent allocation.',
-            results: 'Improved task completion rates and reduced redundant computation.'
-        }
+        { title: 'RAG Architecture Patterns', abstract: 'Analysis of retrieval-augmented generation architectures for knowledge-intensive NLP tasks.' },
+        { title: 'Multi-Agent Coordination', abstract: 'Framework for coordinating multiple AI agents on complex tasks.' }
     ],
     ml: [
-        {
-            title: 'Feature Engineering Automation',
-            abstract: 'Automated feature generation and selection for tabular data.',
-            method: 'Genetic programming combined with mutual information criteria.',
-            results: 'Achieved competitive performance with minimal manual intervention.'
-        },
-        {
-            title: 'Transfer Learning Strategies',
-            abstract: 'Effective transfer learning approaches for domain adaptation.',
-            method: 'Progressive fine-tuning with layer-wise learning rate decay.',
-            results: 'Reduced training time while maintaining accuracy on target domains.'
-        }
+        { title: 'Feature Engineering Automation', abstract: 'Automated feature generation and selection for tabular data.' },
+        { title: 'Transfer Learning Strategies', abstract: 'Effective transfer learning approaches for domain adaptation.' }
     ],
     optimization: [
-        {
-            title: 'Constraint Programming for Scheduling',
-            abstract: 'Application of CP techniques to job shop scheduling problems.',
-            method: 'Hybrid approach combining CP with local search heuristics.',
-            results: 'Found optimal or near-optimal solutions for benchmark instances.'
-        },
-        {
-            title: 'Metaheuristic Hybridization',
-            abstract: 'Combining genetic algorithms with simulated annealing.',
-            method: 'Adaptive operator selection based on search landscape analysis.',
-            results: 'Improved convergence speed and solution quality.'
-        }
+        { title: 'Constraint Programming for Scheduling', abstract: 'Application of CP techniques to job shop scheduling problems.' },
+        { title: 'Metaheuristic Hybridization', abstract: 'Combining genetic algorithms with simulated annealing.' }
     ],
     math: [
-        {
-            title: 'Gradient Flow Analysis',
-            abstract: 'Understanding optimization dynamics through gradient flow.',
-            method: 'Mathematical analysis of continuous-time gradient descent.',
-            results: 'Derived convergence guarantees for non-convex objectives.'
-        },
-        {
-            title: 'Matrix Factorization Methods',
-            abstract: 'Efficient algorithms for large-scale matrix decomposition.',
-            method: 'Randomized SVD with iterative refinement.',
-            results: 'Achieved near-optimal approximations with reduced complexity.'
-        }
+        { title: 'Gradient Flow Analysis', abstract: 'Understanding optimization dynamics through gradient flow.' },
+        { title: 'Matrix Factorization Methods', abstract: 'Efficient algorithms for large-scale matrix decomposition.' }
     ]
 };
 
 function initResearchSection() {
-    const aiContainer = document.getElementById('aiSystemsResearch');
-    const mlContainer = document.getElementById('mlResearch');
-    const optimizationContainer = document.getElementById('optimizationResearch');
-    const mathContainer = document.getElementById('mathResearch');
+    const containers = {
+        ai: document.getElementById('aiSystemsResearch'),
+        ml: document.getElementById('mlResearch'),
+        optimization: document.getElementById('optimizationResearch'),
+        math: document.getElementById('mathResearch')
+    };
     
-    function renderResearchItems(container, items) {
+    function renderItems(container, items) {
         if (!container) return;
         container.innerHTML = items.map(item => `
             <div class="research-item">
@@ -372,10 +306,10 @@ function initResearchSection() {
         `).join('');
     }
     
-    renderResearchItems(aiContainer, researchItems.aiSystems);
-    renderResearchItems(mlContainer, researchItems.ml);
-    renderResearchItems(optimizationContainer, researchItems.optimization);
-    renderResearchItems(mathContainer, researchItems.math);
+    renderItems(containers.ai, researchItems.aiSystems);
+    renderItems(containers.ml, researchItems.ml);
+    renderItems(containers.optimization, researchItems.optimization);
+    renderItems(containers.math, researchItems.math);
 }
 
 function initVisualizationTabs() {
@@ -402,53 +336,8 @@ const blogPosts = [
         excerpt: 'A deep dive into RAG systems, from basic retrieval to advanced hybrid approaches.',
         date: '2024-02-15',
         category: 'ai',
-        content: `
-# Understanding Retrieval-Augmented Generation
-
-Retrieval-Augmented Generation (RAG) has become a cornerstone technique for building knowledge-intensive AI applications. This post explores the fundamentals and advanced patterns.
-
-## What is RAG?
-
-RAG combines the generative capabilities of large language models with the precision of information retrieval systems. Instead of relying solely on the knowledge encoded in model weights, RAG systems retrieve relevant context at inference time.
-
-## Basic Architecture
-
-The standard RAG pipeline consists of:
-
-1. **Indexing**: Documents are chunked and embedded into a vector space
-2. **Retrieval**: Given a query, find the most relevant chunks
-3. **Generation**: Feed retrieved context to the LLM for response generation
-
-\`\`\`python
-# Simple RAG pipeline
-def rag_pipeline(query, retriever, llm):
-    # Retrieve relevant documents
-    docs = retriever.search(query, top_k=5)
-    
-    # Build context
-    context = "\\n".join([d.content for d in docs])
-    
-    # Generate response
-    prompt = f"Context: {context}\\n\\nQuestion: {query}"
-    return llm.generate(prompt)
-\`\`\`
-
-## Advanced Patterns
-
-Modern RAG systems employ sophisticated techniques:
-
-- **Hybrid retrieval**: Combining dense and sparse retrievers
-- **Query expansion**: Rewriting queries for better retrieval
-- **Reranking**: Using cross-encoders for precision
-
-## Mathematical Foundation
-
-The retrieval score is typically computed as:
-
-$$\\text{score}(q, d) = \\frac{\\mathbf{q} \\cdot \\mathbf{d}}{\\|\\mathbf{q}\\| \\|\\mathbf{d}\\|}$$
-
-where $\\mathbf{q}$ and $\\mathbf{d}$ are the query and document embeddings respectively.
-        `
+        image: 'ai',
+        content: `# Understanding Retrieval-Augmented Generation\n\nRetrieval-Augmented Generation (RAG) has become a cornerstone technique for building knowledge-intensive AI applications.\n\n## What is RAG?\n\nRAG combines the generative capabilities of large language models with the precision of information retrieval systems.\n\n## Basic Architecture\n\nThe standard RAG pipeline consists of:\n\n1. **Indexing**: Documents are chunked and embedded\n2. **Retrieval**: Find the most relevant chunks\n3. **Generation**: Feed retrieved context to the LLM\n\n\`\`\`python\ndef rag_pipeline(query, retriever, llm):\n    docs = retriever.search(query, top_k=5)\n    context = "\\n".join([d.content for d in docs])\n    prompt = f"Context: {context}\\n\\nQuestion: {query}"\n    return llm.generate(prompt)\n\`\`\`\n\n## Mathematical Foundation\n\n$$\\text{score}(q, d) = \\frac{\\mathbf{q} \\cdot \\mathbf{d}}{\\|\\mathbf{q}\\| \\|\\mathbf{d}\\|}$$`
     },
     {
         id: 'optimization-algorithms',
@@ -456,43 +345,8 @@ where $\\mathbf{q}$ and $\\mathbf{d}$ are the query and document embeddings resp
         excerpt: 'From gradient descent to evolutionary algorithms, understanding optimization landscapes.',
         date: '2024-01-28',
         category: 'math',
-        content: `
-# A Survey of Optimization Algorithms
-
-Optimization lies at the heart of machine learning. This post surveys key algorithms and their properties.
-
-## Gradient-Based Methods
-
-### Gradient Descent
-
-The simplest optimization algorithm updates parameters in the direction of steepest descent:
-
-$$\\theta_{t+1} = \\theta_t - \\eta \\nabla L(\\theta_t)$$
-
-where $\\eta$ is the learning rate and $\\nabla L$ is the gradient of the loss function.
-
-### Adam Optimizer
-
-Adam combines momentum with adaptive learning rates:
-
-\`\`\`python
-def adam_update(params, grads, m, v, t, lr=0.001, beta1=0.9, beta2=0.999):
-    m = beta1 * m + (1 - beta1) * grads
-    v = beta2 * v + (1 - beta2) * grads**2
-    m_hat = m / (1 - beta1**t)
-    v_hat = v / (1 - beta2**t)
-    params = params - lr * m_hat / (np.sqrt(v_hat) + 1e-8)
-    return params, m, v
-\`\`\`
-
-## Evolutionary Algorithms
-
-For non-differentiable objectives, evolutionary algorithms provide an alternative:
-
-1. **Genetic Algorithms**: Selection, crossover, mutation
-2. **Particle Swarm**: Social learning from best solutions
-3. **Simulated Annealing**: Temperature-based acceptance probability
-        `
+        image: 'math',
+        content: `# A Survey of Optimization Algorithms\n\nOptimization lies at the heart of machine learning.\n\n## Gradient Descent\n\n$$\\theta_{t+1} = \\theta_t - \\eta \\nabla L(\\theta_t)$$\n\n## Adam Optimizer\n\n\`\`\`python\ndef adam_update(params, grads, m, v, t, lr=0.001):\n    m = 0.9 * m + 0.1 * grads\n    v = 0.999 * v + 0.001 * grads**2\n    return params - lr * m / (np.sqrt(v) + 1e-8)\n\`\`\``
     },
     {
         id: 'transformers-explained',
@@ -500,46 +354,8 @@ For non-differentiable objectives, evolutionary algorithms provide an alternativ
         excerpt: 'Breaking down the transformer architecture and self-attention mechanism.',
         date: '2024-01-10',
         category: 'ml',
-        content: `
-# Transformers: Attention Is All You Need
-
-The transformer architecture revolutionized NLP and beyond. Let's understand how it works.
-
-## Self-Attention
-
-The core innovation is the self-attention mechanism:
-
-$$\\text{Attention}(Q, K, V) = \\text{softmax}\\left(\\frac{QK^T}{\\sqrt{d_k}}\\right)V$$
-
-This allows each position to attend to all other positions in the sequence.
-
-## Multi-Head Attention
-
-Multiple attention heads capture different relationships:
-
-\`\`\`python
-def multi_head_attention(Q, K, V, num_heads):
-    d_model = Q.shape[-1]
-    d_k = d_model // num_heads
-    
-    heads = []
-    for i in range(num_heads):
-        Q_i = linear(Q, d_k)
-        K_i = linear(K, d_k)
-        V_i = linear(V, d_k)
-        head_i = attention(Q_i, K_i, V_i)
-        heads.append(head_i)
-    
-    return linear(concat(heads), d_model)
-\`\`\`
-
-## Positional Encoding
-
-Since attention is permutation-invariant, we add positional information:
-
-$$PE_{(pos, 2i)} = \\sin\\left(\\frac{pos}{10000^{2i/d}}\\right)$$
-$$PE_{(pos, 2i+1)} = \\cos\\left(\\frac{pos}{10000^{2i/d}}\\right)$$
-        `
+        image: 'ml',
+        content: `# Transformers: Attention Is All You Need\n\nThe transformer architecture revolutionized NLP and beyond.\n\n## Self-Attention\n\n$$\\text{Attention}(Q, K, V) = \\text{softmax}\\left(\\frac{QK^T}{\\sqrt{d_k}}\\right)V$$\n\n## Positional Encoding\n\n$$PE_{(pos, 2i)} = \\sin\\left(\\frac{pos}{10000^{2i/d}}\\right)$$`
     },
     {
         id: 'building-ml-systems',
@@ -547,68 +363,30 @@ $$PE_{(pos, 2i+1)} = \\cos\\left(\\frac{pos}{10000^{2i/d}}\\right)$$
         excerpt: 'Best practices for deploying machine learning models at scale.',
         date: '2023-12-20',
         category: 'systems',
-        content: `
-# Building Production ML Systems
-
-Moving from prototype to production requires careful engineering.
-
-## Key Considerations
-
-### Reproducibility
-
-Every prediction should be reproducible:
-
-\`\`\`python
-# Set seeds for reproducibility
-import random
-import numpy as np
-import torch
-
-def set_seeds(seed=42):
-    random.seed(seed)
-    np.random.seed(seed)
-    torch.manual_seed(seed)
-    torch.cuda.manual_seed_all(seed)
-\`\`\`
-
-### Monitoring
-
-Track model performance in production:
-
-- **Data drift**: Distribution changes in inputs
-- **Concept drift**: Relationship changes between inputs and outputs
-- **Prediction latency**: Response time percentiles
-
-### Versioning
-
-Version everything:
-
-- Model artifacts
-- Training data
-- Feature definitions
-- Configuration
-
-## Architecture Patterns
-
-### Model Serving
-
-\`\`\`python
-from fastapi import FastAPI
-import torch
-
-app = FastAPI()
-model = load_model("model_v1.pt")
-
-@app.post("/predict")
-async def predict(features: dict):
-    tensor = preprocess(features)
-    with torch.no_grad():
-        prediction = model(tensor)
-    return {"prediction": prediction.tolist()}
-\`\`\`
-        `
+        image: 'systems',
+        content: `# Building Production ML Systems\n\nMoving from prototype to production requires careful engineering.\n\n## Key Considerations\n\n### Reproducibility\n\n\`\`\`python\nimport random, numpy as np, torch\n\ndef set_seeds(seed=42):\n    random.seed(seed)\n    np.random.seed(seed)\n    torch.manual_seed(seed)\n\`\`\`\n\n### Model Serving\n\n\`\`\`python\nfrom fastapi import FastAPI\napp = FastAPI()\n\n@app.post("/predict")\nasync def predict(features: dict):\n    return {"prediction": model(features)}\n\`\`\``
     }
 ];
+
+const blogIcons = {
+    ai: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="12" cy="12" r="3"></circle>
+        <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"></path>
+    </svg>`,
+    ml: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+        <line x1="12" y1="22.08" x2="12" y2="12"></line>
+    </svg>`,
+    math: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+    </svg>`,
+    systems: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+        <line x1="8" y1="21" x2="16" y2="21"></line>
+        <line x1="12" y1="17" x2="12" y2="21"></line>
+    </svg>`
+};
 
 function initBlogSection() {
     const blogGrid = document.getElementById('blogGrid');
@@ -626,8 +404,11 @@ function initBlogSection() {
         
         blogGrid.innerHTML = filteredPosts.map(post => `
             <div class="blog-card" data-post-id="${post.id}">
-                <div class="blog-image">
+                <div class="blog-image blog-image-${post.image}">
                     <span class="blog-category-tag">${post.category}</span>
+                    <div class="blog-image-icon">
+                        ${blogIcons[post.image] || blogIcons.ai}
+                    </div>
                 </div>
                 <div class="blog-content">
                     <span class="blog-date">${formatDate(post.date)}</span>
@@ -639,19 +420,14 @@ function initBlogSection() {
         
         document.querySelectorAll('.blog-card').forEach(card => {
             card.addEventListener('click', () => {
-                const postId = card.dataset.postId;
-                openBlogPost(postId);
+                openBlogPost(card.dataset.postId);
             });
         });
     }
     
     function formatDate(dateStr) {
         const date = new Date(dateStr);
-        return date.toLocaleDateString('en-US', { 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric' 
-        });
+        return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
     }
     
     function openBlogPost(postId) {
@@ -659,19 +435,18 @@ function initBlogSection() {
         if (!post || !postContent) return;
         
         let html = marked.parse(post.content);
-        
         postContent.innerHTML = html;
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
         
-        renderMathInElement(postContent, {
-            delimiters: [
-                { left: '$$', right: '$$', display: true },
-                { left: '$', right: '$', display: false },
-                { left: '\\[', right: '\\]', display: true },
-                { left: '\\(', right: '\\)', display: false }
-            ]
-        });
+        if (typeof renderMathInElement === 'function') {
+            renderMathInElement(postContent, {
+                delimiters: [
+                    { left: '$$', right: '$$', display: true },
+                    { left: '$', right: '$', display: false }
+                ]
+            });
+        }
     }
     
     if (closeModal) {
@@ -704,141 +479,19 @@ function initBlogSection() {
 const mathNotes = {
     'linear-algebra': {
         title: 'Linear Algebra Foundations',
-        content: `
-## Vectors and Matrices
-
-A vector $\\mathbf{x} \\in \\mathbb{R}^n$ is an ordered collection of $n$ real numbers.
-
-The dot product of two vectors:
-$$\\mathbf{a} \\cdot \\mathbf{b} = \\sum_{i=1}^{n} a_i b_i = \\|\\mathbf{a}\\| \\|\\mathbf{b}\\| \\cos\\theta$$
-
-## Matrix Operations
-
-Matrix multiplication $(\\mathbf{AB})_{ij} = \\sum_k A_{ik} B_{kj}$
-
-The transpose $(\\mathbf{A}^T)_{ij} = A_{ji}$
-
-## Eigenvalue Decomposition
-
-For a square matrix $\\mathbf{A}$, the eigenvalue equation is:
-$$\\mathbf{A}\\mathbf{v} = \\lambda \\mathbf{v}$$
-
-The spectral decomposition:
-$$\\mathbf{A} = \\mathbf{Q}\\mathbf{\\Lambda}\\mathbf{Q}^{-1}$$
-
-## Singular Value Decomposition
-
-Any matrix can be decomposed as:
-$$\\mathbf{A} = \\mathbf{U}\\mathbf{\\Sigma}\\mathbf{V}^T$$
-
-where $\\mathbf{U}$ and $\\mathbf{V}$ are orthogonal matrices.
-        `
+        content: `## Vectors and Matrices\n\nA vector $\\mathbf{x} \\in \\mathbb{R}^n$ is an ordered collection of $n$ real numbers.\n\n$$\\mathbf{a} \\cdot \\mathbf{b} = \\sum_{i=1}^{n} a_i b_i$$\n\n## Eigenvalue Decomposition\n\n$$\\mathbf{A}\\mathbf{v} = \\lambda \\mathbf{v}$$\n\n## Singular Value Decomposition\n\n$$\\mathbf{A} = \\mathbf{U}\\mathbf{\\Sigma}\\mathbf{V}^T$$`
     },
     'optimization': {
         title: 'Optimization Theory',
-        content: `
-## Convex Optimization
-
-A function $f$ is convex if:
-$$f(\\alpha x + (1-\\alpha)y) \\leq \\alpha f(x) + (1-\\alpha)f(y)$$
-
-for all $x, y$ and $\\alpha \\in [0, 1]$.
-
-## Gradient Descent
-
-The update rule:
-$$\\theta_{t+1} = \\theta_t - \\eta \\nabla f(\\theta_t)$$
-
-Convergence rate for convex $f$ with $L$-Lipschitz gradient:
-$$f(\\theta_T) - f(\\theta^*) \\leq \\frac{\\|\\theta_0 - \\theta^*\\|^2}{2\\eta T}$$
-
-## Constrained Optimization
-
-The Lagrangian:
-$$\\mathcal{L}(x, \\lambda) = f(x) + \\sum_i \\lambda_i g_i(x)$$
-
-KKT conditions:
-- $\\nabla_x \\mathcal{L} = 0$
-- $\\lambda_i \\geq 0$
-- $\\lambda_i g_i(x) = 0$
-- $g_i(x) \\leq 0$
-
-## Newton's Method
-
-Second-order update:
-$$\\theta_{t+1} = \\theta_t - [\\nabla^2 f(\\theta_t)]^{-1} \\nabla f(\\theta_t)$$
-        `
+        content: `## Convex Optimization\n\n$$f(\\alpha x + (1-\\alpha)y) \\leq \\alpha f(x) + (1-\\alpha)f(y)$$\n\n## Gradient Descent\n\n$$\\theta_{t+1} = \\theta_t - \\eta \\nabla f(\\theta_t)$$\n\n## Lagrangian\n\n$$\\mathcal{L}(x, \\lambda) = f(x) + \\sum_i \\lambda_i g_i(x)$$`
     },
     'probability': {
         title: 'Probability Theory',
-        content: `
-## Fundamentals
-
-Probability axioms:
-1. $P(A) \\geq 0$
-2. $P(\\Omega) = 1$
-3. $P(A \\cup B) = P(A) + P(B)$ for disjoint events
-
-## Bayes' Theorem
-
-$$P(A|B) = \\frac{P(B|A)P(A)}{P(B)}$$
-
-In machine learning terms:
-$$P(\\theta|D) = \\frac{P(D|\\theta)P(\\theta)}{P(D)}$$
-
-## Common Distributions
-
-**Gaussian Distribution:**
-$$p(x) = \\frac{1}{\\sqrt{2\\pi\\sigma^2}} \\exp\\left(-\\frac{(x-\\mu)^2}{2\\sigma^2}\\right)$$
-
-**Multivariate Gaussian:**
-$$p(\\mathbf{x}) = \\frac{1}{(2\\pi)^{d/2}|\\Sigma|^{1/2}} \\exp\\left(-\\frac{1}{2}(\\mathbf{x}-\\boldsymbol{\\mu})^T\\Sigma^{-1}(\\mathbf{x}-\\boldsymbol{\\mu})\\right)$$
-
-## Information Theory
-
-**Entropy:**
-$$H(X) = -\\sum_x p(x) \\log p(x)$$
-
-**KL Divergence:**
-$$D_{KL}(P \\| Q) = \\sum_x P(x) \\log \\frac{P(x)}{Q(x)}$$
-        `
+        content: `## Bayes' Theorem\n\n$$P(A|B) = \\frac{P(B|A)P(A)}{P(B)}$$\n\n## Gaussian Distribution\n\n$$p(x) = \\frac{1}{\\sqrt{2\\pi\\sigma^2}} \\exp\\left(-\\frac{(x-\\mu)^2}{2\\sigma^2}\\right)$$\n\n## KL Divergence\n\n$$D_{KL}(P \\| Q) = \\sum_x P(x) \\log \\frac{P(x)}{Q(x)}$$`
     },
     'ml-theory': {
         title: 'Machine Learning Theory',
-        content: `
-## Loss Functions
-
-**Cross-Entropy Loss:**
-$$\\mathcal{L} = -\\sum_i y_i \\log(\\hat{y}_i)$$
-
-**Mean Squared Error:**
-$$\\mathcal{L} = \\frac{1}{n}\\sum_i (y_i - \\hat{y}_i)^2$$
-
-## Bias-Variance Tradeoff
-
-$$\\mathbb{E}[(y - \\hat{f}(x))^2] = \\text{Bias}^2 + \\text{Variance} + \\text{Noise}$$
-
-## Regularization
-
-**L2 Regularization (Ridge):**
-$$\\mathcal{L}_{reg} = \\mathcal{L} + \\lambda \\|\\theta\\|_2^2$$
-
-**L1 Regularization (Lasso):**
-$$\\mathcal{L}_{reg} = \\mathcal{L} + \\lambda \\|\\theta\\|_1$$
-
-## PAC Learning
-
-A concept class $C$ is PAC learnable if there exists an algorithm that, for any $\\epsilon, \\delta > 0$, returns hypothesis $h$ such that:
-$$P(\\text{error}(h) \\leq \\epsilon) \\geq 1 - \\delta$$
-
-with sample complexity polynomial in $1/\\epsilon$ and $1/\\delta$.
-
-## VC Dimension
-
-The maximum number of points that can be shattered by hypothesis class $H$.
-
-For linear classifiers in $\\mathbb{R}^d$: $\\text{VC}(H) = d + 1$
-        `
+        content: `## Cross-Entropy Loss\n\n$$\\mathcal{L} = -\\sum_i y_i \\log(\\hat{y}_i)$$\n\n## Bias-Variance Tradeoff\n\n$$\\mathbb{E}[(y - \\hat{f}(x))^2] = \\text{Bias}^2 + \\text{Variance} + \\text{Noise}$$\n\n## Regularization\n\n$$\\mathcal{L}_{reg} = \\mathcal{L} + \\lambda \\|\\theta\\|_2^2$$`
     }
 };
 
@@ -856,122 +509,55 @@ function initMathSection() {
             mathTopics.forEach(t => t.classList.remove('active'));
             topic.classList.add('active');
             
-            mathNoteContainer.innerHTML = `
-                <h3>${note.title}</h3>
-                ${marked.parse(note.content)}
-            `;
+            mathNoteContainer.innerHTML = `<h3>${note.title}</h3>${marked.parse(note.content)}`;
             
-            renderMathInElement(mathNoteContainer, {
-                delimiters: [
-                    { left: '$$', right: '$$', display: true },
-                    { left: '$', right: '$', display: false },
-                    { left: '\\[', right: '\\]', display: true },
-                    { left: '\\(', right: '\\)', display: false }
-                ]
-            });
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(mathNoteContainer, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
         });
     });
 }
 
-function initGitHubSection() {
-    const username = 'TensorTheorist';
+function initImageZoom() {
+    const imageContainer = document.getElementById('profileImageContainer');
+    const profileImage = document.getElementById('profileImage');
+    const zoomModal = document.getElementById('imageZoomModal');
+    const zoomedImage = document.getElementById('zoomedImage');
+    const closeZoom = document.getElementById('closeZoomModal');
     
-    fetchGitHubData(username);
-    renderContributionGraph();
-}
-
-async function fetchGitHubData(username) {
-    const repoCountEl = document.getElementById('repoCount');
-    const starCountEl = document.getElementById('starCount');
-    const followerCountEl = document.getElementById('followerCount');
-    const recentReposEl = document.getElementById('recentRepos');
+    if (!imageContainer || !zoomModal) return;
     
-    try {
-        const userResponse = await fetch(`https://api.github.com/users/${username}`);
-        const userData = await userResponse.json();
-        
-        if (repoCountEl) repoCountEl.textContent = userData.public_repos || 0;
-        if (followerCountEl) followerCountEl.textContent = userData.followers || 0;
-        
-        const reposResponse = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=6`);
-        const reposData = await reposResponse.json();
-        
-        let totalStars = 0;
-        if (Array.isArray(reposData)) {
-            reposData.forEach(repo => {
-                totalStars += repo.stargazers_count || 0;
-            });
+    imageContainer.addEventListener('click', () => {
+        if (profileImage) {
+            zoomedImage.src = profileImage.src;
+            zoomModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
         }
-        if (starCountEl) starCountEl.textContent = totalStars;
-        
-        if (recentReposEl && Array.isArray(reposData)) {
-            recentReposEl.innerHTML = reposData.slice(0, 6).map(repo => `
-                <a href="${repo.html_url}" target="_blank" class="repo-card">
-                    <h4 class="repo-name">${repo.name}</h4>
-                    <p class="repo-description">${repo.description || 'No description'}</p>
-                    <div class="repo-stats">
-                        <span class="repo-stat">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                            </svg>
-                            ${repo.stargazers_count}
-                        </span>
-                        <span class="repo-stat">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="4"></circle>
-                                <line x1="1.05" y1="12" x2="7" y2="12"></line>
-                                <line x1="17.01" y1="12" x2="22.96" y2="12"></line>
-                            </svg>
-                            ${repo.forks_count}
-                        </span>
-                        ${repo.language ? `<span class="repo-stat">${repo.language}</span>` : ''}
-                    </div>
-                </a>
-            `).join('');
-        }
-    } catch (error) {
-        console.log('GitHub API rate limited or unavailable');
-        
-        if (repoCountEl) repoCountEl.textContent = '10+';
-        if (starCountEl) starCountEl.textContent = '50+';
-        if (followerCountEl) followerCountEl.textContent = '100+';
-    }
-}
-
-function renderContributionGraph() {
-    const graphContainer = document.getElementById('contributionGraph');
-    if (!graphContainer) return;
+    });
     
-    const weeks = 52;
-    const days = 7;
-    
-    let html = '<div class="contribution-grid">';
-    
-    for (let w = 0; w < weeks; w++) {
-        html += '<div class="contribution-column">';
-        for (let d = 0; d < days; d++) {
-            const level = Math.floor(Math.random() * 5);
-            html += `<div class="contribution-cell level-${level}"></div>`;
-        }
-        html += '</div>';
-    }
-    
-    html += '</div>';
-    graphContainer.innerHTML = html;
-}
-
-function initKaTeX() {
-    if (typeof renderMathInElement === 'function') {
-        document.querySelectorAll('.math-content, .blog-post').forEach(el => {
-            renderMathInElement(el, {
-                delimiters: [
-                    { left: '$$', right: '$$', display: true },
-                    { left: '$', right: '$', display: false },
-                    { left: '\\[', right: '\\]', display: true },
-                    { left: '\\(', right: '\\)', display: false }
-                ],
-                throwOnError: false
-            });
+    if (closeZoom) {
+        closeZoom.addEventListener('click', () => {
+            zoomModal.classList.remove('active');
+            document.body.style.overflow = '';
         });
     }
+    
+    zoomModal.addEventListener('click', (e) => {
+        if (e.target === zoomModal) {
+            zoomModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
+    
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && zoomModal.classList.contains('active')) {
+            zoomModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
 }
