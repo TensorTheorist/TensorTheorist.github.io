@@ -1,8 +1,9 @@
 class GradientDescentViz {
-    constructor(containerId) {
+    constructor(containerId, prefix = '') {
         this.container = document.getElementById(containerId);
         if (!this.container) return;
         
+        this.prefix = prefix;
         this.width = this.container.clientWidth;
         this.height = this.container.clientHeight || 400;
         this.canvas = document.createElement('canvas');
@@ -47,11 +48,11 @@ class GradientDescentViz {
     }
 
     setupControls() {
-        const learningRateInput = document.getElementById('learningRate');
-        const learningRateValue = document.getElementById('learningRateValue');
-        const functionSelect = document.getElementById('functionSelect');
-        const startBtn = document.getElementById('startGradient');
-        const resetBtn = document.getElementById('resetGradient');
+        const learningRateInput = document.getElementById(this.prefix + 'learningRate');
+        const learningRateValue = document.getElementById(this.prefix + 'learningRateValue');
+        const functionSelect = document.getElementById(this.prefix + 'functionSelect');
+        const startBtn = document.getElementById(this.prefix + 'startGradient');
+        const resetBtn = document.getElementById(this.prefix + 'resetGradient');
         
         if (learningRateInput) {
             learningRateInput.addEventListener('input', (e) => {
@@ -264,10 +265,11 @@ class GradientDescentViz {
 }
 
 class NeuralNetworkViz {
-    constructor(containerId) {
+    constructor(containerId, prefix = '') {
         this.container = document.getElementById(containerId);
         if (!this.container) return;
         
+        this.prefix = prefix;
         this.width = this.container.clientWidth;
         this.height = this.container.clientHeight || 400;
         this.canvas = document.createElement('canvas');
@@ -330,11 +332,11 @@ class NeuralNetworkViz {
     }
 
     setupControls() {
-        const hiddenLayersInput = document.getElementById('hiddenLayers');
-        const hiddenLayersValue = document.getElementById('hiddenLayersValue');
-        const datasetSelect = document.getElementById('datasetSelect');
-        const trainBtn = document.getElementById('trainNetwork');
-        const resetBtn = document.getElementById('resetNetwork');
+        const hiddenLayersInput = document.getElementById(this.prefix + 'hiddenLayers');
+        const hiddenLayersValue = document.getElementById(this.prefix + 'hiddenLayersValue');
+        const datasetSelect = document.getElementById(this.prefix + 'datasetSelect');
+        const trainBtn = document.getElementById(this.prefix + 'trainNetwork');
+        const resetBtn = document.getElementById(this.prefix + 'resetNetwork');
         
         if (hiddenLayersInput) {
             hiddenLayersInput.addEventListener('input', (e) => {
@@ -606,10 +608,11 @@ class NeuralNetworkViz {
 }
 
 class EmbeddingViz {
-    constructor(containerId) {
+    constructor(containerId, prefix = '') {
         this.container = document.getElementById(containerId);
         if (!this.container) return;
         
+        this.prefix = prefix;
         this.width = this.container.clientWidth;
         this.height = this.container.clientHeight || 400;
         this.canvas = document.createElement('canvas');
@@ -653,9 +656,9 @@ class EmbeddingViz {
     }
 
     setupControls() {
-        const perplexityInput = document.getElementById('perplexity');
-        const perplexityValue = document.getElementById('perplexityValue');
-        const runBtn = document.getElementById('runTsne');
+        const perplexityInput = document.getElementById(this.prefix + 'perplexity');
+        const perplexityValue = document.getElementById(this.prefix + 'perplexityValue');
+        const runBtn = document.getElementById(this.prefix + 'runTsne');
         
         if (perplexityInput) {
             perplexityInput.addEventListener('input', (e) => {
@@ -861,10 +864,11 @@ class EmbeddingViz {
 }
 
 class OptimizationViz {
-    constructor(containerId) {
+    constructor(containerId, prefix = '') {
         this.container = document.getElementById(containerId);
         if (!this.container) return;
         
+        this.prefix = prefix;
         this.width = this.container.clientWidth;
         this.height = this.container.clientHeight || 400;
         this.canvas = document.createElement('canvas');
@@ -885,9 +889,9 @@ class OptimizationViz {
     }
 
     setupControls() {
-        const algorithmSelect = document.getElementById('algorithmSelect');
-        const runBtn = document.getElementById('runOptimization');
-        const resetBtn = document.getElementById('resetOptimization');
+        const algorithmSelect = document.getElementById(this.prefix + 'algorithmSelect');
+        const runBtn = document.getElementById(this.prefix + 'runOptimization');
+        const resetBtn = document.getElementById(this.prefix + 'resetOptimization');
         
         if (algorithmSelect) {
             algorithmSelect.addEventListener('change', (e) => {

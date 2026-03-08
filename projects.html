@@ -10,6 +10,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
     <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -26,13 +30,9 @@
             </button>
             <ul class="nav-menu" id="navMenu">
                 <li><a href="index.html" class="nav-link">Home</a></li>
-                <li><a href="research.html" class="nav-link">Research</a></li>
                 <li><a href="projects.html" class="nav-link active">Projects</a></li>
-                <li><a href="visualizations.html" class="nav-link">Visualizations</a></li>
                 <li><a href="blog.html" class="nav-link">Blog</a></li>
-                <li><a href="math.html" class="nav-link">Math Notes</a></li>
                 <li><a href="about.html" class="nav-link">About</a></li>
-                <li><a href="contact.html" class="nav-link">Contact</a></li>
             </ul>
             <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
                 <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -59,7 +59,7 @@
                 <div class="section-header">
                     <span class="section-tag">Portfolio</span>
                     <h2 class="section-title">Projects</h2>
-                    <p class="section-subtitle">An exploration of my engineering projects and systems.</p>
+                    <p class="section-subtitle">Click on any project to explore details, documentation, and interactive visualizations.</p>
                 </div>
                 <div class="project-filters">
                     <button class="filter-btn active" data-filter="all">All</button>
@@ -73,6 +73,13 @@
         </section>
     </main>
 
+    <div id="projectModal" class="project-modal">
+        <div class="project-modal-content">
+            <button class="modal-close" id="closeProjectModal">&times;</button>
+            <div class="project-detail" id="projectDetail"></div>
+        </div>
+    </div>
+
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
@@ -85,6 +92,7 @@
         </div>
     </footer>
 
+    <script src="js/visualizations.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
