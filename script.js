@@ -633,9 +633,6 @@ const projectIcons = {
 function initProjectsSection() {
     const projectsGrid = document.getElementById('projectsGrid');
     const filterBtns = document.querySelectorAll('.project-filters .filter-btn');
-    const modal = document.getElementById('projectModal');
-    const closeModal = document.getElementById('closeProjectModal');
-    const projectDetail = document.getElementById('projectDetail');
     
     if (!projectsGrid) return;
     
@@ -645,7 +642,7 @@ function initProjectsSection() {
             : projects.filter(p => p.category === filter);
         
         projectsGrid.innerHTML = filteredProjects.map(project => `
-            <div class="project-card" data-project-id="${project.id}">
+            <a href="project.html?id=${project.id}" class="project-card" data-project-id="${project.id}">
                 <div class="project-image project-image-${project.image}">
                     <div class="project-image-icon">
                         ${projectIcons[project.image] || projectIcons.ai}
@@ -658,235 +655,8 @@ function initProjectsSection() {
                         ${project.tech.map(t => `<span class="tech-badge">${t}</span>`).join('')}
                     </div>
                 </div>
-            </div>
+            </a>
         `).join('');
-        
-        document.querySelectorAll('.project-card').forEach(card => {
-            card.addEventListener('click', () => {
-                openProjectDetail(card.dataset.projectId);
-            });
-        });
-    }
-    
-    function openProjectDetail(projectId) {
-        const project = projects.find(p => p.id === projectId);
-        if (!project || !projectDetail) return;
-        
-        const vizTabs = project.visualizations.length > 0 
-            ? project.visualizations.map((v, i) => `
-                <button class="project-viz-tab ${i === 0 ? 'active' : ''}" data-viz="${v}">${getVizName(v)}</button>
-            `).join('')
-            : '';
-        
-        const vizPanels = project.visualizations.length > 0
-            ? project.visualizations.map((v, i) => `
-                <div class="project-viz-panel ${i === 0 ? 'active' : ''}" data-viz="${v}">
-                    <div class="project-viz-canvas" id="project-${v}-canvas"></div>
-                    ${getVizControls(v)}
-                </div>
-            `).join('')
-            : '';
-        
-        projectDetail.innerHTML = `
-            <div class="project-detail-header">
-                <div class="project-detail-icon project-icon-${project.image}">
-                    ${projectIcons[project.image] || projectIcons.ai}
-                </div>
-                <div class="project-detail-info">
-                    <h2>${project.title}</h2>
-                    <p>${project.description}</p>
-                    <div class="project-tech">
-                        ${project.tech.map(t => `<span class="tech-badge">${t}</span>`).join('')}
-                    </div>
-                </div>
-            </div>
-            
-            <div class="project-detail-github">
-                <a href="${project.github}" target="_blank" class="github-link-wide">
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                    </svg>
-                    View on GitHub
-                    <span class="github-url">${project.github}</span>
-                </a>
-            </div>
-            
-            <div class="project-detail-tabs">
-                <button class="project-tab active" data-tab="readme">README</button>
-                ${project.visualizations.length > 0 ? '<button class="project-tab" data-tab="visualizations">Visualizations</button>' : ''}
-            </div>
-            
-            <div class="project-detail-content">
-                <div class="project-tab-panel active" data-tab="readme">
-                    <div class="project-readme" id="projectReadme"></div>
-                </div>
-                ${project.visualizations.length > 0 ? `
-                <div class="project-tab-panel" data-tab="visualizations">
-                    <div class="project-viz-tabs">${vizTabs}</div>
-                    <div class="project-viz-panels">${vizPanels}</div>
-                </div>
-                ` : ''}
-            </div>
-        `;
-        
-        const readmeContainer = document.getElementById('projectReadme');
-        if (readmeContainer && typeof marked !== 'undefined') {
-            readmeContainer.innerHTML = marked.parse(project.readme);
-            if (typeof hljs !== 'undefined') {
-                readmeContainer.querySelectorAll('pre code').forEach((block) => {
-                    hljs.highlightElement(block);
-                });
-            }
-        }
-        
-        setupProjectTabs();
-        setupVizTabs(project.visualizations);
-        
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-    
-    function getVizName(viz) {
-        const names = {
-            'gradient': 'Gradient Descent',
-            'neural': 'Neural Network',
-            'embedding': 't-SNE Embedding',
-            'optimization': 'Optimization'
-        };
-        return names[viz] || viz;
-    }
-    
-    function getVizControls(viz) {
-        const controls = {
-            'gradient': `
-                <div class="viz-controls">
-                    <div class="control-group">
-                        <label>Learning Rate</label>
-                        <input type="range" id="project-learningRate" min="0.01" max="0.5" step="0.01" value="0.1">
-                        <span id="project-learningRateValue">0.10</span>
-                    </div>
-                    <div class="control-group">
-                        <label>Function</label>
-                        <select id="project-functionSelect">
-                            <option value="quadratic">Quadratic</option>
-                            <option value="rosenbrock">Rosenbrock</option>
-                            <option value="beale">Beale</option>
-                        </select>
-                    </div>
-                    <button class="viz-btn" id="project-startGradient">Start</button>
-                    <button class="viz-btn secondary" id="project-resetGradient">Reset</button>
-                </div>
-            `,
-            'neural': `
-                <div class="viz-controls">
-                    <div class="control-group">
-                        <label>Hidden Layers</label>
-                        <input type="range" id="project-hiddenLayers" min="1" max="4" step="1" value="2">
-                        <span id="project-hiddenLayersValue">2</span>
-                    </div>
-                    <div class="control-group">
-                        <label>Dataset</label>
-                        <select id="project-datasetSelect">
-                            <option value="xor">XOR</option>
-                            <option value="circle">Circle</option>
-                            <option value="spiral">Spiral</option>
-                        </select>
-                    </div>
-                    <button class="viz-btn" id="project-trainNetwork">Train</button>
-                    <button class="viz-btn secondary" id="project-resetNetwork">Reset</button>
-                </div>
-            `,
-            'embedding': `
-                <div class="viz-controls">
-                    <div class="control-group">
-                        <label>Perplexity</label>
-                        <input type="range" id="project-perplexity" min="5" max="50" step="5" value="30">
-                        <span id="project-perplexityValue">30</span>
-                    </div>
-                    <button class="viz-btn" id="project-runTsne">Run t-SNE</button>
-                </div>
-            `,
-            'optimization': `
-                <div class="viz-controls">
-                    <div class="control-group">
-                        <label>Algorithm</label>
-                        <select id="project-algorithmSelect">
-                            <option value="genetic">Genetic Algorithm</option>
-                            <option value="pso">Particle Swarm</option>
-                            <option value="annealing">Simulated Annealing</option>
-                        </select>
-                    </div>
-                    <button class="viz-btn" id="project-runOptimization">Run</button>
-                    <button class="viz-btn secondary" id="project-resetOptimization">Reset</button>
-                </div>
-            `
-        };
-        return controls[viz] || '';
-    }
-    
-    function setupProjectTabs() {
-        const tabs = document.querySelectorAll('.project-tab');
-        const panels = document.querySelectorAll('.project-tab-panel');
-        
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                tabs.forEach(t => t.classList.remove('active'));
-                panels.forEach(p => p.classList.remove('active'));
-                
-                tab.classList.add('active');
-                document.querySelector(`.project-tab-panel[data-tab="${tab.dataset.tab}"]`)?.classList.add('active');
-                
-                if (tab.dataset.tab === 'visualizations') {
-                    initActiveVisualization();
-                }
-            });
-        });
-    }
-    
-    function setupVizTabs(visualizations) {
-        const vizTabs = document.querySelectorAll('.project-viz-tab');
-        const vizPanels = document.querySelectorAll('.project-viz-panel');
-        
-        vizTabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                vizTabs.forEach(t => t.classList.remove('active'));
-                vizPanels.forEach(p => p.classList.remove('active'));
-                
-                tab.classList.add('active');
-                document.querySelector(`.project-viz-panel[data-viz="${tab.dataset.viz}"]`)?.classList.add('active');
-                
-                initActiveVisualization();
-            });
-        });
-    }
-    
-    function initActiveVisualization() {
-        const activePanel = document.querySelector('.project-viz-panel.active');
-        if (!activePanel) return;
-        
-        const vizType = activePanel.dataset.viz;
-        const canvasId = `project-${vizType}-canvas`;
-        const canvas = document.getElementById(canvasId);
-        
-        if (!canvas || canvas.children.length > 0) return;
-        
-        if (typeof window[`init${vizType.charAt(0).toUpperCase() + vizType.slice(1)}Viz`] === 'function') {
-            window[`init${vizType.charAt(0).toUpperCase() + vizType.slice(1)}Viz`](canvasId, 'project-');
-        } else {
-            initGenericViz(vizType, canvasId);
-        }
-    }
-    
-    function initGenericViz(type, canvasId) {
-        if (type === 'gradient' && typeof GradientDescentViz !== 'undefined') {
-            new GradientDescentViz(canvasId, 'project-');
-        } else if (type === 'neural' && typeof NeuralNetworkViz !== 'undefined') {
-            new NeuralNetworkViz(canvasId, 'project-');
-        } else if (type === 'embedding' && typeof EmbeddingViz !== 'undefined') {
-            new EmbeddingViz(canvasId, 'project-');
-        } else if (type === 'optimization' && typeof OptimizationViz !== 'undefined') {
-            new OptimizationViz(canvasId, 'project-');
-        }
     }
     
     renderProjects();
@@ -897,29 +667,6 @@ function initProjectsSection() {
             btn.classList.add('active');
             renderProjects(btn.dataset.filter);
         });
-    });
-    
-    if (closeModal) {
-        closeModal.addEventListener('click', () => {
-            modal.classList.remove('active');
-            document.body.style.overflow = '';
-        });
-    }
-    
-    if (modal) {
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.classList.remove('active');
-                document.body.style.overflow = '';
-            }
-        });
-    }
-    
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modal.classList.contains('active')) {
-            modal.classList.remove('active');
-            document.body.style.overflow = '';
-        }
     });
 }
 
@@ -1499,10 +1246,6 @@ const blogIcons = {
 function initBlogSection() {
     const blogGrid = document.getElementById('blogGrid');
     const categoryBtns = document.querySelectorAll('.blog-categories .category-btn');
-    const blogListSection = document.getElementById('blogListSection');
-    const blogPostSection = document.getElementById('blogPostSection');
-    const blogArticle = document.getElementById('blogArticle');
-    const backToBlog = document.getElementById('backToBlog');
     
     if (!blogGrid) return;
     
@@ -1512,7 +1255,7 @@ function initBlogSection() {
             : blogPosts.filter(p => p.category === filter);
         
         blogGrid.innerHTML = filteredPosts.map(post => `
-            <div class="blog-card" data-post-id="${post.id}">
+            <a href="blog-post.html?post=${post.id}" class="blog-card" data-post-id="${post.id}">
                 <div class="blog-image blog-image-${post.image}">
                     <span class="blog-category-tag">${post.category}</span>
                     <div class="blog-image-icon">
@@ -1524,71 +1267,13 @@ function initBlogSection() {
                     <h3 class="blog-title">${post.title}</h3>
                     <p class="blog-excerpt">${post.excerpt}</p>
                 </div>
-            </div>
+            </a>
         `).join('');
-        
-        document.querySelectorAll('.blog-card').forEach(card => {
-            card.addEventListener('click', () => {
-                openBlogPost(card.dataset.postId);
-            });
-        });
     }
     
     function formatDate(dateStr) {
         const date = new Date(dateStr);
         return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-    }
-    
-    function openBlogPost(postId) {
-        const post = blogPosts.find(p => p.id === postId);
-        if (!post || !blogArticle) return;
-        
-        blogListSection.style.display = 'none';
-        blogPostSection.style.display = 'block';
-        
-        const html = `
-            <header class="article-header">
-                <span class="article-category">${post.category.toUpperCase()}</span>
-                <h1 class="article-title">${post.title}</h1>
-                <div class="article-meta">
-                    <span class="article-date">${formatDate(post.date)}</span>
-                </div>
-            </header>
-            <div class="article-content" id="articleContent"></div>
-        `;
-        
-        blogArticle.innerHTML = html;
-        
-        const articleContent = document.getElementById('articleContent');
-        if (typeof marked !== 'undefined') {
-            articleContent.innerHTML = marked.parse(post.content);
-            
-            if (typeof hljs !== 'undefined') {
-                articleContent.querySelectorAll('pre code').forEach((block) => {
-                    hljs.highlightElement(block);
-                });
-            }
-            
-            if (typeof renderMathInElement === 'function') {
-                renderMathInElement(articleContent, {
-                    delimiters: [
-                        { left: '$$', right: '$$', display: true },
-                        { left: '$', right: '$', display: false },
-                        { left: '\\[', right: '\\]', display: true },
-                        { left: '\\(', right: '\\)', display: false }
-                    ]
-                });
-            }
-        }
-        
-        window.scrollTo(0, 0);
-    }
-    
-    if (backToBlog) {
-        backToBlog.addEventListener('click', () => {
-            blogPostSection.style.display = 'none';
-            blogListSection.style.display = 'block';
-        });
     }
     
     renderBlogPosts();

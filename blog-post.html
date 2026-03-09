@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Blog Post - Ayan Chattopadhyay">
+    <title>Blog | Ayan Chattopadhyay</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" id="hljs-dark">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" id="hljs-light" disabled>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="nav" id="nav">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <span class="logo-bracket">&lt;</span>AC<span class="logo-bracket">/&gt;</span>
+            </a>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="projects.html" class="nav-link">Projects</a></li>
+                <li><a href="blog.html" class="nav-link active">Blog</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+            </ul>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <main class="page-content">
+        <section class="section blog-post-page-section">
+            <div class="container">
+                <a href="blog.html" class="back-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    Back to Blog
+                </a>
+                
+                <article class="blog-post-article" id="blogPostArticle">
+                    <div class="blog-post-header">
+                        <div class="blog-post-hero-image" id="blogPostHeroImage"></div>
+                        <div class="blog-post-meta">
+                            <span class="blog-post-category" id="blogPostCategory"></span>
+                            <span class="blog-post-date" id="blogPostDate"></span>
+                        </div>
+                        <h1 class="blog-post-title" id="blogPostTitle"></h1>
+                    </div>
+                    <div class="blog-post-content" id="blogPostContent"></div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span class="logo-bracket">&lt;</span>AC<span class="logo-bracket">/&gt;</span>
+                </div>
+                <p class="footer-text">Building intelligent systems at the intersection of AI, optimization, and mathematics.</p>
+                <p class="footer-copyright">&copy; 2024 Ayan Chattopadhyay. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadBlogPost();
+        });
+        
+        async function loadBlogPost() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const postId = urlParams.get('post');
+            
+            if (!postId) {
+                window.location.href = 'blog.html';
+                return;
+            }
+            
+            try {
+                const response = await fetch(`blog/${postId}.md`);
+                if (!response.ok) throw new Error('Post not found');
+                
+                const markdown = await response.text();
+                renderBlogPost(postId, markdown);
+            } catch (error) {
+                document.getElementById('blogPostContent').innerHTML = '<p>Blog post not found.</p>';
+            }
+        }
+        
+        function renderBlogPost(postId, markdown) {
+            const lines = markdown.split('\n');
+            let title = '';
+            let date = '';
+            let category = '';
+            let contentStart = 0;
+            
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                if (line.startsWith('# ')) {
+                    title = line.substring(2);
+                } else if (line.includes('Published:')) {
+                    date = line.replace(/\*|Published:/g, '').trim();
+                } else if (line.includes('Category:')) {
+                    category = line.replace(/\*|Category:/g, '').trim();
+                    contentStart = i + 1;
+                }
+                if (title && date && category) break;
+            }
+            
+            const content = lines.slice(contentStart).join('\n');
+            
+            document.title = `${title} | Ayan Chattopadhyay`;
+            document.getElementById('blogPostTitle').textContent = title;
+            document.getElementById('blogPostDate').textContent = date;
+            document.getElementById('blogPostCategory').textContent = category.toUpperCase();
+            
+            const heroImage = document.getElementById('blogPostHeroImage');
+            const imageClass = getCategoryImageClass(category.toLowerCase());
+            heroImage.className = `blog-post-hero-image ${imageClass}`;
+            heroImage.innerHTML = getBlogIcon(category.toLowerCase());
+            
+            const contentEl = document.getElementById('blogPostContent');
+            if (typeof marked !== 'undefined') {
+                contentEl.innerHTML = marked.parse(content);
+                
+                contentEl.querySelectorAll('pre code').forEach((block) => {
+                    if (typeof hljs !== 'undefined') {
+                        hljs.highlightElement(block);
+                    }
+                    addCopyButton(block.parentElement);
+                });
+                
+                if (typeof renderMathInElement === 'function') {
+                    renderMathInElement(contentEl, {
+                        delimiters: [
+                            { left: '$$', right: '$$', display: true },
+                            { left: '$', right: '$', display: false },
+                            { left: '\\[', right: '\\]', display: true },
+                            { left: '\\(', right: '\\)', display: false }
+                        ]
+                    });
+                }
+            }
+        }
+        
+        function getCategoryImageClass(category) {
+            const classes = {
+                'ai': 'blog-hero-ai',
+                'machine learning': 'blog-hero-ml',
+                'ml': 'blog-hero-ml',
+                'mathematics': 'blog-hero-math',
+                'math': 'blog-hero-math',
+                'systems': 'blog-hero-systems'
+            };
+            return classes[category] || 'blog-hero-ai';
+        }
+        
+        function getBlogIcon(category) {
+            const icons = {
+                'ai': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"></path>
+                </svg>`,
+                'ml': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                </svg>`,
+                'machine learning': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                </svg>`,
+                'math': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                </svg>`,
+                'mathematics': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                </svg>`,
+                'systems': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                    <line x1="8" y1="21" x2="16" y2="21"></line>
+                    <line x1="12" y1="17" x2="12" y2="21"></line>
+                </svg>`
+            };
+            return icons[category] || icons['ai'];
+        }
+        
+        function addCopyButton(preElement) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'code-block-wrapper';
+            preElement.parentNode.insertBefore(wrapper, preElement);
+            wrapper.appendChild(preElement);
+            
+            const copyBtn = document.createElement('button');
+            copyBtn.className = 'code-copy-btn';
+            copyBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>`;
+            copyBtn.title = 'Copy code';
+            
+            copyBtn.addEventListener('click', async () => {
+                const code = preElement.querySelector('code').textContent;
+                await navigator.clipboard.writeText(code);
+                copyBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>`;
+                copyBtn.classList.add('copied');
+                setTimeout(() => {
+                    copyBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>`;
+                    copyBtn.classList.remove('copied');
+                }, 2000);
+            });
+            
+            wrapper.appendChild(copyBtn);
+        }
+    </script>
+</body>
+</html>

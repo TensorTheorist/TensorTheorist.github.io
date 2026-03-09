@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Project - Ayan Chattopadhyay">
+    <title>Project | Ayan Chattopadhyay</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" id="hljs-dark">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" id="hljs-light" disabled>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="nav" id="nav">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <span class="logo-bracket">&lt;</span>AC<span class="logo-bracket">/&gt;</span>
+            </a>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="projects.html" class="nav-link active">Projects</a></li>
+                <li><a href="blog.html" class="nav-link">Blog</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+            </ul>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <main class="page-content">
+        <section class="section project-page-section">
+            <div class="container">
+                <a href="projects.html" class="back-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    Back to Projects
+                </a>
+                
+                <article class="project-page-article" id="projectPageArticle">
+                    <div class="project-page-header">
+                        <div class="project-page-hero-image" id="projectHeroImage"></div>
+                        <div class="project-page-info">
+                            <span class="project-page-category" id="projectCategory"></span>
+                            <h1 class="project-page-title" id="projectTitle"></h1>
+                            <div class="project-page-tech" id="projectTech"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-page-github" id="projectGithub"></div>
+                    
+                    <div class="project-page-content">
+                        <h2 class="readme-heading">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="16" y1="13" x2="8" y2="13"></line>
+                                <line x1="16" y1="17" x2="8" y2="17"></line>
+                                <polyline points="10 9 9 9 8 9"></polyline>
+                            </svg>
+                            README
+                        </h2>
+                        <div class="project-readme-content" id="projectReadmeContent"></div>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span class="logo-bracket">&lt;</span>AC<span class="logo-bracket">/&gt;</span>
+                </div>
+                <p class="footer-text">Building intelligent systems at the intersection of AI, optimization, and mathematics.</p>
+                <p class="footer-copyright">&copy; 2024 Ayan Chattopadhyay. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProject();
+        });
+        
+        async function loadProject() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const projectId = urlParams.get('id');
+            
+            if (!projectId) {
+                window.location.href = 'projects.html';
+                return;
+            }
+            
+            try {
+                const response = await fetch(`projects/${projectId}.md`);
+                if (!response.ok) throw new Error('Project not found');
+                
+                const markdown = await response.text();
+                renderProject(projectId, markdown);
+            } catch (error) {
+                document.getElementById('projectReadmeContent').innerHTML = '<p>Project not found.</p>';
+            }
+        }
+        
+        function renderProject(projectId, markdown) {
+            const lines = markdown.split('\n');
+            let title = '';
+            let category = '';
+            let github = '';
+            let technologies = [];
+            let contentStart = 0;
+            
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                if (line.startsWith('# ')) {
+                    title = line.substring(2);
+                } else if (line.includes('Category:')) {
+                    category = line.replace(/\*|Category:/g, '').trim();
+                } else if (line.includes('GitHub:')) {
+                    github = line.replace(/\*|GitHub:/g, '').trim();
+                } else if (line.includes('Technologies:')) {
+                    technologies = line.replace(/\*|Technologies:/g, '').trim().split(',').map(t => t.trim());
+                    contentStart = i + 1;
+                }
+                if (title && category && github && technologies.length) break;
+            }
+            
+            const content = lines.slice(contentStart).join('\n');
+            
+            document.title = `${title} | Ayan Chattopadhyay`;
+            document.getElementById('projectTitle').textContent = title;
+            document.getElementById('projectCategory').textContent = category.toUpperCase();
+            
+            const heroImage = document.getElementById('projectHeroImage');
+            const imageClass = getCategoryImageClass(category.toLowerCase());
+            heroImage.className = `project-page-hero-image ${imageClass}`;
+            heroImage.innerHTML = getProjectIcon(category.toLowerCase());
+            
+            document.getElementById('projectTech').innerHTML = technologies.map(t => 
+                `<span class="tech-badge">${t}</span>`
+            ).join('');
+            
+            document.getElementById('projectGithub').innerHTML = `
+                <a href="${github}" target="_blank" class="github-link-card">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                    <div class="github-link-info">
+                        <span class="github-link-label">View on GitHub</span>
+                        <span class="github-link-url">${github}</span>
+                    </div>
+                    <svg class="github-link-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="7" y1="17" x2="17" y2="7"></line>
+                        <polyline points="7 7 17 7 17 17"></polyline>
+                    </svg>
+                </a>
+            `;
+            
+            const contentEl = document.getElementById('projectReadmeContent');
+            if (typeof marked !== 'undefined') {
+                contentEl.innerHTML = marked.parse(content);
+                
+                contentEl.querySelectorAll('pre code').forEach((block) => {
+                    if (typeof hljs !== 'undefined') {
+                        hljs.highlightElement(block);
+                    }
+                    addCopyButton(block.parentElement);
+                });
+                
+                if (typeof renderMathInElement === 'function') {
+                    renderMathInElement(contentEl, {
+                        delimiters: [
+                            { left: '$$', right: '$$', display: true },
+                            { left: '$', right: '$', display: false },
+                            { left: '\\[', right: '\\]', display: true },
+                            { left: '\\(', right: '\\)', display: false }
+                        ]
+                    });
+                }
+            }
+        }
+        
+        function getCategoryImageClass(category) {
+            const classes = {
+                'ai': 'project-hero-ai',
+                'machine learning': 'project-hero-ml',
+                'ml': 'project-hero-ml',
+                'optimization': 'project-hero-optimization',
+                'systems': 'project-hero-systems'
+            };
+            return classes[category] || 'project-hero-ai';
+        }
+        
+        function getProjectIcon(category) {
+            const icons = {
+                'ai': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"></path>
+                </svg>`,
+                'ml': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                </svg>`,
+                'machine learning': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                </svg>`,
+                'optimization': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                </svg>`,
+                'systems': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                    <line x1="8" y1="21" x2="16" y2="21"></line>
+                    <line x1="12" y1="17" x2="12" y2="21"></line>
+                </svg>`
+            };
+            return icons[category] || icons['ai'];
+        }
+        
+        function addCopyButton(preElement) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'code-block-wrapper';
+            preElement.parentNode.insertBefore(wrapper, preElement);
+            wrapper.appendChild(preElement);
+            
+            const copyBtn = document.createElement('button');
+            copyBtn.className = 'code-copy-btn';
+            copyBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>`;
+            copyBtn.title = 'Copy code';
+            
+            copyBtn.addEventListener('click', async () => {
+                const code = preElement.querySelector('code').textContent;
+                await navigator.clipboard.writeText(code);
+                copyBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>`;
+                copyBtn.classList.add('copied');
+                setTimeout(() => {
+                    copyBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>`;
+                    copyBtn.classList.remove('copied');
+                }, 2000);
+            });
+            
+            wrapper.appendChild(copyBtn);
+        }
+    </script>
+</body>
+</html>
