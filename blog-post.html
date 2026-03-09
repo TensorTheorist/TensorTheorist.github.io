@@ -26,7 +26,7 @@
     <nav class="nav" id="nav">
         <div class="nav-container">
             <a href="index.html" class="nav-logo">
-                <span class="logo-bracket">~/</span>ayan
+                <span class="logo-bracket">&lt;</span>AC<span class="logo-bracket">/&gt;</span>
             </a>
             <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
                 <span></span>
@@ -34,10 +34,10 @@
                 <span></span>
             </button>
             <ul class="nav-menu" id="navMenu">
-                <li><a href="index.html" class="nav-link">home</a></li>
-                <li><a href="projects.html" class="nav-link">projects</a></li>
-                <li><a href="blog.html" class="nav-link active">blog</a></li>
-                <li><a href="about.html" class="nav-link">about</a></li>
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="projects.html" class="nav-link">Projects</a></li>
+                <li><a href="blog.html" class="nav-link active">Blog</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
             </ul>
             <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
                 <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -61,7 +61,7 @@
     <main class="page-content">
         <section class="section blog-post-page-section">
             <div class="container">
-                <a href="blog.html" class="back-link">← blog</a>
+                <a href="blog.html" class="back-link">← Back to Blog</a>
                 
                 <article class="blog-post-article" id="blogPostArticle">
                     <div class="blog-post-header">
@@ -78,7 +78,10 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-logo">~/ayan</div>
+                <div class="footer-logo">
+                    <span class="logo-bracket">&lt;</span>AC<span class="logo-bracket">/&gt;</span>
+                </div>
+                <p class="footer-text">Building intelligent systems at the intersection of AI, optimization, and mathematics.</p>
                 <p class="footer-copyright">&copy; 2024 Ayan Chattopadhyay</p>
             </div>
         </div>
@@ -135,7 +138,7 @@
             document.title = `${title} | Ayan Chattopadhyay`;
             document.getElementById('blogPostTitle').textContent = title;
             document.getElementById('blogPostDate').textContent = date;
-            document.getElementById('blogPostCategory').textContent = category.toLowerCase();
+            document.getElementById('blogPostCategory').textContent = category.toUpperCase();
             
             const contentEl = document.getElementById('blogPostContent');
             if (typeof marked !== 'undefined') {
