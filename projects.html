@@ -8,9 +8,10 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" id="hljs-dark">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" id="hljs-light" disabled>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     
@@ -21,7 +22,7 @@
     <nav class="nav" id="nav">
         <div class="nav-container">
             <a href="index.html" class="nav-logo">
-                <span class="logo-bracket">&lt;</span>AC<span class="logo-bracket">/&gt;</span>
+                <span class="logo-bracket">~/</span>ayan
             </a>
             <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
                 <span></span>
@@ -29,10 +30,10 @@
                 <span></span>
             </button>
             <ul class="nav-menu" id="navMenu">
-                <li><a href="index.html" class="nav-link">Home</a></li>
-                <li><a href="projects.html" class="nav-link active">Projects</a></li>
-                <li><a href="blog.html" class="nav-link">Blog</a></li>
-                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="index.html" class="nav-link">home</a></li>
+                <li><a href="projects.html" class="nav-link active">projects</a></li>
+                <li><a href="blog.html" class="nav-link">blog</a></li>
+                <li><a href="about.html" class="nav-link">about</a></li>
             </ul>
             <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
                 <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -57,16 +58,16 @@
         <section class="section projects-section">
             <div class="container">
                 <div class="section-header">
-                    <span class="section-tag">Portfolio</span>
+                    <span class="section-tag">~/projects</span>
                     <h2 class="section-title">Projects</h2>
-                    <p class="section-subtitle">Click on any project to explore details, documentation, and interactive visualizations.</p>
+                    <p class="section-subtitle">Selected work in AI, ML, and optimization.</p>
                 </div>
                 <div class="project-filters">
-                    <button class="filter-btn active" data-filter="all">All</button>
-                    <button class="filter-btn" data-filter="ai">AI Systems</button>
-                    <button class="filter-btn" data-filter="ml">Machine Learning</button>
-                    <button class="filter-btn" data-filter="optimization">Optimization</button>
-                    <button class="filter-btn" data-filter="systems">Systems</button>
+                    <button class="filter-btn active" data-filter="all">all</button>
+                    <button class="filter-btn" data-filter="ai">ai</button>
+                    <button class="filter-btn" data-filter="ml">ml</button>
+                    <button class="filter-btn" data-filter="optimization">optimization</button>
+                    <button class="filter-btn" data-filter="systems">systems</button>
                 </div>
                 <div class="projects-grid" id="projectsGrid"></div>
             </div>
@@ -76,16 +77,12 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-logo">
-                    <span class="logo-bracket">&lt;</span>AC<span class="logo-bracket">/&gt;</span>
-                </div>
-                <p class="footer-text">Building intelligent systems at the intersection of AI, optimization, and mathematics.</p>
-                <p class="footer-copyright">&copy; 2024 Ayan Chattopadhyay. All rights reserved.</p>
+                <div class="footer-logo">~/ayan</div>
+                <p class="footer-copyright">&copy; 2024 Ayan Chattopadhyay</p>
             </div>
         </div>
     </footer>
 
-    <script src="js/visualizations.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

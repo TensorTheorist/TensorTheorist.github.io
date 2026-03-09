@@ -8,7 +8,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
@@ -26,7 +26,7 @@
     <nav class="nav" id="nav">
         <div class="nav-container">
             <a href="index.html" class="nav-logo">
-                <span class="logo-bracket">&lt;</span>AC<span class="logo-bracket">/&gt;</span>
+                <span class="logo-bracket">~/</span>ayan
             </a>
             <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
                 <span></span>
@@ -34,10 +34,10 @@
                 <span></span>
             </button>
             <ul class="nav-menu" id="navMenu">
-                <li><a href="index.html" class="nav-link">Home</a></li>
-                <li><a href="projects.html" class="nav-link">Projects</a></li>
-                <li><a href="blog.html" class="nav-link active">Blog</a></li>
-                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="index.html" class="nav-link">home</a></li>
+                <li><a href="projects.html" class="nav-link">projects</a></li>
+                <li><a href="blog.html" class="nav-link active">blog</a></li>
+                <li><a href="about.html" class="nav-link">about</a></li>
             </ul>
             <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
                 <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -61,24 +61,15 @@
     <main class="page-content">
         <section class="section blog-post-page-section">
             <div class="container">
-                <a href="blog.html" class="back-link">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="19" y1="12" x2="5" y2="12"></line>
-                        <polyline points="12 19 5 12 12 5"></polyline>
-                    </svg>
-                    Back to Blog
-                </a>
+                <a href="blog.html" class="back-link">← blog</a>
                 
                 <article class="blog-post-article" id="blogPostArticle">
                     <div class="blog-post-header">
-                        <div class="blog-post-hero-image" id="blogPostHeroImage"></div>
-                        <div class="blog-post-meta">
-                            <span class="blog-post-category" id="blogPostCategory"></span>
-                            <span class="blog-post-date" id="blogPostDate"></span>
-                        </div>
+                        <span class="blog-post-category" id="blogPostCategory"></span>
                         <h1 class="blog-post-title" id="blogPostTitle"></h1>
+                        <span class="blog-post-date" id="blogPostDate"></span>
                     </div>
-                    <div class="blog-post-content" id="blogPostContent"></div>
+                    <div class="blog-post-body" id="blogPostContent"></div>
                 </article>
             </div>
         </section>
@@ -87,11 +78,8 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-logo">
-                    <span class="logo-bracket">&lt;</span>AC<span class="logo-bracket">/&gt;</span>
-                </div>
-                <p class="footer-text">Building intelligent systems at the intersection of AI, optimization, and mathematics.</p>
-                <p class="footer-copyright">&copy; 2024 Ayan Chattopadhyay. All rights reserved.</p>
+                <div class="footer-logo">~/ayan</div>
+                <p class="footer-copyright">&copy; 2024 Ayan Chattopadhyay</p>
             </div>
         </div>
     </footer>
@@ -147,12 +135,7 @@
             document.title = `${title} | Ayan Chattopadhyay`;
             document.getElementById('blogPostTitle').textContent = title;
             document.getElementById('blogPostDate').textContent = date;
-            document.getElementById('blogPostCategory').textContent = category.toUpperCase();
-            
-            const heroImage = document.getElementById('blogPostHeroImage');
-            const imageClass = getCategoryImageClass(category.toLowerCase());
-            heroImage.className = `blog-post-hero-image ${imageClass}`;
-            heroImage.innerHTML = getBlogIcon(category.toLowerCase());
+            document.getElementById('blogPostCategory').textContent = category.toLowerCase();
             
             const contentEl = document.getElementById('blogPostContent');
             if (typeof marked !== 'undefined') {
@@ -176,49 +159,6 @@
                     });
                 }
             }
-        }
-        
-        function getCategoryImageClass(category) {
-            const classes = {
-                'ai': 'blog-hero-ai',
-                'machine learning': 'blog-hero-ml',
-                'ml': 'blog-hero-ml',
-                'mathematics': 'blog-hero-math',
-                'math': 'blog-hero-math',
-                'systems': 'blog-hero-systems'
-            };
-            return classes[category] || 'blog-hero-ai';
-        }
-        
-        function getBlogIcon(category) {
-            const icons = {
-                'ai': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                    <circle cx="12" cy="12" r="3"></circle>
-                    <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"></path>
-                </svg>`,
-                'ml': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
-                </svg>`,
-                'machine learning': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
-                </svg>`,
-                'math': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-                </svg>`,
-                'mathematics': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-                </svg>`,
-                'systems': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                    <line x1="8" y1="21" x2="16" y2="21"></line>
-                    <line x1="12" y1="17" x2="12" y2="21"></line>
-                </svg>`
-            };
-            return icons[category] || icons['ai'];
         }
         
         function addCopyButton(preElement) {

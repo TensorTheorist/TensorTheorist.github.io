@@ -701,11 +701,6 @@ function initProjectsSection() {
         
         projectsGrid.innerHTML = filteredProjects.map(project => `
             <a href="project.html?id=${project.id}" class="project-card" data-project-id="${project.id}">
-                <div class="project-image project-image-${project.image}">
-                    <div class="project-image-icon">
-                        ${projectIcons[project.image] || projectIcons.ai}
-                    </div>
-                </div>
                 <div class="project-body">
                     <h3 class="project-title">${project.title}</h3>
                     <p class="project-description">${project.description}</p>
@@ -1314,12 +1309,6 @@ function initBlogSection() {
         
         blogGrid.innerHTML = filteredPosts.map(post => `
             <a href="blog-post.html?post=${post.id}" class="blog-card" data-post-id="${post.id}">
-                <div class="blog-image blog-image-${post.image}">
-                    <span class="blog-category-tag">${post.category}</span>
-                    <div class="blog-image-icon">
-                        ${blogIcons[post.image] || blogIcons.ai}
-                    </div>
-                </div>
                 <div class="blog-content">
                     <span class="blog-date">${formatDate(post.date)}</span>
                     <h3 class="blog-title">${post.title}</h3>
