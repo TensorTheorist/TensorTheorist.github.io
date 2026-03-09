@@ -170,7 +170,7 @@ const projects = [
         category: 'ai',
         tech: ['Python', 'LangChain', 'ChromaDB', 'FastAPI', 'Docker'],
         github: 'https://github.com/TensorTheorist/llm-rag',
-        image: 'ai',
+        image: 'rag',
         visualizations: ['embedding'],
         readme: `# LLM RAG System
 
@@ -237,7 +237,7 @@ print(response.answer)
         category: 'ai',
         tech: ['Neo4j', 'spaCy', 'NetworkX', 'Python'],
         github: 'https://github.com/TensorTheorist/kg-pipeline',
-        image: 'ai',
+        image: 'kg',
         visualizations: ['embedding'],
         readme: `# Knowledge Graph Pipeline
 
@@ -283,7 +283,7 @@ results = kg.query("""
         category: 'optimization',
         tech: ['Python', 'OR-Tools', 'NumPy', 'FastAPI'],
         github: 'https://github.com/TensorTheorist/scheduler',
-        image: 'optimization',
+        image: 'scheduler',
         visualizations: ['optimization'],
         readme: `# Scheduling Optimization Engine
 
@@ -335,7 +335,7 @@ solver.add_task("T1", duration=3, workers=2)
         category: 'ml',
         tech: ['Python', 'scikit-learn', 'MLflow', 'Airflow'],
         github: 'https://github.com/TensorTheorist/ml-pipeline',
-        image: 'ml',
+        image: 'pipeline',
         visualizations: ['neural', 'gradient'],
         readme: `# ML Pipeline Framework
 
@@ -392,7 +392,7 @@ with mlflow.start_run():
         category: 'ai',
         tech: ['Python', 'LangChain', 'OpenAI', 'Redis'],
         github: 'https://github.com/TensorTheorist/ai-agents',
-        image: 'ai',
+        image: 'agent',
         visualizations: [],
         readme: `# AI Agent Framework
 
@@ -446,7 +446,7 @@ result = agent.run(
         category: 'systems',
         tech: ['Python', 'FastAPI', 'Docker', 'Kubernetes', 'Redis'],
         github: 'https://github.com/TensorTheorist/inference-api',
-        image: 'systems',
+        image: 'api',
         visualizations: [],
         readme: `# Model Inference API
 
@@ -507,7 +507,7 @@ curl -X POST http://localhost:8080/predict/batch \\
         category: 'ml',
         tech: ['Python', 'Sentence-Transformers', 'FAISS', 'FastAPI'],
         github: 'https://github.com/TensorTheorist/embedding-search',
-        image: 'ml',
+        image: 'search',
         visualizations: ['embedding'],
         readme: `# Embedding Search Engine
 
@@ -560,7 +560,7 @@ results = engine.search(
         category: 'optimization',
         tech: ['Python', 'NumPy', 'Matplotlib', 'Pytest'],
         github: 'https://github.com/TensorTheorist/optim-benchmark',
-        image: 'optimization',
+        image: 'benchmark',
         visualizations: ['gradient', 'optimization'],
         readme: `# Optimization Benchmark Suite
 
@@ -611,6 +611,64 @@ results.statistical_comparison()
 ];
 
 const projectIcons = {
+    rag: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+        <polyline points="14 2 14 8 20 8"></polyline>
+        <circle cx="12" cy="15" r="3"></circle>
+        <path d="M12 12v-2M12 18v2"></path>
+    </svg>`,
+    kg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="6" cy="6" r="3"></circle>
+        <circle cx="18" cy="6" r="3"></circle>
+        <circle cx="6" cy="18" r="3"></circle>
+        <circle cx="18" cy="18" r="3"></circle>
+        <line x1="9" y1="6" x2="15" y2="6"></line>
+        <line x1="6" y1="9" x2="6" y2="15"></line>
+        <line x1="18" y1="9" x2="18" y2="15"></line>
+        <line x1="9" y1="18" x2="15" y2="18"></line>
+        <line x1="9" y1="9" x2="15" y2="15"></line>
+    </svg>`,
+    scheduler: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+        <line x1="16" y1="2" x2="16" y2="6"></line>
+        <line x1="8" y1="2" x2="8" y2="6"></line>
+        <line x1="3" y1="10" x2="21" y2="10"></line>
+        <rect x="7" y="14" width="3" height="3" fill="currentColor" opacity="0.3"></rect>
+        <rect x="14" y="14" width="3" height="3" fill="currentColor" opacity="0.3"></rect>
+    </svg>`,
+    pipeline: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="5" cy="12" r="3"></circle>
+        <circle cx="19" cy="12" r="3"></circle>
+        <circle cx="12" cy="5" r="2"></circle>
+        <circle cx="12" cy="19" r="2"></circle>
+        <path d="M8 12h8M12 7v10"></path>
+        <path d="M7.5 9.5L10 7M16.5 9.5L14 7M7.5 14.5L10 17M16.5 14.5L14 17"></path>
+    </svg>`,
+    agent: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="12" cy="8" r="5"></circle>
+        <path d="M3 21v-2a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v2"></path>
+        <circle cx="12" cy="8" r="2"></circle>
+        <path d="M12 3v2M9 5.5l1 1M15 5.5l-1 1"></path>
+    </svg>`,
+    api: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+        <line x1="8" y1="21" x2="16" y2="21"></line>
+        <line x1="12" y1="17" x2="12" y2="21"></line>
+        <polyline points="7 8 9 10 7 12"></polyline>
+        <line x1="11" y1="12" x2="17" y2="12"></line>
+    </svg>`,
+    search: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        <path d="M8 8l6 6M14 8l-6 6" opacity="0.3"></path>
+    </svg>`,
+    benchmark: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <line x1="18" y1="20" x2="18" y2="10"></line>
+        <line x1="12" y1="20" x2="12" y2="4"></line>
+        <line x1="6" y1="20" x2="6" y2="14"></line>
+        <polyline points="3 17 9 11 13 15 21 7"></polyline>
+        <polyline points="17 7 21 7 21 11"></polyline>
+    </svg>`,
     ai: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
         <circle cx="12" cy="12" r="3"></circle>
         <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"></path>
