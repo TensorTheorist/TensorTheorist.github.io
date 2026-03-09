@@ -2236,6 +2236,10 @@ img {
     background: var(--bg-primary);
 }
 
+.blog-post-page-section .container {
+    max-width: none;
+}
+
 .back-link {
     display: inline-flex;
     align-items: center;
@@ -2417,6 +2421,10 @@ img {
    ============================================ */
 .project-page-section {
     background: var(--bg-primary);
+}
+
+.project-page-section .container {
+    max-width: none;
 }
 
 .project-page-article {
