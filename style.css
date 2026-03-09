@@ -2236,8 +2236,10 @@ img {
     background: var(--bg-primary);
 }
 
-.blog-post-page-section .container {
-    max-width: none;
+.blog-post-page-section .container,
+.project-page-section .container {
+    max-width: 100%;
+    padding: 0 2rem;
 }
 
 .back-link {
@@ -2423,8 +2425,9 @@ img {
     background: var(--bg-primary);
 }
 
-.project-page-section .container {
-    max-width: none;
+.blog-post-article,
+.project-page-article {
+    border-radius: var(--radius-lg);
 }
 
 .project-page-article {
