@@ -1099,7 +1099,12 @@ img {
 /* KaTeX styling */
 .katex-display {
     margin: 1.5em 0;
-    overflow-x: auto;
+    overflow-x: visible;
+}
+
+.katex-display > .katex {
+    overflow-x: visible;
+    overflow-y: visible;
 }
 
 /* Collapsible sections */
