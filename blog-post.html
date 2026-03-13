@@ -207,57 +207,42 @@
         }
         
         function processCollapsibles(container) {
-            const children = Array.from(container.childNodes);
-            let i = 0;
-            
-            while (i < children.length) {
-                const node = children[i];
-                
-                // Look for paragraph containing ???Title
-                if (node.nodeType === 1 && node.tagName === 'P') {
-                    const text = node.textContent.trim();
-                    if (text.startsWith('???') && text.length > 3) {
-                        const title = text.substring(3).trim();
-                        
-                        // Create details element
-                        const details = document.createElement('details');
-                        details.className = 'collapsible-section';
-                        
-                        const summary = document.createElement('summary');
-                        summary.textContent = title;
-                        details.appendChild(summary);
-                        
-                        // Create a div to hold the collapsible content
-                        const contentDiv = document.createElement('div');
-                        contentDiv.className = 'collapsible-content';
-                        
-                        // Collect all nodes until closing ???
-                        let j = i + 1;
-                        while (j < children.length) {
-                            const nextNode = children[j];
-                            if (nextNode.nodeType === 1 && nextNode.tagName === 'P' && nextNode.textContent.trim() === '???') {
-                                // Found closing marker, remove it
-                                nextNode.remove();
-                                break;
-                            }
-                            // Move node into content div
-                            contentDiv.appendChild(nextNode.cloneNode(true));
-                            nextNode.remove();
-                            // Don't increment j since we removed the node
-                        }
-                        
-                        details.appendChild(contentDiv);
-                        
-                        // Replace the opening marker with the details element
-                        node.replaceWith(details);
-                        
-                        // Refresh children array after DOM changes
-                        children.length = 0;
-                        children.push(...Array.from(container.childNodes));
-                    }
+            // Find all opening markers first
+            const openMarkers = [];
+            container.querySelectorAll('p').forEach(p => {
+                const text = p.textContent.trim();
+                if (text.startsWith('???') && text.length > 3) {
+                    openMarkers.push({ el: p, title: text.substring(3).trim() });
                 }
-                i++;
-            }
+            });
+            
+            // Process each collapsible section
+            openMarkers.forEach(marker => {
+                const details = document.createElement('details');
+                details.className = 'collapsible-section';
+                
+                const summary = document.createElement('summary');
+                summary.textContent = marker.title;
+                details.appendChild(summary);
+                
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'collapsible-content';
+                
+                // Collect siblings until closing ???
+                let sibling = marker.el.nextElementSibling;
+                while (sibling) {
+                    const nextSibling = sibling.nextElementSibling;
+                    if (sibling.tagName === 'P' && sibling.textContent.trim() === '???') {
+                        sibling.remove();
+                        break;
+                    }
+                    contentDiv.appendChild(sibling);
+                    sibling = nextSibling;
+                }
+                
+                details.appendChild(contentDiv);
+                marker.el.replaceWith(details);
+            });
         }
         
         function processEmbeddedMedia(container, basePath) {
