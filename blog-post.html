@@ -142,14 +142,11 @@
             
             const contentEl = document.getElementById('blogPostContent');
             if (typeof marked !== 'undefined') {
-                // Parse markdown first
-                let html = marked.parse(content);
+                // Parse markdown
+                contentEl.innerHTML = marked.parse(content);
                 
-                // Convert ???collapsible title to <details> tags (after markdown parsing)
-                html = html.replace(/<p>\?\?\?(.+?)<\/p>/g, '<details class="collapsible-section"><summary>$1</summary>');
-                html = html.replace(/<p>\?\?\?<\/p>/g, '</details>');
-                
-                contentEl.innerHTML = html;
+                // Process collapsible sections after rendering
+                processCollapsibles(contentEl);
                 
                 contentEl.querySelectorAll('pre code').forEach((block) => {
                     if (typeof hljs !== 'undefined') {
@@ -202,6 +199,60 @@
             });
             
             wrapper.appendChild(copyBtn);
+        }
+        
+        function processCollapsibles(container) {
+            const children = Array.from(container.childNodes);
+            let i = 0;
+            
+            while (i < children.length) {
+                const node = children[i];
+                
+                // Look for paragraph containing ???Title
+                if (node.nodeType === 1 && node.tagName === 'P') {
+                    const text = node.textContent.trim();
+                    if (text.startsWith('???') && text.length > 3) {
+                        const title = text.substring(3).trim();
+                        
+                        // Create details element
+                        const details = document.createElement('details');
+                        details.className = 'collapsible-section';
+                        
+                        const summary = document.createElement('summary');
+                        summary.textContent = title;
+                        details.appendChild(summary);
+                        
+                        // Create a div to hold the collapsible content
+                        const contentDiv = document.createElement('div');
+                        contentDiv.className = 'collapsible-content';
+                        
+                        // Collect all nodes until closing ???
+                        let j = i + 1;
+                        while (j < children.length) {
+                            const nextNode = children[j];
+                            if (nextNode.nodeType === 1 && nextNode.tagName === 'P' && nextNode.textContent.trim() === '???') {
+                                // Found closing marker, remove it
+                                nextNode.remove();
+                                break;
+                            }
+                            // Move node into content div
+                            contentDiv.appendChild(nextNode.cloneNode(true));
+                            nextNode.remove();
+                            // Don't increment j since we removed the node
+                        }
+                        
+                        details.appendChild(contentDiv);
+                        
+                        // Replace the opening marker with the details element
+                        node.replaceWith(details);
+                        
+                        // Refresh children array after DOM changes
+                        children.length = 0;
+                        children.push(...Array.from(container.childNodes));
+                    }
+                }
+                i++;
+            }
         }
     </script>
 </body>

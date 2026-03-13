@@ -1140,25 +1140,11 @@ img {
     margin-bottom: 0.5em;
 }
 
-.collapsible-section > *:not(summary) {
-    border: none !important;
-    background: none !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
+.collapsible-content {
+    padding-left: 1em;
+    border-left: 2px solid var(--border-color);
 }
 
-.collapsible-section h1,
-.collapsible-section h2,
-.collapsible-section h3 {
-    border-top: none !important;
-    padding-top: 0 !important;
-    margin-top: 1em;
-}
-
-.collapsible-section h1:first-of-type,
-.collapsible-section h2:first-of-type,
-.collapsible-section h3:first-of-type {
+.collapsible-content > *:first-child {
     margin-top: 0;
 }
