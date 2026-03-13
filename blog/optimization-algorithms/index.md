@@ -43,7 +43,9 @@ $$f(\theta_t) - f(\theta^*) \leq \frac{L \|\theta_0 - \theta^*\|^2}{2t}$$
 
 ## Supplementary Materials
 
-!pdf[sample.pdf]
+!pdf[sample1.pdf]
+
+!pdf[sample2.pdf]
 
 ## Evolutionary Algorithms
 

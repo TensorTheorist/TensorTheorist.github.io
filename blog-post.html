@@ -232,10 +232,10 @@
                 // !pdf[file.pdf] or !pdf-full[file.pdf]
                 let match = text.match(/^!pdf(-full)?\[(.+?)\]$/);
                 if (match) {
-                    const isHalf = !match[1];
+                    const isFull = !!match[1];
                     const filename = match[2];
                     const div = document.createElement('div');
-                    div.className = 'embed-container ' + (isHalf ? 'embed-half' : 'embed-full');
+                    div.className = 'embed-container' + (isFull ? ' embed-full' : '');
                     div.innerHTML = `<iframe src="${basePath}${filename}"></iframe>`;
                     p.replaceWith(div);
                     return;
@@ -244,15 +244,40 @@
                 // !ppt[file.pptx] or !ppt-full[file.pptx]
                 match = text.match(/^!ppt(-full)?\[(.+?)\]$/);
                 if (match) {
-                    const isHalf = !match[1];
+                    const isFull = !!match[1];
                     const filename = match[2];
                     const fullUrl = window.location.origin + '/' + basePath + filename;
                     const div = document.createElement('div');
-                    div.className = 'embed-container ' + (isHalf ? 'embed-half' : 'embed-full');
+                    div.className = 'embed-container' + (isFull ? ' embed-full' : '');
                     div.innerHTML = `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(fullUrl)}"></iframe>`;
                     p.replaceWith(div);
                 }
             });
+            
+            // Wrap consecutive embed-containers in embed-row divs
+            const embeds = Array.from(container.querySelectorAll('.embed-container:not(.embed-full)'));
+            let i = 0;
+            while (i < embeds.length) {
+                const current = embeds[i];
+                const next = current.nextElementSibling;
+                
+                // Check if next sibling is also an embed (not full)
+                if (next && next.classList.contains('embed-container') && !next.classList.contains('embed-full')) {
+                    const row = document.createElement('div');
+                    row.className = 'embed-row';
+                    current.parentNode.insertBefore(row, current);
+                    row.appendChild(current);
+                    row.appendChild(next);
+                    i += 2;
+                } else {
+                    // Single embed, still wrap in row for consistent styling
+                    const row = document.createElement('div');
+                    row.className = 'embed-row';
+                    current.parentNode.insertBefore(row, current);
+                    row.appendChild(current);
+                    i++;
+                }
+            }
         }
     </script>
 </body>
