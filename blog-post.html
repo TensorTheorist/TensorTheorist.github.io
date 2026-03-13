@@ -103,7 +103,7 @@
             }
             
             try {
-                const response = await fetch(`blog/${postId}.md`);
+                const response = await fetch(`blog/${postId}/index.md`);
                 if (!response.ok) throw new Error('Post not found');
                 
                 const markdown = await response.text();
@@ -141,12 +141,17 @@
             document.getElementById('blogPostCategory').textContent = category.toUpperCase();
             
             const contentEl = document.getElementById('blogPostContent');
+            const basePath = `blog/${postId}/`;
+            
             if (typeof marked !== 'undefined') {
                 // Parse markdown
                 contentEl.innerHTML = marked.parse(content);
                 
                 // Process collapsible sections after rendering
                 processCollapsibles(contentEl);
+                
+                // Process embedded media (PDFs, PPTs, images with relative paths)
+                processEmbeddedMedia(contentEl, basePath);
                 
                 contentEl.querySelectorAll('pre code').forEach((block) => {
                     if (typeof hljs !== 'undefined') {
@@ -253,6 +258,67 @@
                 }
                 i++;
             }
+        }
+        
+        function processEmbeddedMedia(container, basePath) {
+            // Fix relative image paths
+            container.querySelectorAll('img').forEach(img => {
+                const src = img.getAttribute('src');
+                if (src && !src.startsWith('http') && !src.startsWith('/')) {
+                    img.src = basePath + src;
+                }
+            });
+            
+            // Process embed syntax: !pdf[filename.pdf] or !ppt[filename.pptx]
+            container.querySelectorAll('p').forEach(p => {
+                const text = p.textContent.trim();
+                
+                // PDF embed: !pdf[filename.pdf]
+                const pdfMatch = text.match(/^!pdf\[(.+?)\]$/);
+                if (pdfMatch) {
+                    const filename = pdfMatch[1];
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'embed-container embed-half';
+                    wrapper.innerHTML = `<iframe src="${basePath}${filename}" type="application/pdf"></iframe>`;
+                    p.replaceWith(wrapper);
+                    return;
+                }
+                
+                // PPT embed: !ppt[filename.pptx] - uses Google Docs viewer
+                const pptMatch = text.match(/^!ppt\[(.+?)\]$/);
+                if (pptMatch) {
+                    const filename = pptMatch[1];
+                    const fullUrl = window.location.origin + '/' + basePath + filename;
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'embed-container embed-half';
+                    wrapper.innerHTML = `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(fullUrl)}"></iframe>`;
+                    p.replaceWith(wrapper);
+                    return;
+                }
+                
+                // Full-width PDF: !pdf-full[filename.pdf]
+                const pdfFullMatch = text.match(/^!pdf-full\[(.+?)\]$/);
+                if (pdfFullMatch) {
+                    const filename = pdfFullMatch[1];
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'embed-container embed-full';
+                    wrapper.innerHTML = `<iframe src="${basePath}${filename}" type="application/pdf"></iframe>`;
+                    p.replaceWith(wrapper);
+                    return;
+                }
+                
+                // Full-width PPT: !ppt-full[filename.pptx]
+                const pptFullMatch = text.match(/^!ppt-full\[(.+?)\]$/);
+                if (pptFullMatch) {
+                    const filename = pptFullMatch[1];
+                    const fullUrl = window.location.origin + '/' + basePath + filename;
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'embed-container embed-full';
+                    wrapper.innerHTML = `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(fullUrl)}"></iframe>`;
+                    p.replaceWith(wrapper);
+                    return;
+                }
+            });
         }
     </script>
 </body>
