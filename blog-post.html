@@ -134,6 +134,7 @@
             }
             
             const content = lines.slice(contentStart).join('\n');
+            console.log('Content to parse:', content.substring(0, 500));
             
             document.title = `${title} | Ayan Chattopadhyay`;
             document.getElementById('blogPostTitle').textContent = title;
@@ -150,8 +151,10 @@
                 // Fix relative image paths
                 contentEl.querySelectorAll('img').forEach(img => {
                     const src = img.getAttribute('src');
+                    console.log('Image found:', src, '-> basePath:', basePath);
                     if (src && !src.startsWith('http') && !src.startsWith('/')) {
                         img.src = basePath + src;
+                        console.log('Updated to:', img.src);
                     }
                 });
                 
