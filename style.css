@@ -1114,7 +1114,7 @@ img {
     display: flex;
     align-items: center;
     gap: 8px;
-    color: var(--accent-color, #3b82f6);
+    color: var(--accent);
     padding: 4px 0;
 }
 
@@ -1138,4 +1138,27 @@ img {
 
 .collapsible-section[open] summary {
     margin-bottom: 0.5em;
+}
+
+.collapsible-section > *:not(summary) {
+    border: none !important;
+    background: none !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.collapsible-section h1,
+.collapsible-section h2,
+.collapsible-section h3 {
+    border-top: none !important;
+    padding-top: 0 !important;
+    margin-top: 1em;
+}
+
+.collapsible-section h1:first-of-type,
+.collapsible-section h2:first-of-type,
+.collapsible-section h3:first-of-type {
+    margin-top: 0;
 }
