@@ -172,19 +172,28 @@
                 // Parse markdown
                 contentEl.innerHTML = marked.parse(content);
                 
-                // Process collapsible sections after rendering
+                // Fix relative image paths
+                contentEl.querySelectorAll('img').forEach(img => {
+                    const src = img.getAttribute('src');
+                    if (src && !src.startsWith('http') && !src.startsWith('/')) {
+                        img.src = basePath + src;
+                    }
+                });
+                
+                // Process collapsible sections
                 processCollapsibles(contentEl);
                 
-                // Process embedded media (PDFs, PPTs, images with relative paths)
-                processEmbeddedMedia(contentEl, basePath);
+                // Process PDF/PPT embeds
+                processEmbeds(contentEl, basePath);
                 
+                // Syntax highlighting
                 contentEl.querySelectorAll('pre code').forEach((block) => {
                     if (typeof hljs !== 'undefined') {
                         hljs.highlightElement(block);
                     }
-                    addCopyButton(block.parentElement);
                 });
                 
+                // Math rendering
                 if (typeof renderMathInElement === 'function') {
                     renderMathInElement(contentEl, {
                         delimiters: [
@@ -198,135 +207,72 @@
             }
         }
         
-        function addCopyButton(preElement) {
-            const wrapper = document.createElement('div');
-            wrapper.className = 'code-block-wrapper';
-            preElement.parentNode.insertBefore(wrapper, preElement);
-            wrapper.appendChild(preElement);
-            
-            const copyBtn = document.createElement('button');
-            copyBtn.className = 'code-copy-btn';
-            copyBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-            </svg>`;
-            copyBtn.title = 'Copy code';
-            
-            copyBtn.addEventListener('click', async () => {
-                const code = preElement.querySelector('code').textContent;
-                await navigator.clipboard.writeText(code);
-                copyBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>`;
-                copyBtn.classList.add('copied');
-                setTimeout(() => {
-                    copyBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                    </svg>`;
-                    copyBtn.classList.remove('copied');
-                }, 2000);
-            });
-            
-            wrapper.appendChild(copyBtn);
-        }
-        
         function processCollapsibles(container) {
-            // Find all opening markers first
-            const openMarkers = [];
-            container.querySelectorAll('p').forEach(p => {
-                const text = p.textContent.trim();
-                if (text.startsWith('???') && text.length > 3) {
-                    openMarkers.push({ el: p, title: text.substring(3).trim() });
-                }
-            });
+            const paragraphs = Array.from(container.querySelectorAll('p'));
             
-            // Process each collapsible section
-            openMarkers.forEach(marker => {
-                const details = document.createElement('details');
-                details.className = 'collapsible-section';
+            for (let i = 0; i < paragraphs.length; i++) {
+                const p = paragraphs[i];
+                const text = p.textContent.trim();
                 
-                const summary = document.createElement('summary');
-                summary.textContent = marker.title;
-                details.appendChild(summary);
-                
-                const contentDiv = document.createElement('div');
-                contentDiv.className = 'collapsible-content';
-                
-                // Collect siblings until closing ???
-                let sibling = marker.el.nextElementSibling;
-                while (sibling) {
-                    const nextSibling = sibling.nextElementSibling;
-                    if (sibling.tagName === 'P' && sibling.textContent.trim() === '???') {
-                        sibling.remove();
-                        break;
+                if (text.startsWith('???') && text.length > 3) {
+                    const title = text.substring(3).trim();
+                    
+                    const details = document.createElement('details');
+                    details.className = 'collapsible-section';
+                    
+                    const summary = document.createElement('summary');
+                    summary.textContent = title;
+                    details.appendChild(summary);
+                    
+                    const contentDiv = document.createElement('div');
+                    contentDiv.className = 'collapsible-content';
+                    
+                    // Move siblings into contentDiv until we find closing ???
+                    let next = p.nextElementSibling;
+                    while (next) {
+                        if (next.tagName === 'P' && next.textContent.trim() === '???') {
+                            next.remove();
+                            break;
+                        }
+                        const toMove = next;
+                        next = next.nextElementSibling;
+                        contentDiv.appendChild(toMove);
                     }
-                    contentDiv.appendChild(sibling);
-                    sibling = nextSibling;
+                    
+                    details.appendChild(contentDiv);
+                    p.replaceWith(details);
                 }
-                
-                details.appendChild(contentDiv);
-                marker.el.replaceWith(details);
-            });
+            }
         }
         
-        function processEmbeddedMedia(container, basePath) {
-            // Fix relative image paths
-            container.querySelectorAll('img').forEach(img => {
-                const src = img.getAttribute('src');
-                if (src && !src.startsWith('http') && !src.startsWith('/')) {
-                    img.src = basePath + src;
-                }
-            });
+        function processEmbeds(container, basePath) {
+            const paragraphs = Array.from(container.querySelectorAll('p'));
             
-            // Process embed syntax: !pdf[filename.pdf] or !ppt[filename.pptx]
-            container.querySelectorAll('p').forEach(p => {
+            paragraphs.forEach(p => {
                 const text = p.textContent.trim();
                 
-                // PDF embed: !pdf[filename.pdf]
-                const pdfMatch = text.match(/^!pdf\[(.+?)\]$/);
-                if (pdfMatch) {
-                    const filename = pdfMatch[1];
-                    const wrapper = document.createElement('div');
-                    wrapper.className = 'embed-container embed-half';
-                    wrapper.innerHTML = `<iframe src="${basePath}${filename}" type="application/pdf"></iframe>`;
-                    p.replaceWith(wrapper);
+                // !pdf[file.pdf] or !pdf-full[file.pdf]
+                let match = text.match(/^!pdf(-full)?\[(.+?)\]$/);
+                if (match) {
+                    const isHalf = !match[1];
+                    const filename = match[2];
+                    const div = document.createElement('div');
+                    div.className = 'embed-container ' + (isHalf ? 'embed-half' : 'embed-full');
+                    div.innerHTML = `<iframe src="${basePath}${filename}"></iframe>`;
+                    p.replaceWith(div);
                     return;
                 }
                 
-                // PPT embed: !ppt[filename.pptx] - uses Office Online viewer
-                const pptMatch = text.match(/^!ppt\[(.+?)\]$/);
-                if (pptMatch) {
-                    const filename = pptMatch[1];
+                // !ppt[file.pptx] or !ppt-full[file.pptx]
+                match = text.match(/^!ppt(-full)?\[(.+?)\]$/);
+                if (match) {
+                    const isHalf = !match[1];
+                    const filename = match[2];
                     const fullUrl = window.location.origin + '/' + basePath + filename;
-                    const wrapper = document.createElement('div');
-                    wrapper.className = 'embed-container embed-half';
-                    wrapper.innerHTML = `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(fullUrl)}"></iframe>`;
-                    p.replaceWith(wrapper);
-                    return;
-                }
-                
-                // Full-width PDF: !pdf-full[filename.pdf]
-                const pdfFullMatch = text.match(/^!pdf-full\[(.+?)\]$/);
-                if (pdfFullMatch) {
-                    const filename = pdfFullMatch[1];
-                    const wrapper = document.createElement('div');
-                    wrapper.className = 'embed-container embed-full';
-                    wrapper.innerHTML = `<iframe src="${basePath}${filename}" type="application/pdf"></iframe>`;
-                    p.replaceWith(wrapper);
-                    return;
-                }
-                
-                // Full-width PPT: !ppt-full[filename.pptx]
-                const pptFullMatch = text.match(/^!ppt-full\[(.+?)\]$/);
-                if (pptFullMatch) {
-                    const filename = pptFullMatch[1];
-                    const fullUrl = window.location.origin + '/' + basePath + filename;
-                    const wrapper = document.createElement('div');
-                    wrapper.className = 'embed-container embed-full';
-                    wrapper.innerHTML = `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(fullUrl)}"></iframe>`;
-                    p.replaceWith(wrapper);
-                    return;
+                    const div = document.createElement('div');
+                    div.className = 'embed-container ' + (isHalf ? 'embed-half' : 'embed-full');
+                    div.innerHTML = `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(fullUrl)}"></iframe>`;
+                    p.replaceWith(div);
                 }
             });
         }
