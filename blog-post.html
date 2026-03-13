@@ -144,31 +144,36 @@
             const basePath = `blog/${postId}/`;
             
             if (typeof marked !== 'undefined') {
-                // Parse markdown
-                contentEl.innerHTML = marked.parse(content);
-                
-                // Process collapsible sections after rendering
-                processCollapsibles(contentEl);
-                
-                // Process embedded media (PDFs, PPTs, images with relative paths)
-                processEmbeddedMedia(contentEl, basePath);
-                
-                contentEl.querySelectorAll('pre code').forEach((block) => {
-                    if (typeof hljs !== 'undefined') {
-                        hljs.highlightElement(block);
-                    }
-                    addCopyButton(block.parentElement);
-                });
-                
-                if (typeof renderMathInElement === 'function') {
-                    renderMathInElement(contentEl, {
-                        delimiters: [
-                            { left: '$$', right: '$$', display: true },
-                            { left: '$', right: '$', display: false },
-                            { left: '\\[', right: '\\]', display: true },
-                            { left: '\\(', right: '\\)', display: false }
-                        ]
+                try {
+                    // Parse markdown
+                    contentEl.innerHTML = marked.parse(content);
+                    
+                    // Process collapsible sections after rendering
+                    processCollapsibles(contentEl);
+                    
+                    // Process embedded media (PDFs, PPTs, images with relative paths)
+                    processEmbeddedMedia(contentEl, basePath);
+                    
+                    contentEl.querySelectorAll('pre code').forEach((block) => {
+                        if (typeof hljs !== 'undefined') {
+                            hljs.highlightElement(block);
+                        }
+                        addCopyButton(block.parentElement);
                     });
+                    
+                    if (typeof renderMathInElement === 'function') {
+                        renderMathInElement(contentEl, {
+                            delimiters: [
+                                { left: '$$', right: '$$', display: true },
+                                { left: '$', right: '$', display: false },
+                                { left: '\\[', right: '\\]', display: true },
+                                { left: '\\(', right: '\\)', display: false }
+                            ]
+                        });
+                    }
+                } catch (e) {
+                    console.error('Render error:', e);
+                    contentEl.innerHTML = '<p>Error rendering content: ' + e.message + '</p>';
                 }
             }
         }

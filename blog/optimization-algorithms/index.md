@@ -5,8 +5,6 @@
 
 Optimization lies at the heart of machine learning. This post surveys key algorithms and their properties.
 
-![Optimization Landscape](sample-image.png)
-
 ## Gradient-Based Methods
 
 ### Gradient Descent
@@ -30,22 +28,6 @@ def adam_update(params, grads, m, v, t, lr=0.001, beta1=0.9, beta2=0.999):
     params = params - lr * m_hat / (np.sqrt(v_hat) + 1e-8)
     return params, m, v
 ```
-
-???Click to see convergence analysis
-
-## Convergence Analysis
-
-For smooth convex functions with $L$-Lipschitz gradients, gradient descent converges at rate:
-
-$$f(\theta_t) - f(\theta^*) \leq \frac{L \|\theta_0 - \theta^*\|^2}{2t}$$
-
-???
-
-## Supplementary Materials
-
-Here's a sample PDF document (half-width):
-
-!pdf[sample.pdf]
 
 ## Evolutionary Algorithms
 
