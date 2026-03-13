@@ -167,12 +167,14 @@
             
             const contentEl = document.getElementById('projectReadmeContent');
             if (typeof marked !== 'undefined') {
-                // Convert ???collapsible title syntax to <details> tags
-                const processedContent = content.replace(/^\?\?\?(.+)$/gm, (match, title) => {
-                    return `<details class="collapsible-section"><summary>${title.trim()}</summary>`;
-                }).replace(/^\?\?\?$/gm, '</details>');
+                // Parse markdown first
+                let html = marked.parse(content);
                 
-                contentEl.innerHTML = marked.parse(processedContent);
+                // Convert ???collapsible title to <details> tags (after markdown parsing)
+                html = html.replace(/<p>\?\?\?(.+?)<\/p>/g, '<details class="collapsible-section"><summary>$1</summary>');
+                html = html.replace(/<p>\?\?\?<\/p>/g, '</details>');
+                
+                contentEl.innerHTML = html;
                 
                 contentEl.querySelectorAll('pre code').forEach((block) => {
                     if (typeof hljs !== 'undefined') {
