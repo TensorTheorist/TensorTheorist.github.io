@@ -256,9 +256,8 @@
                 if (match) {
                     const isFull = !!match[1];
                     const filename = match[2];
-                    const div = document.createElement('div');
-                    div.className = 'embed-container' + (isFull ? ' embed-full' : '');
-                    div.innerHTML = `<iframe src="${basePath}${filename}"></iframe>`;
+                    const src = basePath + filename;
+                    const div = createEmbedContainer(filename, src, isFull);
                     p.replaceWith(div);
                     return;
                 }
@@ -269,9 +268,8 @@
                     const isFull = !!match[1];
                     const filename = match[2];
                     const fullUrl = window.location.origin + '/' + basePath + filename;
-                    const div = document.createElement('div');
-                    div.className = 'embed-container' + (isFull ? ' embed-full' : '');
-                    div.innerHTML = `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(fullUrl)}"></iframe>`;
+                    const src = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(fullUrl)}`;
+                    const div = createEmbedContainer(filename, src, isFull);
                     p.replaceWith(div);
                 }
             });
@@ -283,7 +281,6 @@
                 const current = embeds[i];
                 const next = current.nextElementSibling;
                 
-                // Check if next sibling is also an embed (not full)
                 if (next && next.classList.contains('embed-container') && !next.classList.contains('embed-full')) {
                     const row = document.createElement('div');
                     row.className = 'embed-row';
@@ -292,13 +289,71 @@
                     row.appendChild(next);
                     i += 2;
                 } else {
-                    // Single embed, still wrap in row for consistent styling
                     const row = document.createElement('div');
                     row.className = 'embed-row';
                     current.parentNode.insertBefore(row, current);
                     row.appendChild(current);
                     i++;
                 }
+            }
+        }
+        
+        function createEmbedContainer(filename, src, isFull) {
+            const shortName = filename.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
+            
+            const div = document.createElement('div');
+            div.className = 'embed-container' + (isFull ? ' embed-full' : '');
+            div.innerHTML = `
+                <div class="embed-header">
+                    <span class="embed-title">${shortName}</span>
+                    <button class="embed-fullscreen-btn" onclick="openEmbedFullscreen('${shortName}', '${src}')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+                        </svg>
+                        Fullscreen
+                    </button>
+                </div>
+                <iframe src="${src}"></iframe>
+            `;
+            return div;
+        }
+        
+        function openEmbedFullscreen(title, src) {
+            let modal = document.getElementById('embedModal');
+            if (!modal) {
+                modal = document.createElement('div');
+                modal.id = 'embedModal';
+                modal.className = 'embed-modal';
+                modal.innerHTML = `
+                    <div class="embed-modal-header">
+                        <span class="embed-modal-title"></span>
+                        <button class="embed-modal-close" onclick="closeEmbedFullscreen()">&times;</button>
+                    </div>
+                    <iframe></iframe>
+                `;
+                document.body.appendChild(modal);
+                
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) closeEmbedFullscreen();
+                });
+                
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') closeEmbedFullscreen();
+                });
+            }
+            
+            modal.querySelector('.embed-modal-title').textContent = title;
+            modal.querySelector('iframe').src = src;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeEmbedFullscreen() {
+            const modal = document.getElementById('embedModal');
+            if (modal) {
+                modal.classList.remove('active');
+                modal.querySelector('iframe').src = '';
+                document.body.style.overflow = '';
             }
         }
     </script>
