@@ -5,6 +5,8 @@
 
 Optimization lies at the heart of machine learning. This post surveys key algorithms and their properties.
 
+![Optimization Landscape](sample-image.png)
+
 ## Gradient-Based Methods
 
 ### Gradient Descent
