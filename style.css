@@ -1101,3 +1101,47 @@ img {
     margin: 1.5em 0;
     overflow-x: auto;
 }
+
+/* Collapsible sections */
+.collapsible-section {
+    margin: 1em 0;
+    border: 1px solid var(--border-color, #e0e0e0);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.collapsible-section summary {
+    padding: 12px 16px;
+    cursor: pointer;
+    font-weight: 600;
+    background: var(--bg-secondary, #f5f5f5);
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background 0.2s ease;
+}
+
+.collapsible-section summary:hover {
+    background: var(--bg-hover, #eee);
+}
+
+.collapsible-section summary::-webkit-details-marker {
+    display: none;
+}
+
+.collapsible-section summary::before {
+    content: "▶";
+    font-size: 0.75em;
+    color: var(--text-muted, #666);
+    transition: transform 0.2s ease;
+}
+
+.collapsible-section[open] summary::before {
+    transform: rotate(90deg);
+}
+
+.collapsible-section > *:not(summary) {
+    padding: 12px 16px;
+    border-top: 1px solid var(--border-color, #e0e0e0);
+}

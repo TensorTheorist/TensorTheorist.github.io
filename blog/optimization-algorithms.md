@@ -29,11 +29,15 @@ def adam_update(params, grads, m, v, t, lr=0.001, beta1=0.9, beta2=0.999):
     return params, m, v
 ```
 
+???Click to see more details
+
 ## Convergence Analysis
 
 For smooth convex functions with $L$-Lipschitz gradients, gradient descent converges at rate:
 
-$$f(\theta_t) - f(\theta^*) \leq \frac{L\|\theta_0 - \theta^*\|^2}{2t}$$
+$$f(\theta_t) - f(\theta^t) \leq \frac{L\theta_0 - \theta^*^2}{2t}$$
+
+???
 
 ## Evolutionary Algorithms
 
@@ -42,3 +46,4 @@ For non-differentiable objectives, evolutionary algorithms provide an alternativ
 1. **Genetic Algorithms**: Selection, crossover, mutation
 2. **Particle Swarm**: Social learning from best solutions
 3. **Simulated Annealing**: Temperature-based acceptance probability
+
