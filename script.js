@@ -86,12 +86,11 @@ function initTypingEffect() {
     if (!typingElement) return;
     
     const roles = [
-        'AI/ML Research Engineer',
-        'Machine Learning Specialist',
-        'Optimization Systems Expert',
-        'Mathematics Enthusiast',
-        'Deep Learning Researcher',
-        'LLM Developer'
+        'Math Writer & Educator',
+        'Popular Math on YouTube',
+        'Riemann Hypothesis Explorer',
+        'Collatz Conjecture Enthusiast',
+        'Number Theory Storyteller'
     ];
     
     let roleIndex = 0;
@@ -360,36 +359,40 @@ function initProjectsSection() {
 
 const blogPosts = [
     {
-        id: 'understanding-rag',
-        title: 'Understanding Retrieval-Augmented Generation',
-        excerpt: 'A deep dive into RAG systems, from basic retrieval to advanced hybrid approaches.',
-        date: '2024-02-15',
-        category: 'ai',
-        image: 'ai'
+        id: 'riemann-hypothesis-intro',
+        title: 'The Riemann Hypothesis: A Gentle Introduction',
+        excerpt: 'Why the zeros of a single complex function encode the deepest secrets of the prime numbers.',
+        date: '2026-08-31',
+        category: 'riemann',
+        image: 'math',
+        youtube: ''
     },
     {
-        id: 'optimization-algorithms',
-        title: 'A Survey of Optimization Algorithms',
-        excerpt: 'From gradient descent to evolutionary algorithms, understanding optimization landscapes.',
-        date: '2024-01-28',
-        category: 'math',
-        image: 'math'
+        id: 'collatz-conjecture',
+        title: 'The Collatz Conjecture: 3n + 1 and the Simplest Unsolved Problem',
+        excerpt: 'Pick any number. Halve it if even, triple-plus-one if odd. Do we always reach 1?',
+        date: '2026-08-24',
+        category: 'collatz',
+        image: 'math',
+        youtube: ''
     },
     {
-        id: 'transformers-explained',
-        title: 'Transformers: Attention Is All You Need',
-        excerpt: 'Breaking down the transformer architecture and self-attention mechanism.',
-        date: '2024-01-10',
-        category: 'ml',
-        image: 'ml'
+        id: 'primes-and-zeta',
+        title: 'Primes, the Zeta Function, and Euler’s Product Formula',
+        excerpt: 'How Euler tied prime numbers to an infinite series, and why it changed number theory forever.',
+        date: '2026-08-17',
+        category: 'number-theory',
+        image: 'math',
+        youtube: ''
     },
     {
-        id: 'building-ml-systems',
-        title: 'Building Production ML Systems',
-        excerpt: 'Best practices for deploying machine learning models at scale.',
-        date: '2023-12-20',
-        category: 'systems',
-        image: 'systems'
+        id: 'why-math-is-beautiful',
+        title: 'Why Math Is Beautiful (And Why Nobody Told You)',
+        excerpt: 'A popular-math essay on the aesthetics of proof, symmetry, and unexpected connections.',
+        date: '2026-08-10',
+        category: 'popular',
+        image: 'math',
+        youtube: ''
     }
 ];
 
@@ -430,6 +433,7 @@ function initBlogSection() {
                     <span class="blog-date">${formatDate(post.date)}</span>
                     <h3 class="blog-title">${post.title}</h3>
                     <p class="blog-excerpt">${post.excerpt}</p>
+                    ${post.youtube ? `<span class="blog-youtube">▶ Watch on YouTube</span>` : ''}
                 </div>
             </a>
         `).join('');

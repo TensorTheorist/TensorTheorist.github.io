@@ -533,6 +533,14 @@ img {
     margin: 0;
 }
 
+.blog-youtube {
+    display: inline-block;
+    margin-top: 0.75rem;
+    font-size: 0.8rem;
+    color: #ff0033;
+    letter-spacing: 0.02em;
+}
+
 /* ============================================
    About
    ============================================ */
