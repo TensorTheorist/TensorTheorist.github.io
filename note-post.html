@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Study note - Tensor Theorist">
+    <title>Notes | Tensor Theorist</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" id="hljs-dark">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" id="hljs-light" disabled>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="nav" id="nav">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <span class="logo-bracket">&lt;</span>TT<span class="logo-bracket">/&gt;</span>
+            </a>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="blog.html" class="nav-link">Blog</a></li>
+                <li><a href="notes.html" class="nav-link active">Notes</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+            </ul>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <main class="page-content">
+        <section class="section blog-post-page-section">
+            <div class="container">
+                <a href="notes.html" class="back-link" id="notePostBack">← Back to Notes</a>
+                
+                <article class="blog-post-article" id="blogPostArticle">
+                    <div class="blog-post-header">
+                        <span class="blog-post-category" id="blogPostCategory"></span>
+                        <h1 class="blog-post-title" id="blogPostTitle"></h1>
+                        <span class="blog-post-date" id="blogPostDate"></span>
+                    </div>
+                    <div class="blog-post-body" id="blogPostContent"></div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span class="logo-bracket">&lt;</span>TT<span class="logo-bracket">/&gt;</span>
+                </div>
+                <p class="footer-text">Blogs, notes, and slides on the deep beauty of mathematics.</p>
+                <p class="footer-copyright">&copy; Tensor Theorist</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadNotePost();
+        });
+
+        async function loadNotePost() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const cat = urlParams.get('cat');
+            const sub = urlParams.get('sub');
+            const page = urlParams.get('page');
+
+            if (!cat || !sub || !page) {
+                window.location.href = 'notes.html';
+                return;
+            }
+
+            const backLink = document.getElementById('notePostBack');
+            if (backLink) backLink.href = `notes-category.html?cat=${cat}`;
+
+            const basePath = `notes/${cat}/${sub}/`;
+
+            try {
+                const response = await fetch(`${basePath}${page}.md`);
+                if (!response.ok) throw new Error('Note not found');
+
+                const markdown = await response.text();
+                renderBlogPost(basePath, markdown);
+            } catch (error) {
+                document.getElementById('blogPostContent').innerHTML = '<p>Note not found.</p>';
+            }
+        }
+
+        function renderBlogPost(basePathArg, markdown) {
+            const lines = markdown.split('\n');
+            let title = '';
+            let date = '';
+            let category = '';
+            let contentStart = 0;
+            
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                if (line.startsWith('# ')) {
+                    title = line.substring(2);
+                } else if (line.includes('Published:')) {
+                    date = line.replace(/\*|Published:/g, '').trim();
+                } else if (line.includes('Category:')) {
+                    category = line.replace(/\*|Category:/g, '').trim();
+                    contentStart = i + 1;
+                }
+                if (title && date && category) break;
+            }
+            
+            const content = lines.slice(contentStart).join('\n');
+            console.log('Content to parse:', content.substring(0, 500));
+            
+            document.title = `${title} | Tensor Theorist`;
+            document.getElementById('blogPostTitle').textContent = title;
+            document.getElementById('blogPostDate').textContent = date;
+            document.getElementById('blogPostCategory').textContent = category.toUpperCase();
+            
+            const contentEl = document.getElementById('blogPostContent');
+            const basePath = basePathArg;
+            
+            if (typeof marked !== 'undefined') {
+                // Parse markdown
+                contentEl.innerHTML = marked.parse(content);
+                
+                // Fix relative image paths. Paths starting with "assets/" are
+                // treated as site-relative (so blogs can share assets/blogs/<id>/).
+                contentEl.querySelectorAll('img').forEach(img => {
+                    const src = img.getAttribute('src');
+                    if (!src) return;
+                    if (src.startsWith('http') || src.startsWith('/') || src.startsWith('assets/')) return;
+                    img.src = basePath + src;
+                });
+                
+                // Process collapsible sections
+                processCollapsibles(contentEl);
+                
+                // Process PDF/PPT embeds
+                processEmbeds(contentEl, basePath);
+                
+                // Syntax highlighting
+                contentEl.querySelectorAll('pre code').forEach((block) => {
+                    if (typeof hljs !== 'undefined') {
+                        hljs.highlightElement(block);
+                    }
+                });
+                
+                // Math rendering
+                if (typeof renderMathInElement === 'function') {
+                    renderMathInElement(contentEl, {
+                        delimiters: [
+                            { left: '$$', right: '$$', display: true },
+                            { left: '$', right: '$', display: false },
+                            { left: '\\[', right: '\\]', display: true },
+                            { left: '\\(', right: '\\)', display: false }
+                        ]
+                    });
+                }
+            }
+        }
+        
+        function processCollapsibles(container) {
+            const paragraphs = Array.from(container.querySelectorAll('p'));
+            
+            for (let i = 0; i < paragraphs.length; i++) {
+                const p = paragraphs[i];
+                const text = p.textContent.trim();
+                
+                if (text.startsWith('???') && text.length > 3) {
+                    const title = text.substring(3).trim();
+                    
+                    const details = document.createElement('details');
+                    details.className = 'collapsible-section';
+                    
+                    const summary = document.createElement('summary');
+                    summary.textContent = title;
+                    details.appendChild(summary);
+                    
+                    const contentDiv = document.createElement('div');
+                    contentDiv.className = 'collapsible-content';
+                    
+                    // Move siblings into contentDiv until we find closing ???
+                    let next = p.nextElementSibling;
+                    while (next) {
+                        if (next.tagName === 'P' && next.textContent.trim() === '???') {
+                            next.remove();
+                            break;
+                        }
+                        const toMove = next;
+                        next = next.nextElementSibling;
+                        contentDiv.appendChild(toMove);
+                    }
+                    
+                    details.appendChild(contentDiv);
+                    p.replaceWith(details);
+                }
+            }
+        }
+        
+        function processEmbeds(container, basePath) {
+            const paragraphs = Array.from(container.querySelectorAll('p'));
+            
+            paragraphs.forEach(p => {
+                const text = p.textContent.trim();
+                
+                // !pdf[file.pdf] or !pdf-full[file.pdf]
+                let match = text.match(/^!pdf(-full)?\[(.+?)\]$/);
+                if (match) {
+                    const isFull = !!match[1];
+                    const filename = match[2];
+                    const src = basePath + filename;
+                    const div = createEmbedContainer(filename, src, isFull);
+                    p.replaceWith(div);
+                    return;
+                }
+                
+                // !ppt[file.pptx] or !ppt-full[file.pptx]
+                match = text.match(/^!ppt(-full)?\[(.+?)\]$/);
+                if (match) {
+                    const isFull = !!match[1];
+                    const filename = match[2];
+                    const fullUrl = window.location.origin + '/' + basePath + filename;
+                    const src = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(fullUrl)}`;
+                    const div = createEmbedContainer(filename, src, isFull);
+                    p.replaceWith(div);
+                }
+            });
+            
+            // Wrap consecutive embed-containers in embed-row divs
+            const embeds = Array.from(container.querySelectorAll('.embed-container:not(.embed-full)'));
+            let i = 0;
+            while (i < embeds.length) {
+                const current = embeds[i];
+                const next = current.nextElementSibling;
+                
+                if (next && next.classList.contains('embed-container') && !next.classList.contains('embed-full')) {
+                    const row = document.createElement('div');
+                    row.className = 'embed-row';
+                    current.parentNode.insertBefore(row, current);
+                    row.appendChild(current);
+                    row.appendChild(next);
+                    i += 2;
+                } else {
+                    const row = document.createElement('div');
+                    row.className = 'embed-row';
+                    current.parentNode.insertBefore(row, current);
+                    row.appendChild(current);
+                    i++;
+                }
+            }
+        }
+        
+        function createEmbedContainer(filename, src, isFull) {
+            const shortName = filename.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
+            
+            const div = document.createElement('div');
+            div.className = 'embed-container' + (isFull ? ' embed-full' : '');
+            div.innerHTML = `
+                <div class="embed-header">
+                    <span class="embed-title">${shortName}</span>
+                    <button class="embed-fullscreen-btn" onclick="openEmbedFullscreen('${shortName}', '${src}')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+                        </svg>
+                        Fullscreen
+                    </button>
+                </div>
+                <iframe src="${src}"></iframe>
+            `;
+            return div;
+        }
+        
+        function openEmbedFullscreen(title, src) {
+            let modal = document.getElementById('embedModal');
+            if (!modal) {
+                modal = document.createElement('div');
+                modal.id = 'embedModal';
+                modal.className = 'embed-modal';
+                modal.innerHTML = `
+                    <div class="embed-modal-header">
+                        <span class="embed-modal-title"></span>
+                        <button class="embed-modal-close" onclick="closeEmbedFullscreen()">&times;</button>
+                    </div>
+                    <iframe></iframe>
+                `;
+                document.body.appendChild(modal);
+                
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) closeEmbedFullscreen();
+                });
+                
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') closeEmbedFullscreen();
+                });
+            }
+            
+            modal.querySelector('.embed-modal-title').textContent = title;
+            modal.querySelector('iframe').src = src;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeEmbedFullscreen() {
+            const modal = document.getElementById('embedModal');
+            if (modal) {
+                modal.classList.remove('active');
+                modal.querySelector('iframe').src = '';
+                document.body.style.overflow = '';
+            }
+        }
+    </script>
+</body>
+</html>

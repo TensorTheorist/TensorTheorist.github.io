@@ -517,12 +517,15 @@ const notesCategories = [
         title: 'Algebra',
         blurb: 'Structures — groups, rings, fields, modules, and everything built on top of them.',
         subjects: [
-            { id: 'abstract-algebra', title: 'Abstract Algebra', textbook: 'Dummit & Foote — Abstract Algebra', image: 'assets/textbooks/dummit-foote.jpg' },
-            { id: 'module-theory', title: 'Module Theory', textbook: 'Lang — Algebra (Ch. III)', image: 'assets/textbooks/lang-algebra.jpg' },
-            { id: 'galois-theory', title: 'Galois Theory', textbook: 'Milne — Fields and Galois Theory', image: 'assets/textbooks/milne-galois.jpg' },
-            { id: 'commutative-algebra', title: 'Commutative Algebra', textbook: 'Atiyah & Macdonald', image: 'assets/textbooks/atiyah-macdonald.jpg' },
-            { id: 'homological-algebra', title: 'Homological Algebra', textbook: 'Weibel — An Introduction to Homological Algebra', image: 'assets/textbooks/weibel.jpg' },
-            { id: 'algebraic-number-theory', title: 'Algebraic Number Theory', textbook: 'Neukirch — Algebraic Number Theory', image: 'assets/textbooks/neukirch.jpg' }
+            { id: 'abstract-algebra', title: 'Abstract Algebra', textbook: 'Dummit & Foote — Abstract Algebra', image: 'assets/textbooks/dummit-foote.jpeg',
+              pages: [
+                  { id: 'groups-intuition', title: 'Groups: the intuition first' }
+              ] },
+            { id: 'module-theory', title: 'Module Theory', textbook: 'Lang — Algebra (Ch. III)', image: 'assets/textbooks/lang-algebra.jpg', pages: [] },
+            { id: 'galois-theory', title: 'Galois Theory', textbook: 'Milne — Fields and Galois Theory', image: 'assets/textbooks/milne-galois.jpg', pages: [] },
+            { id: 'commutative-algebra', title: 'Commutative Algebra', textbook: 'Atiyah & Macdonald', image: 'assets/textbooks/atiyah-macdonald.jpg', pages: [] },
+            { id: 'homological-algebra', title: 'Homological Algebra', textbook: 'Weibel — An Introduction to Homological Algebra', image: 'assets/textbooks/weibel.jpg', pages: [] },
+            { id: 'algebraic-number-theory', title: 'Algebraic Number Theory', textbook: 'Neukirch — Algebraic Number Theory', image: 'assets/textbooks/neukirch.jpg', pages: [] }
         ]
     },
     {
@@ -530,11 +533,11 @@ const notesCategories = [
         title: 'Analysis',
         blurb: 'Limits, measure, and the geometry of function spaces.',
         subjects: [
-            { id: 'real-analysis', title: 'Real Analysis', textbook: 'Rudin — Principles of Mathematical Analysis', image: 'assets/textbooks/baby-rudin.jpg' },
-            { id: 'complex-analysis', title: 'Complex Analysis', textbook: 'Ahlfors — Complex Analysis', image: 'assets/textbooks/ahlfors.jpg' },
-            { id: 'measure-theory', title: 'Measure Theory', textbook: 'Folland — Real Analysis', image: 'assets/textbooks/folland.jpg' },
-            { id: 'functional-analysis', title: 'Functional Analysis', textbook: 'Rudin — Functional Analysis', image: 'assets/textbooks/rudin-fa.jpg' },
-            { id: 'harmonic-analysis', title: 'Harmonic Analysis', textbook: 'Stein & Shakarchi — Fourier Analysis', image: 'assets/textbooks/stein-fourier.jpg' }
+            { id: 'real-analysis', title: 'Real Analysis', textbook: 'Rudin — Principles of Mathematical Analysis', image: 'assets/textbooks/baby-rudin.jpg', pages: [] },
+            { id: 'complex-analysis', title: 'Complex Analysis', textbook: 'Ahlfors — Complex Analysis', image: 'assets/textbooks/ahlfors.jpg', pages: [] },
+            { id: 'measure-theory', title: 'Measure Theory', textbook: 'Folland — Real Analysis', image: 'assets/textbooks/folland.jpg', pages: [] },
+            { id: 'functional-analysis', title: 'Functional Analysis', textbook: 'Rudin — Functional Analysis', image: 'assets/textbooks/rudin-fa.jpg', pages: [] },
+            { id: 'harmonic-analysis', title: 'Harmonic Analysis', textbook: 'Stein & Shakarchi — Fourier Analysis', image: 'assets/textbooks/stein-fourier.jpg', pages: [] }
         ]
     },
     {
@@ -542,10 +545,10 @@ const notesCategories = [
         title: 'Topology',
         blurb: 'Shape without distance — open sets, continuity, and invariants.',
         subjects: [
-            { id: 'point-set-topology', title: 'Point-Set Topology', textbook: 'Munkres — Topology', image: 'assets/textbooks/munkres.jpg' },
-            { id: 'algebraic-topology', title: 'Algebraic Topology', textbook: 'Hatcher — Algebraic Topology', image: 'assets/textbooks/hatcher.jpg' },
-            { id: 'differential-topology', title: 'Differential Topology', textbook: 'Guillemin & Pollack', image: 'assets/textbooks/guillemin-pollack.jpg' },
-            { id: 'geometric-topology', title: 'Geometric Topology', textbook: 'Thurston — Three-Dimensional Geometry and Topology', image: 'assets/textbooks/thurston.jpg' }
+            { id: 'point-set-topology', title: 'Point-Set Topology', textbook: 'Munkres — Topology', image: 'assets/textbooks/munkres.jpg', pages: [] },
+            { id: 'algebraic-topology', title: 'Algebraic Topology', textbook: 'Hatcher — Algebraic Topology', image: 'assets/textbooks/hatcher.jpg', pages: [] },
+            { id: 'differential-topology', title: 'Differential Topology', textbook: 'Guillemin & Pollack', image: 'assets/textbooks/guillemin-pollack.jpg', pages: [] },
+            { id: 'geometric-topology', title: 'Geometric Topology', textbook: 'Thurston — Three-Dimensional Geometry and Topology', image: 'assets/textbooks/thurston.jpg', pages: [] }
         ]
     },
     {
@@ -553,10 +556,10 @@ const notesCategories = [
         title: 'Number Theory',
         blurb: 'Integers and the deep structure hiding inside them.',
         subjects: [
-            { id: 'elementary-number-theory', title: 'Elementary Number Theory', textbook: 'Hardy & Wright — An Introduction to the Theory of Numbers', image: 'assets/textbooks/hardy-wright.jpg' },
-            { id: 'analytic-number-theory', title: 'Analytic Number Theory', textbook: 'Apostol — Introduction to Analytic Number Theory', image: 'assets/textbooks/apostol.jpg' },
-            { id: 'algebraic-number-theory-nt', title: 'Algebraic Number Theory', textbook: 'Marcus — Number Fields', image: 'assets/textbooks/marcus.jpg' },
-            { id: 'transcendence-theory', title: 'Transcendence Theory', textbook: 'Baker — Transcendental Number Theory', image: 'assets/textbooks/baker.jpg' }
+            { id: 'elementary-number-theory', title: 'Elementary Number Theory', textbook: 'Hardy & Wright — An Introduction to the Theory of Numbers', image: 'assets/textbooks/hardy-wright.jpg', pages: [] },
+            { id: 'analytic-number-theory', title: 'Analytic Number Theory', textbook: 'Apostol — Introduction to Analytic Number Theory', image: 'assets/textbooks/apostol.jpg', pages: [] },
+            { id: 'algebraic-number-theory-nt', title: 'Algebraic Number Theory', textbook: 'Marcus — Number Fields', image: 'assets/textbooks/marcus.jpg', pages: [] },
+            { id: 'transcendence-theory', title: 'Transcendence Theory', textbook: 'Baker — Transcendental Number Theory', image: 'assets/textbooks/baker.jpg', pages: [] }
         ]
     },
     {
@@ -564,11 +567,11 @@ const notesCategories = [
         title: 'Competition Math',
         blurb: 'Problem-solving from JEE up through the IMO and Putnam.',
         subjects: [
-            { id: 'jee', title: 'JEE', textbook: 'Cengage / Arihant / TMH', image: 'assets/textbooks/jee.jpg' },
-            { id: 'aime', title: 'AIME', textbook: 'Art of Problem Solving — AIME Volumes', image: 'assets/textbooks/aime.jpg' },
-            { id: 'imo', title: 'IMO', textbook: 'Engel — Problem-Solving Strategies', image: 'assets/textbooks/engel.jpg' },
-            { id: 'inmo', title: 'INMO', textbook: 'Mathematical Olympiad Challenges (Andreescu & Enescu)', image: 'assets/textbooks/inmo.jpg' },
-            { id: 'putnam', title: 'Putnam', textbook: 'Putnam and Beyond (Andreescu & Gelca)', image: 'assets/textbooks/putnam.jpg' }
+            { id: 'jee', title: 'JEE', textbook: 'Cengage / Arihant / TMH', image: 'assets/textbooks/jee.jpg', pages: [] },
+            { id: 'aime', title: 'AIME', textbook: 'Art of Problem Solving — AIME Volumes', image: 'assets/textbooks/aime.jpg', pages: [] },
+            { id: 'imo', title: 'IMO', textbook: 'Engel — Problem-Solving Strategies', image: 'assets/textbooks/engel.jpg', pages: [] },
+            { id: 'inmo', title: 'INMO', textbook: 'Mathematical Olympiad Challenges (Andreescu & Enescu)', image: 'assets/textbooks/inmo.jpg', pages: [] },
+            { id: 'putnam', title: 'Putnam', textbook: 'Putnam and Beyond (Andreescu & Gelca)', image: 'assets/textbooks/putnam.jpg', pages: [] }
         ]
     }
 ];
@@ -592,8 +595,8 @@ function initNotesCategoryGrid() {
 }
 
 function initNotesSubjectGrid() {
-    const grid = document.getElementById('notesSubjectGrid');
-    if (!grid) return;
+    const host = document.getElementById('notesSubjectGrid');
+    if (!host) return;
     const params = new URLSearchParams(window.location.search);
     const catId = params.get('cat');
     const cat = notesCategories.find(c => c.id === catId);
@@ -605,7 +608,7 @@ function initNotesSubjectGrid() {
     if (!cat) {
         if (title) title.textContent = 'Category not found';
         if (subtitle) subtitle.textContent = 'Go back to all notes.';
-        grid.innerHTML = '';
+        host.innerHTML = '';
         return;
     }
 
@@ -614,17 +617,39 @@ function initNotesSubjectGrid() {
     if (subtitle) subtitle.textContent = cat.blurb;
     document.title = `${cat.title} Notes | Tensor Theorist`;
 
-    grid.innerHTML = cat.subjects.map(sub => `
-        <div class="note-card note-card-subject">
-            <div class="note-textbook">
-                <img src="${sub.image}" alt="${sub.textbook}" onerror="this.style.display='none'; this.parentElement.classList.add('no-image');">
-                <div class="note-textbook-fallback">${sub.textbook.split(' — ')[0] || sub.textbook}</div>
-            </div>
-            <div class="note-card-body">
-                <h3 class="note-card-title">${sub.title}</h3>
-                <p class="note-card-blurb">${sub.textbook}</p>
-                <span class="note-card-meta">Notes coming soon</span>
-            </div>
+    // Rotating book rack — duplicate the covers so the CSS marquee wraps seamlessly.
+    const coverHtml = sub => `
+        <div class="book-cover" title="${sub.textbook}">
+            <img src="${sub.image}" alt="${sub.textbook}" onerror="this.style.display='none'; this.parentElement.classList.add('no-image');">
+            <span class="book-cover-fallback">${sub.title}</span>
         </div>
-    `).join('');
+    `;
+    const covers = cat.subjects.map(coverHtml).join('');
+
+    // Collapsible subject list.
+    const subjectHtml = cat.subjects.map(sub => {
+        const pages = (sub.pages || []);
+        const pagesInner = pages.length
+            ? `<ul class="note-page-list">${pages.map(p => `
+                <li><a href="note-post.html?cat=${cat.id}&sub=${sub.id}&page=${p.id}">${p.title}</a></li>
+              `).join('')}</ul>`
+            : `<p class="note-empty">No notes yet — coming soon.</p>`;
+        return `
+            <details class="subject-folder">
+                <summary>
+                    <span class="subject-name">${sub.title}</span>
+                    <span class="subject-book">${sub.textbook}</span>
+                    <span class="subject-count">${pages.length} ${pages.length === 1 ? 'note' : 'notes'}</span>
+                </summary>
+                ${pagesInner}
+            </details>
+        `;
+    }).join('');
+
+    host.innerHTML = `
+        <div class="book-rack" aria-label="Textbook covers">
+            <div class="book-rack-track">${covers}${covers}</div>
+        </div>
+        <div class="subject-folders">${subjectHtml}</div>
+    `;
 }

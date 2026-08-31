@@ -651,6 +651,181 @@ a.note-card:hover {
 }
 
 /* ============================================
+   Book Rack (rotating textbook covers)
+   ============================================ */
+.book-rack {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    padding: 1.5rem 0;
+    margin: 2rem 0 2.5rem;
+    mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+}
+
+.book-rack-track {
+    display: flex;
+    gap: 1.75rem;
+    width: max-content;
+    animation: bookRackScroll 45s linear infinite;
+}
+
+.book-rack:hover .book-rack-track {
+    animation-play-state: paused;
+}
+
+@keyframes bookRackScroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+}
+
+.book-cover {
+    position: relative;
+    flex: 0 0 auto;
+    width: 110px;
+    aspect-ratio: 3 / 4;
+    border-radius: 6px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1a1f3a 0%, #2c1f4a 100%);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.book-cover:hover {
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 10px 26px rgba(0,0,0,0.5);
+}
+
+.book-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.book-cover-fallback {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    text-align: center;
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.85);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.book-cover.no-image .book-cover-fallback {
+    opacity: 1;
+}
+
+/* ============================================
+   Subject folders (collapsible)
+   ============================================ */
+.subject-folders {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.subject-folder {
+    background: var(--bg-secondary, rgba(255,255,255,0.03));
+    border: 1px solid var(--border-color, rgba(255,255,255,0.1));
+    border-radius: 10px;
+    overflow: hidden;
+    transition: border-color 0.2s ease;
+}
+
+.subject-folder[open] {
+    border-color: var(--accent-color, #7c9cff);
+}
+
+.subject-folder summary {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+}
+
+.subject-folder summary::-webkit-details-marker { display: none; }
+
+.subject-folder summary::before {
+    content: '▸';
+    display: inline-block;
+    color: var(--text-secondary);
+    transition: transform 0.2s ease;
+    font-size: 0.85rem;
+    width: 0.8rem;
+}
+
+.subject-folder[open] summary::before {
+    transform: rotate(90deg);
+}
+
+.subject-name {
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.subject-book {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    flex: 1;
+}
+
+.subject-count {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    opacity: 0.75;
+    white-space: nowrap;
+}
+
+.note-page-list {
+    list-style: none;
+    margin: 0;
+    padding: 0 1.25rem 1rem 2.6rem;
+}
+
+.note-page-list li {
+    padding: 0.35rem 0;
+    border-top: 1px dashed var(--border-color, rgba(255,255,255,0.08));
+}
+
+.note-page-list li:first-child {
+    border-top: none;
+}
+
+.note-page-list a {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 0.92rem;
+}
+
+.note-page-list a:hover {
+    color: var(--accent-color, #7c9cff);
+}
+
+.note-empty {
+    padding: 0 1.25rem 1rem 2.6rem;
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-style: italic;
+}
+
+@media (max-width: 640px) {
+    .subject-folder summary { flex-wrap: wrap; }
+    .subject-book { width: 100%; flex: 0 0 100%; padding-left: 1.5rem; font-size: 0.8rem; }
+    .book-cover { width: 90px; }
+}
+
+/* ============================================
    About
    ============================================ */
 .about-content {
