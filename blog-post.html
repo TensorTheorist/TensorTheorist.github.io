@@ -148,14 +148,13 @@
                 // Parse markdown
                 contentEl.innerHTML = marked.parse(content);
                 
-                // Fix relative image paths
+                // Fix relative image paths. Paths starting with "assets/" are
+                // treated as site-relative (so blogs can share assets/blogs/<id>/).
                 contentEl.querySelectorAll('img').forEach(img => {
                     const src = img.getAttribute('src');
-                    console.log('Image found:', src, '-> basePath:', basePath);
-                    if (src && !src.startsWith('http') && !src.startsWith('/')) {
-                        img.src = basePath + src;
-                        console.log('Updated to:', img.src);
-                    }
+                    if (!src) return;
+                    if (src.startsWith('http') || src.startsWith('/') || src.startsWith('assets/')) return;
+                    img.src = basePath + src;
                 });
                 
                 // Process collapsible sections
