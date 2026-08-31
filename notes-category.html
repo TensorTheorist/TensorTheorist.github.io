@@ -3,22 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Math blog - Tensor Theorist. Essays on the Riemann Hypothesis, the Collatz Conjecture, number theory, famous problems, and popular math.">
-    <title>Blog | Tensor Theorist</title>
-    
+    <meta name="description" content="Math study notes category — subjects and textbooks.">
+    <title>Notes | Tensor Theorist</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" id="hljs-dark">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" id="hljs-light" disabled>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    
+
     <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -35,8 +26,8 @@
             </button>
             <ul class="nav-menu" id="navMenu">
                 <li><a href="index.html" class="nav-link">Home</a></li>
-                <li><a href="blog.html" class="nav-link active">Blog</a></li>
-                <li><a href="notes.html" class="nav-link">Notes</a></li>
+                <li><a href="blog.html" class="nav-link">Blog</a></li>
+                <li><a href="notes.html" class="nav-link active">Notes</a></li>
                 <li><a href="about.html" class="nav-link">About</a></li>
             </ul>
             <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
@@ -47,7 +38,7 @@
                     <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
                     <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
                     <line x1="1" y1="12" x2="3" y2="12"></line>
-                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="19" y1="12" x2="23" y2="12"></line>
                     <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
                     <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
                 </svg>
@@ -58,23 +49,16 @@
         </div>
     </nav>
 
-    <main class="page-content" id="blogMain">
-        <section class="section blog-section" id="blogListSection">
+    <main class="page-content">
+        <section class="section">
             <div class="container">
                 <div class="section-header">
-                    <span class="section-tag">Essays</span>
-                    <h2 class="section-title">Math Blog</h2>
-                    <p class="section-subtitle">Expository writing on the Riemann Hypothesis, Collatz, number theory, and popular mathematics — with matching PDFs, slides, and YouTube videos.</p>
+                    <a href="notes.html" class="notes-back">&larr; All notes</a>
+                    <span class="section-tag" id="notesCatTag">Category</span>
+                    <h2 class="section-title" id="notesCatTitle">Notes</h2>
+                    <p class="section-subtitle" id="notesCatSubtitle"></p>
                 </div>
-                <div class="blog-categories">
-                    <button class="category-btn active" data-category="all">All</button>
-                    <button class="category-btn" data-category="famous-problems">Famous Problems</button>
-                    <button class="category-btn" data-category="riemann">Riemann</button>
-                    <button class="category-btn" data-category="collatz">Collatz</button>
-                    <button class="category-btn" data-category="number-theory">Number Theory</button>
-                    <button class="category-btn" data-category="popular">Popular Math</button>
-                </div>
-                <div class="blog-grid" id="blogGrid"></div>
+                <div class="notes-grid" id="notesSubjectGrid"></div>
             </div>
         </section>
     </main>
@@ -85,7 +69,7 @@
                 <div class="footer-logo">
                     <span class="logo-bracket">&lt;</span>TT<span class="logo-bracket">/&gt;</span>
                 </div>
-                <p class="footer-text">Blogs, videos, and slides on the deep beauty of mathematics.</p>
+                <p class="footer-text">Blogs, notes, and slides on the deep beauty of mathematics.</p>
                 <p class="footer-copyright">&copy; Tensor Theorist</p>
             </div>
         </div>
