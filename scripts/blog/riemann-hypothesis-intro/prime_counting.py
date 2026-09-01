@@ -13,7 +13,7 @@ The mirrored JS implementation lives at
 and matches this file exactly.
 
 Usage:
-    python3 scripts/riemann/prime_counting.py --n 10000 --step 50 --out data.json
+    python3 scripts/blog/riemann-hypothesis-intro/prime_counting.py --n 10000 --step 50 --out data.json
 """
 
 import argparse

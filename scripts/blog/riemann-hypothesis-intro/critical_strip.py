@@ -12,7 +12,7 @@ with:
 Zero heights are taken from Odlyzko's published tables.
 
 Usage:
-    python3 scripts/riemann/critical_strip.py \\
+    python3 scripts/blog/riemann-hypothesis-intro/critical_strip.py \\
         --out assets/blogs/riemann-hypothesis-intro/critical-strip.svg
 """
 
