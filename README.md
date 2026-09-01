@@ -1,121 +1,52 @@
-# Ayan Chattopadhyay - AI/ML Portfolio
+# Tensor Theorist
 
-A cutting-edge interactive portfolio website for an AI/ML engineer and researcher.
+A math blog and public study notebook.
 
-## Features
+- **Blog** — long-form essays on classical problems (Riemann Hypothesis, Collatz, famous problems, popular math). Markdown source under `blog/<slug>/index.md`. Static images and interactive assets under `assets/blogs/<slug>/`.
+- **Notes** — short study notes organised by field: algebra, analysis, topology, number theory, specialized. Sources under `notes/<category>/<subject>/<page>.md`.
+- **Competitive** — problem-solving notes for JEE, AIME, IMO, INMO, Putnam.
 
-- **Interactive 3D Particle System** - Three.js powered hero section with mouse-reactive particles
-- **Knowledge Graph Visualization** - D3.js force-directed graph showing expertise areas
-- **Visualization Lab** - Interactive ML/AI concept demonstrations:
-  - Gradient Descent visualization
-  - Neural Network decision boundaries
-  - Embedding space t-SNE
-  - Optimization algorithm comparisons
-- **Blog System** - Markdown-based blog with syntax highlighting and LaTeX math
-- **Math Notes** - KaTeX-rendered mathematical foundations
-- **GitHub Integration** - Live stats and contribution graph
-- **Responsive Design** - Works on all devices
-
-## Tech Stack
-
-- HTML5, CSS3, JavaScript (ES6)
-- Three.js - 3D graphics
-- D3.js - Data visualization
-- GSAP - Animations
-- KaTeX - Math rendering
-- Marked.js - Markdown parsing
-
-## Project Structure
+## Structure
 
 ```
 /
-├── index.html          # Main page
-├── style.css           # Styles
-├── script.js           # Main interactions
-├── js/
-│   ├── threeScene.js   # Three.js particle system
-│   ├── graph.js        # D3 knowledge graph
-│   └── visualizations.js # ML visualizations
-├── blog/               # Blog posts (markdown)
-├── math/               # Math notes (markdown)
-└── assets/
-    ├── images/
-    └── icons/
+├── index.html                     # Home
+├── blog.html / blog-post.html     # Blog listing + article reader
+├── notes.html / notes-category.html / note-post.html
+├── about.html
+├── style.css / script.js
+├── deploy.sh                      # ./deploy.sh "<msg>" — commit + push
+├── blog/<slug>/index.md           # Blog markdown
+├── notes/<cat>/<sub>/<page>.md    # Notes markdown
+├── assets/
+│   ├── blogs/<slug>/              # Images, interactive JS per post
+│   └── textbooks/                 # Textbook covers for the notes book rack
+└── scripts/
+    └── blog/<slug>/*.py           # Reference implementations
+    └── notes/<cat>/<sub>/*.py     # (mirror of the site tab tree)
 ```
 
-## Deployment to GitHub Pages
+## Rendering features
 
-### Method 1: Direct Push (Recommended)
+- KaTeX inline (`$...$`) and display (`$$...$$`) math.
+- Syntax highlighting via highlight.js.
+- Markdown embed markers:
+  - `!pdf[file.pdf]` / `!pdf-full[file.pdf]` — inline PDF viewer.
+  - `!ppt[file.pptx]` — inline PowerPoint viewer.
+  - `!interactive[<slug>]` — hydrates a component from `assets/blogs/<post-id>/<slug>.js`.
 
-1. Commit all changes:
-```bash
-git add .
-git commit -m "Rebuild portfolio with interactive visualizations"
-```
-
-2. Push to main branch:
-```bash
-git push origin main
-```
-
-3. GitHub Pages will automatically deploy from the main branch.
-
-4. Visit: https://tensortheorist.github.io
-
-### Method 2: Manual Deployment
-
-1. Go to repository Settings > Pages
-2. Under "Source", select "Deploy from a branch"
-3. Select "main" branch and "/" (root) folder
-4. Click Save
-
-The site will be live at `https://tensortheorist.github.io` within a few minutes.
-
-## Local Development
-
-Simply open `index.html` in a browser, or use a local server:
+## Deploy
 
 ```bash
-# Python 3
-python -m http.server 8000
-
-# Node.js
-npx serve
+./deploy.sh "Your commit message"
 ```
 
-Then visit `http://localhost:8000`
+Commits every staged change and pushes to `main`. GitHub Pages rebuilds on push; live at https://tensortheorist.github.io.
 
-## Customization
+## Local preview
 
-### Update Personal Info
-- Edit name, title, and links in `index.html`
-- Update social links in the Contact section
-
-### Add Blog Posts
-- Add markdown files to `/blog` folder
-- Add entry to `blogPosts` array in `script.js`
-
-### Add Math Notes
-- Add markdown files to `/math` folder
-- Add entry to `mathNotes` object in `script.js`
-
-### Modify Colors
-Edit CSS variables in `style.css`:
-```css
-:root {
-    --bg-primary: #0f1117;
-    --accent-primary: #58a6ff;
-    --accent-secondary: #7ee787;
-}
+```bash
+python3 -m http.server 8000
 ```
 
-## Performance
-
-- Lazy loading for heavy components
-- Optimized Three.js particle count
-- CSS animations hardware-accelerated
-- Mobile-responsive with reduced particle effects
-
-## License
-
-MIT License
+then open http://localhost:8000.
