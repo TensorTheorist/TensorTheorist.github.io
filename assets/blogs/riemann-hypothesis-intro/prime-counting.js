@@ -11,7 +11,7 @@
         <div class="interactive-embed">
             <div class="interactive-header">
                 <span class="interactive-title">π(x) vs x⁄log x and Li(x)</span>
-                <a class="interactive-source" href="scripts/blog/riemann-hypothesis-intro/prime_counting.py" target="_blank" rel="noopener">View Python source →</a>
+                <a class="interactive-source" href="https://github.com/TensorTheorist/TensorTheorist.github.io/blob/main/scripts/blog/riemann-hypothesis-intro/prime_counting.py" target="_blank" rel="noopener">View Python source →</a>
             </div>
             <div class="interactive-controls">
                 <label>Upper bound: <strong data-role="value">1000</strong></label>

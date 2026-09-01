@@ -391,14 +391,16 @@ function setupBookRack(rack) {
     if (!rack) return;
     const track = rack.querySelector('.book-rack-track');
     if (!track) return;
-    const originalHtml = track.dataset.original || track.innerHTML;
-    track.dataset.original = originalHtml;
-
+    // Drop any prior duplicates so we always measure the real content.
+    track.querySelectorAll('[data-dup="1"]').forEach(el => el.remove());
+    track.classList.remove('scrolling');
     requestAnimationFrame(() => {
-        track.innerHTML = originalHtml;
-        track.classList.remove('scrolling');
-        if (track.scrollWidth > rack.clientWidth + 4) {
-            track.innerHTML = originalHtml + originalHtml;
+        if (track.scrollWidth > rack.clientWidth + 4 && track.children.length > 0) {
+            Array.from(track.children).forEach(el => {
+                const clone = el.cloneNode(true);
+                clone.setAttribute('data-dup', '1');
+                track.appendChild(clone);
+            });
             track.classList.add('scrolling');
         }
     });
@@ -477,8 +479,7 @@ function initNotesSubjectGrid() {
 
     const coverHtml = sub => `
         <div class="book-cover" title="${sub.textbook}">
-            <img src="${sub.image}" alt="${sub.textbook}" onerror="this.style.display='none'; this.parentElement.classList.add('no-image');">
-            <span class="book-cover-fallback">${sub.title}</span>
+            <img src="${sub.image}" alt="${sub.textbook}" onerror="const rack=this.closest('.book-rack'); this.closest('.book-cover').remove(); if(rack) setupBookRack(rack);">
         </div>
     `;
     const covers = cat.subjects.map(coverHtml).join('');

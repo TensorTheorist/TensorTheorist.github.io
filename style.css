@@ -681,12 +681,12 @@ a.note-card:hover {
 .book-cover {
     position: relative;
     flex: 0 0 auto;
-    width: 110px;
+    width: 220px;
     aspect-ratio: 3 / 4;
-    border-radius: 6px;
+    border-radius: 8px;
     overflow: hidden;
     background: linear-gradient(135deg, #1a1f3a 0%, #2c1f4a 100%);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.4);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -819,7 +819,7 @@ a.note-card:hover {
 @media (max-width: 640px) {
     .subject-folder summary { flex-wrap: wrap; }
     .subject-book { width: 100%; flex: 0 0 100%; padding-left: 1.5rem; font-size: 0.8rem; }
-    .book-cover { width: 90px; }
+    .book-cover { width: 170px; }
 }
 
 /* ============================================
