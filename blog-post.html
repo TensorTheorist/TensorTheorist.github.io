@@ -267,8 +267,25 @@
             paragraphs.forEach(p => {
                 const text = p.textContent.trim();
                 
+                // !interactive[slug]  →  hydrated component from
+                // assets/blogs/<postId>/<slug>.js
+                let match = text.match(/^!interactive\[(.+?)\]$/);
+                if (match) {
+                    const slug = match[1];
+                    const postIdParam = new URLSearchParams(window.location.search).get('post');
+                    const wrap = document.createElement('div');
+                    wrap.className = 'interactive-slot';
+                    wrap.setAttribute('data-interactive', slug);
+                    p.replaceWith(wrap);
+                    const script = document.createElement('script');
+                    script.src = `assets/blogs/${postIdParam}/${slug}.js`;
+                    script.async = false;
+                    wrap.after(script);
+                    return;
+                }
+
                 // !pdf[file.pdf] or !pdf-full[file.pdf]
-                let match = text.match(/^!pdf(-full)?\[(.+?)\]$/);
+                match = text.match(/^!pdf(-full)?\[(.+?)\]$/);
                 if (match) {
                     const isFull = !!match[1];
                     const filename = match[2];

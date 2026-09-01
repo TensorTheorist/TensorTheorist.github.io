@@ -1725,3 +1725,80 @@ a.note-card:hover {
     justify-content: center;
     padding: 1rem 0 3rem;
 }
+
+/* ============================================
+   Interactive blog embeds
+   ============================================ */
+.interactive-slot { margin: 2rem 0; }
+
+.interactive-embed {
+    background: var(--bg-card, #1c2128);
+    border: 1px solid var(--border-color, rgba(255,255,255,0.1));
+    border-radius: 10px;
+    padding: 1rem 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.interactive-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.interactive-title {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    letter-spacing: 0.03em;
+}
+
+.interactive-source {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.75rem;
+    color: var(--accent, #58a6ff);
+}
+
+.interactive-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    font-family: var(--font-mono, monospace);
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.interactive-controls input[type="range"] {
+    flex: 1;
+    accent-color: #ffd166;
+}
+
+.interactive-embed canvas {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    border-radius: 6px;
+    background: #0e1220;
+    display: block;
+}
+
+.interactive-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    font-family: var(--font-mono, monospace);
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+}
+
+.interactive-legend i {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin-right: 0.35rem;
+    vertical-align: middle;
+    border-radius: 2px;
+}
