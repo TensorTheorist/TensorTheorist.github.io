@@ -367,47 +367,11 @@ function initProjectsSection() {
 
 const blogPosts = [
     {
-        id: 'millennium-problems-overview',
-        title: 'The Seven Millennium Problems: A Tour',
-        excerpt: 'A short guide to the seven problems the Clay Institute put a million dollars behind — and why they matter.',
-        date: '2026-08-31',
-        category: 'famous-problems',
-        image: 'math',
-        youtube: ''
-    },
-    {
         id: 'riemann-hypothesis-intro',
         title: 'The Riemann Hypothesis: A Gentle Introduction',
         excerpt: 'Why the zeros of a single complex function encode the deepest secrets of the prime numbers.',
         date: '2026-08-31',
-        category: 'riemann',
-        image: 'math',
-        youtube: ''
-    },
-    {
-        id: 'collatz-conjecture',
-        title: 'The Collatz Conjecture: 3n + 1 and the Simplest Unsolved Problem',
-        excerpt: 'Pick any number. Halve it if even, triple-plus-one if odd. Do we always reach 1?',
-        date: '2026-08-24',
-        category: 'collatz',
-        image: 'math',
-        youtube: ''
-    },
-    {
-        id: 'primes-and-zeta',
-        title: 'Primes, the Zeta Function, and Euler’s Product Formula',
-        excerpt: 'How Euler tied prime numbers to an infinite series, and why it changed number theory forever.',
-        date: '2026-08-17',
-        category: 'number-theory',
-        image: 'math',
-        youtube: ''
-    },
-    {
-        id: 'why-math-is-beautiful',
-        title: 'Why Math Is Beautiful (And Why Nobody Told You)',
-        excerpt: 'A popular-math essay on the aesthetics of proof, symmetry, and unexpected connections.',
-        date: '2026-08-10',
-        category: 'popular',
+        tags: ['riemann', 'famous-problems', 'number-theory', 'zeta-function'],
         image: 'math',
         youtube: ''
     }
@@ -433,43 +397,85 @@ const blogIcons = {
     </svg>`
 };
 
+function formatBlogDate(dateStr) {
+    const date = new Date(dateStr);
+    return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+
+function tagLabel(tag) {
+    return tag.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+}
+
+function collectBlogTags() {
+    const set = new Set();
+    blogPosts.forEach(p => (p.tags || []).forEach(t => set.add(t)));
+    return Array.from(set).sort();
+}
+
 function initBlogSection() {
     const blogGrid = document.getElementById('blogGrid');
-    const categoryBtns = document.querySelectorAll('.blog-categories .category-btn');
-    
     if (!blogGrid) return;
-    
-    function renderBlogPosts(filter = 'all') {
-        const filteredPosts = filter === 'all' 
-            ? blogPosts 
-            : blogPosts.filter(p => p.category === filter);
-        
-        blogGrid.innerHTML = filteredPosts.map(post => `
+    const tagRack = document.getElementById('blogTagRack');
+    let activeTag = 'all';
+
+    function renderBlogPosts() {
+        const filtered = activeTag === 'all'
+            ? blogPosts
+            : blogPosts.filter(p => (p.tags || []).includes(activeTag));
+
+        if (!filtered.length) {
+            blogGrid.innerHTML = '<p class="blog-empty">No posts under this tag yet.</p>';
+            return;
+        }
+
+        blogGrid.innerHTML = filtered.map(post => `
             <a href="blog-post.html?post=${post.id}" class="blog-card" data-post-id="${post.id}">
                 <div class="blog-content">
-                    <span class="blog-date">${formatDate(post.date)}</span>
+                    <span class="blog-date">${formatBlogDate(post.date)}</span>
                     <h3 class="blog-title">${post.title}</h3>
                     <p class="blog-excerpt">${post.excerpt}</p>
+                    <div class="blog-tag-row">
+                        ${(post.tags || []).map(t => `<span class="blog-tag-pill">${tagLabel(t)}</span>`).join('')}
+                    </div>
                     ${post.youtube ? `<span class="blog-youtube">▶ Watch on YouTube</span>` : ''}
                 </div>
             </a>
         `).join('');
     }
-    
-    function formatDate(dateStr) {
-        const date = new Date(dateStr);
-        return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-    }
-    
-    renderBlogPosts();
-    
-    categoryBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            categoryBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            renderBlogPosts(btn.dataset.category);
+
+    function renderTagRack() {
+        if (!tagRack) return;
+        const tags = ['all', ...collectBlogTags()];
+        const pill = t => `
+            <button class="tag-pill${t === activeTag ? ' active' : ''}" data-tag="${t}">
+                ${t === 'all' ? 'All' : tagLabel(t)}
+            </button>
+        `;
+        const pills = tags.map(pill).join('');
+        tagRack.innerHTML = `<div class="tag-rack-track">${pills}${pills}</div>`;
+
+        const rackEl = tagRack;
+        const track = tagRack.querySelector('.tag-rack-track');
+        requestAnimationFrame(() => {
+            const half = track.scrollWidth / 2;
+            if (half > rackEl.clientWidth + 4) {
+                track.classList.add('scrolling');
+            } else {
+                track.innerHTML = pills;
+            }
         });
-    });
+
+        tagRack.addEventListener('click', (e) => {
+            const btn = e.target.closest('.tag-pill');
+            if (!btn) return;
+            activeTag = btn.dataset.tag;
+            renderTagRack();
+            renderBlogPosts();
+        });
+    }
+
+    renderTagRack();
+    renderBlogPosts();
 }
 
 function initImageZoom() {
@@ -563,9 +569,18 @@ const notesCategories = [
         ]
     },
     {
+        id: 'specialized',
+        title: 'Specialized',
+        blurb: 'Focused areas outside the standard undergraduate/graduate track.',
+        subjects: [
+            { id: 'category-theory', title: 'Category Theory', textbook: 'Fong & Spivak — Seven Sketches in Compositionality', image: 'assets/textbooks/spivak-fong.png', pages: [] }
+        ]
+    },
+    {
         id: 'competition-math',
-        title: 'Competition Math',
+        title: 'Competitive',
         blurb: 'Problem-solving from JEE up through the IMO and Putnam.',
+        hiddenFromNotesLanding: true,
         subjects: [
             { id: 'jee', title: 'JEE', textbook: 'Cengage / Arihant / TMH', image: 'assets/textbooks/jee.jpg', pages: [] },
             { id: 'aime', title: 'AIME', textbook: 'Art of Problem Solving — AIME Volumes', image: 'assets/textbooks/aime.jpg', pages: [] },
@@ -576,22 +591,68 @@ const notesCategories = [
     }
 ];
 
-function renderNoteCard(inner, href) {
-    return `<a href="${href}" class="note-card">${inner}</a>`;
-}
-
 function initNotesCategoryGrid() {
     const grid = document.getElementById('notesCategoryGrid');
     if (!grid) return;
-    grid.innerHTML = notesCategories.map(cat => `
+    const visible = notesCategories.filter(c => !c.hiddenFromNotesLanding);
+    grid.innerHTML = visible.map(cat => `
         <a href="notes-category.html?cat=${cat.id}" class="note-card note-card-cat">
             <div class="note-card-body">
                 <h3 class="note-card-title">${cat.title}</h3>
                 <p class="note-card-blurb">${cat.blurb}</p>
-                <span class="note-card-meta">${cat.subjects.length} subjects &rarr;</span>
+                <span class="note-card-meta">${cat.subjects.length} subject${cat.subjects.length === 1 ? '' : 's'} &rarr;</span>
             </div>
         </a>
     `).join('');
+}
+
+function setupBookRack(rack) {
+    if (!rack) return;
+    const track = rack.querySelector('.book-rack-track');
+    if (!track) return;
+    const originalHtml = track.dataset.original || track.innerHTML;
+    track.dataset.original = originalHtml;
+
+    requestAnimationFrame(() => {
+        track.innerHTML = originalHtml;
+        track.classList.remove('scrolling');
+        if (track.scrollWidth > rack.clientWidth + 4) {
+            track.innerHTML = originalHtml + originalHtml;
+            track.classList.add('scrolling');
+        }
+    });
+}
+
+async function loadPageTitle(mdPath, fallback) {
+    try {
+        const res = await fetch(mdPath);
+        if (!res.ok) return fallback;
+        const text = await res.text();
+        const line = text.split('\n').find(l => l.startsWith('# '));
+        return line ? line.substring(2).trim() : fallback;
+    } catch (_) {
+        return fallback;
+    }
+}
+
+async function populateFolderTitles(folderEl, catId, subId, pages) {
+    if (folderEl.dataset.loaded === '1') return;
+    folderEl.dataset.loaded = '1';
+    const list = folderEl.querySelector('.note-page-list');
+    if (!list) return;
+    const sorted = [...pages].sort((a, b) => a.id.localeCompare(b.id));
+    const items = await Promise.all(sorted.map(async (p, i) => {
+        const mdPath = `notes/${catId}/${subId}/${p.id}.md`;
+        const title = await loadPageTitle(mdPath, p.title || p.id);
+        const num = String(i + 1).padStart(2, '0');
+        return `<li>
+            <a href="note-post.html?cat=${catId}&sub=${subId}&page=${p.id}">
+                <span class="note-page-num">${num}</span>
+                <span class="note-page-title">${title}</span>
+            </a>
+        </li>`;
+    }));
+    list.innerHTML = items.join('');
 }
 
 function initNotesSubjectGrid() {
@@ -601,9 +662,9 @@ function initNotesSubjectGrid() {
     const catId = params.get('cat');
     const cat = notesCategories.find(c => c.id === catId);
 
-    const tag = document.getElementById('notesCatTag');
     const title = document.getElementById('notesCatTitle');
     const subtitle = document.getElementById('notesCatSubtitle');
+    const back = document.querySelector('.notes-back');
 
     if (!cat) {
         if (title) title.textContent = 'Category not found';
@@ -612,12 +673,27 @@ function initNotesSubjectGrid() {
         return;
     }
 
-    if (tag) tag.textContent = 'Study Notebook';
     if (title) title.textContent = cat.title;
     if (subtitle) subtitle.textContent = cat.blurb;
-    document.title = `${cat.title} Notes | Tensor Theorist`;
+    document.title = `${cat.title} | Tensor Theorist`;
 
-    // Rotating book rack — duplicate the covers so the CSS marquee wraps seamlessly.
+    if (back) {
+        if (catId === 'competition-math') {
+            back.href = 'index.html';
+            back.textContent = '← Home';
+        } else {
+            back.href = 'notes.html';
+            back.textContent = '← All notes';
+        }
+    }
+
+    // Swap active nav highlight if this is the Competitive category.
+    if (catId === 'competition-math') {
+        document.querySelectorAll('.nav-menu .nav-link').forEach(a => a.classList.remove('active'));
+        const compLink = document.querySelector('.nav-menu a[href*="competition-math"]');
+        if (compLink) compLink.classList.add('active');
+    }
+
     const coverHtml = sub => `
         <div class="book-cover" title="${sub.textbook}">
             <img src="${sub.image}" alt="${sub.textbook}" onerror="this.style.display='none'; this.parentElement.classList.add('no-image');">
@@ -626,19 +702,24 @@ function initNotesSubjectGrid() {
     `;
     const covers = cat.subjects.map(coverHtml).join('');
 
-    // Collapsible subject list.
     const subjectHtml = cat.subjects.map(sub => {
         const pages = (sub.pages || []);
+        const sortedPages = [...pages].sort((a, b) => a.id.localeCompare(b.id));
         const pagesInner = pages.length
-            ? `<ul class="note-page-list">${pages.map(p => `
-                <li><a href="note-post.html?cat=${cat.id}&sub=${sub.id}&page=${p.id}">${p.title}</a></li>
-              `).join('')}</ul>`
+            ? `<ul class="note-page-list">${sortedPages.map((p, i) => {
+                const num = String(i + 1).padStart(2, '0');
+                return `<li>
+                    <a href="note-post.html?cat=${cat.id}&sub=${sub.id}&page=${p.id}">
+                        <span class="note-page-num">${num}</span>
+                        <span class="note-page-title">${p.title || p.id}</span>
+                    </a>
+                </li>`;
+              }).join('')}</ul>`
             : `<p class="note-empty">No notes yet — coming soon.</p>`;
         return `
-            <details class="subject-folder">
+            <details class="subject-folder" data-sub="${sub.id}">
                 <summary>
                     <span class="subject-name">${sub.title}</span>
-                    <span class="subject-book">${sub.textbook}</span>
                     <span class="subject-count">${pages.length} ${pages.length === 1 ? 'note' : 'notes'}</span>
                 </summary>
                 ${pagesInner}
@@ -648,8 +729,22 @@ function initNotesSubjectGrid() {
 
     host.innerHTML = `
         <div class="book-rack" aria-label="Textbook covers">
-            <div class="book-rack-track">${covers}${covers}</div>
+            <div class="book-rack-track">${covers}</div>
         </div>
         <div class="subject-folders">${subjectHtml}</div>
     `;
+
+    setupBookRack(host.querySelector('.book-rack'));
+    window.addEventListener('resize', () => setupBookRack(host.querySelector('.book-rack')));
+
+    host.querySelectorAll('.subject-folder').forEach(folder => {
+        folder.addEventListener('toggle', () => {
+            if (!folder.open) return;
+            const subId = folder.dataset.sub;
+            const sub = cat.subjects.find(s => s.id === subId);
+            if (sub && sub.pages && sub.pages.length) {
+                populateFolderTitles(folder, cat.id, sub.id, sub.pages);
+            }
+        });
+    });
 }

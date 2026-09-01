@@ -37,6 +37,7 @@
                 <li><a href="index.html" class="nav-link">Home</a></li>
                 <li><a href="blog.html" class="nav-link active">Blog</a></li>
                 <li><a href="notes.html" class="nav-link">Notes</a></li>
+                <li><a href="notes-category.html?cat=competition-math" class="nav-link">Competitive</a></li>
                 <li><a href="about.html" class="nav-link">About</a></li>
             </ul>
             <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
@@ -68,9 +69,11 @@
                         <span class="blog-post-category" id="blogPostCategory"></span>
                         <h1 class="blog-post-title" id="blogPostTitle"></h1>
                         <span class="blog-post-date" id="blogPostDate"></span>
+                        <div class="blog-post-tags" id="blogPostTags"></div>
                     </div>
                     <div class="blog-post-body" id="blogPostContent"></div>
                 </article>
+                <aside class="blog-related" id="blogRelated"></aside>
             </div>
         </section>
     </main>
@@ -140,6 +143,42 @@
             document.getElementById('blogPostTitle').textContent = title;
             document.getElementById('blogPostDate').textContent = date;
             document.getElementById('blogPostCategory').textContent = category.toUpperCase();
+
+            // Tags + related posts, sourced from blogPosts in script.js.
+            const meta = (typeof blogPosts !== 'undefined') ? blogPosts.find(p => p.id === postId) : null;
+            const tagsEl = document.getElementById('blogPostTags');
+            const relatedEl = document.getElementById('blogRelated');
+            if (meta && tagsEl) {
+                tagsEl.innerHTML = (meta.tags || []).map(t =>
+                    `<span class="blog-tag-pill">${t.replace(/-/g,' ').replace(/\b\w/g, c => c.toUpperCase())}</span>`
+                ).join('');
+            }
+            if (meta && relatedEl && typeof blogPosts !== 'undefined') {
+                const scored = blogPosts
+                    .filter(p => p.id !== postId)
+                    .map(p => ({
+                        p,
+                        shared: (p.tags || []).filter(t => (meta.tags || []).includes(t)).length
+                    }))
+                    .filter(x => x.shared > 0)
+                    .sort((a, b) => b.shared - a.shared)
+                    .slice(0, 4);
+                if (scored.length) {
+                    relatedEl.innerHTML = `
+                        <h3 class="blog-related-title">Related posts</h3>
+                        <div class="blog-related-grid">
+                            ${scored.map(({p}) => `
+                                <a href="blog-post.html?post=${p.id}" class="blog-card blog-card-compact">
+                                    <div class="blog-content">
+                                        <h4 class="blog-title">${p.title}</h4>
+                                        <p class="blog-excerpt">${p.excerpt}</p>
+                                    </div>
+                                </a>
+                            `).join('')}
+                        </div>
+                    `;
+                }
+            }
             
             const contentEl = document.getElementById('blogPostContent');
             const basePath = `blog/${postId}/`;

@@ -37,6 +37,7 @@
                 <li><a href="index.html" class="nav-link">Home</a></li>
                 <li><a href="blog.html" class="nav-link active">Blog</a></li>
                 <li><a href="notes.html" class="nav-link">Notes</a></li>
+                <li><a href="notes-category.html?cat=competition-math" class="nav-link">Competitive</a></li>
                 <li><a href="about.html" class="nav-link">About</a></li>
             </ul>
             <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
@@ -62,18 +63,10 @@
         <section class="section blog-section" id="blogListSection">
             <div class="container">
                 <div class="section-header">
-                    <span class="section-tag">Essays</span>
-                    <h2 class="section-title">Math Blog</h2>
-                    <p class="section-subtitle">Expository writing on the Riemann Hypothesis, Collatz, number theory, and popular mathematics — with matching PDFs, slides, and YouTube videos.</p>
+                    <h2 class="section-title">Blog</h2>
+                    <p class="section-subtitle">Expository essays on classical problems and popular math — filter by tag.</p>
                 </div>
-                <div class="blog-categories">
-                    <button class="category-btn active" data-category="all">All</button>
-                    <button class="category-btn" data-category="famous-problems">Famous Problems</button>
-                    <button class="category-btn" data-category="riemann">Riemann</button>
-                    <button class="category-btn" data-category="collatz">Collatz</button>
-                    <button class="category-btn" data-category="number-theory">Number Theory</button>
-                    <button class="category-btn" data-category="popular">Popular Math</button>
-                </div>
+                <div class="tag-rack" id="blogTagRack" aria-label="Blog tags"></div>
                 <div class="blog-grid" id="blogGrid"></div>
             </div>
         </section>
