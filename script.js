@@ -544,27 +544,12 @@ function buildSearchIndex() {
             title: p.title,
             haystack: [p.title, p.excerpt, p.id, ...(p.tags || [])].join(' ').toLowerCase(),
             crumbs: (p.tags || []).slice(0, 3).map(t => t.replace(/-/g, ' ')).join(' · '),
-            href: `blog-post.html?post=${p.id}`
+            href: `blog-post.html?post=${p.id}`,
+            mdPath: `blog/${p.id}/index.md`
         });
     });
     (typeof notesCategories !== 'undefined' ? notesCategories : []).forEach(cat => {
-        items.push({
-            kind: 'notes',
-            label: 'NOTES',
-            title: cat.title,
-            haystack: [cat.title, cat.blurb, cat.id].join(' ').toLowerCase(),
-            crumbs: 'category',
-            href: `notes-category.html?cat=${cat.id}`
-        });
         (cat.subjects || []).forEach(sub => {
-            items.push({
-                kind: 'notes',
-                label: 'NOTES',
-                title: sub.title,
-                haystack: [sub.title, sub.textbook, sub.id, cat.title].join(' ').toLowerCase(),
-                crumbs: cat.title,
-                href: `notes-category.html?cat=${cat.id}`
-            });
             (sub.pages || []).forEach(pg => {
                 items.push({
                     kind: 'notes',
@@ -572,12 +557,28 @@ function buildSearchIndex() {
                     title: pg.title || pg.id,
                     haystack: [pg.title, pg.id, sub.title, cat.title].join(' ').toLowerCase(),
                     crumbs: `${cat.title} · ${sub.title}`,
-                    href: `note-post.html?cat=${cat.id}&sub=${sub.id}&page=${pg.id}`
+                    href: `note-post.html?cat=${cat.id}&sub=${sub.id}&page=${pg.id}`,
+                    mdPath: `notes/${cat.id}/${sub.id}/${pg.id}.md`
                 });
             });
         });
     });
     return items;
+}
+
+async function hydrateSearchBodies(items, onProgress) {
+    await Promise.all(items.map(async item => {
+        if (!item.mdPath) return;
+        try {
+            const res = await fetch(item.mdPath);
+            if (!res.ok) return;
+            const text = await res.text();
+            item.haystack += ' ' + text.toLowerCase();
+            const firstHeading = text.split('\n').find(l => l.startsWith('# '));
+            if (firstHeading) item.title = firstHeading.substring(2).trim();
+            if (onProgress) onProgress();
+        } catch (_) { /* offline / missing — skip */ }
+    }));
 }
 
 function initSearchPage() {
@@ -588,9 +589,16 @@ function initSearchPage() {
 
     const index = buildSearchIndex();
     let filter = 'all';
+    let bodiesReady = false;
 
     const urlQ = new URLSearchParams(window.location.search).get('q') || '';
     if (urlQ) input.value = urlQ;
+
+    // Fetch every blog + note markdown so keyword search hits body text too.
+    hydrateSearchBodies(index).then(() => {
+        bodiesReady = true;
+        render();
+    });
 
     function score(item, terms) {
         let s = 0;
@@ -618,7 +626,10 @@ function initSearchPage() {
         hits.sort((a, b) => b.s - a.s);
 
         if (!hits.length) {
-            resultsEl.innerHTML = `<p class="search-empty">${q ? 'No matches.' : 'Start typing to search…'}</p>`;
+            const msg = q
+                ? (bodiesReady ? 'No matches.' : 'No matches yet — still loading note bodies…')
+                : 'Start typing to search…';
+            resultsEl.innerHTML = `<p class="search-empty">${msg}</p>`;
             return;
         }
 
