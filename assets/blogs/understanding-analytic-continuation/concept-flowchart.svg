@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 220" role="img" aria-label="Continuity to analyticity flowchart">
+<rect width="100%" height="100%" fill="#f5f1ff"/>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#7c3aed"/></marker></defs><rect x="15.0" y="30" width="130" height="42" fill="#efe6ff" stroke="#7c3aed" stroke-width="1.2" rx="8"/>
+<text x="80.0" y="56.0" fill="#7c3aed" font-family="JetBrains Mono, monospace" font-size="13" text-anchor="middle" font-weight="600">continuity</text>
+<rect x="175.0" y="30" width="130" height="42" fill="#efe6ff" stroke="#7c3aed" stroke-width="1.2" rx="8"/>
+<text x="240.0" y="56.0" fill="#7c3aed" font-family="JetBrains Mono, monospace" font-size="13" text-anchor="middle" font-weight="600">differentiability</text>
+<rect x="335.0" y="30" width="130" height="42" fill="#efe6ff" stroke="#7c3aed" stroke-width="1.2" rx="8"/>
+<text x="400.0" y="56.0" fill="#7c3aed" font-family="JetBrains Mono, monospace" font-size="13" text-anchor="middle" font-weight="600">smoothness</text>
+<rect x="495.0" y="30" width="130" height="42" fill="#efe6ff" stroke="#7c3aed" stroke-width="1.2" rx="8"/>
+<text x="560.0" y="56.0" fill="#7c3aed" font-family="JetBrains Mono, monospace" font-size="13" text-anchor="middle" font-weight="600">analyticity</text>
+<line x1="149.0" y1="51.0" x2="171.0" y2="51.0" stroke="#7c3aed" stroke-width="1.6" marker-end="url(#arrow)"/><line x1="309.0" y1="51.0" x2="331.0" y2="51.0" stroke="#7c3aed" stroke-width="1.6" marker-end="url(#arrow)"/><line x1="469.0" y1="51.0" x2="491.0" y2="51.0" stroke="#7c3aed" stroke-width="1.6" marker-end="url(#arrow)"/><text x="80.0" y="96" fill="#2b2545" font-family="JetBrains Mono, monospace" font-size="11" text-anchor="middle" font-weight="normal">lim  f(x) = L</text>
+<text x="80.0" y="112" fill="#6b5b95" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="middle" font-weight="normal">as x → x₀</text>
+<text x="240.0" y="96" fill="#2b2545" font-family="JetBrains Mono, monospace" font-size="11" text-anchor="middle" font-weight="normal">lim  f′(x)  matches</text>
+<text x="240.0" y="112" fill="#6b5b95" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="middle" font-weight="normal">from both sides</text>
+<text x="400.0" y="96" fill="#2b2545" font-family="JetBrains Mono, monospace" font-size="11" text-anchor="middle" font-weight="normal">every  f⁽ⁿ⁾(x)</text>
+<text x="400.0" y="112" fill="#6b5b95" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="middle" font-weight="normal">exists and matches</text>
+<text x="560.0" y="96" fill="#2b2545" font-family="JetBrains Mono, monospace" font-size="11" text-anchor="middle" font-weight="normal">Taylor series → f</text>
+<text x="560.0" y="112" fill="#6b5b95" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="middle" font-weight="normal">on an open nbhd of x₀</text>
+<text x="15" y="208" fill="#6b5b95" font-family="JetBrains Mono, monospace" font-size="11" text-anchor="start" font-weight="normal">weaker</text>
+<text x="625" y="208" fill="#6b5b95" font-family="JetBrains Mono, monospace" font-size="11" text-anchor="end" font-weight="normal">stronger</text>
+</svg>

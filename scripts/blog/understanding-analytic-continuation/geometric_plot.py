@@ -96,10 +96,10 @@ def render(width=560, height=340,
         parts.append(text(left - 8, Y(yg) + 3, str(yg),
                           color=PALETTE["muted"], size=10, anchor="end"))
 
-    # Legend / labels
-    parts.append(text(X(0.0) + 6, Y(1.5), "y = 1/(1 − x)",
+    # Legend / labels (placed away from the curve)
+    parts.append(text(X(-1.8), Y(2.6), "y = 1/(1 − x)",
                       color=PALETTE["series1"], size=11, weight="600"))
-    parts.append(text(X(-0.5), Y(y_min) - 4, "series converges here",
+    parts.append(text(X(0.0), bot + 30, "series converges on (-1, 1)",
                       color=PALETTE["accent"], size=10, anchor="middle"))
 
     parts.append(close_svg())
