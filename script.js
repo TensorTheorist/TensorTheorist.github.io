@@ -545,7 +545,8 @@ function buildSearchIndex() {
             haystack: [p.title, p.excerpt, p.id, ...(p.tags || [])].join(' ').toLowerCase(),
             crumbs: (p.tags || []).slice(0, 3).map(t => t.replace(/-/g, ' ')).join(' · '),
             href: `blog-post.html?post=${p.id}`,
-            mdPath: `blog/${p.id}/index.md`
+            mdPath: `blog/${p.id}/index.md`,
+            date: p.date || null
         });
     });
     (typeof notesCategories !== 'undefined' ? notesCategories : []).forEach(cat => {
@@ -558,12 +559,21 @@ function buildSearchIndex() {
                     haystack: [pg.title, pg.id, sub.title, cat.title].join(' ').toLowerCase(),
                     crumbs: `${cat.title} · ${sub.title}`,
                     href: `note-post.html?cat=${cat.id}&sub=${sub.id}&page=${pg.id}`,
-                    mdPath: `notes/${cat.id}/${sub.id}/${pg.id}.md`
+                    mdPath: `notes/${cat.id}/${sub.id}/${pg.id}.md`,
+                    date: pg.date || null
                 });
             });
         });
     });
     return items;
+}
+
+function parseMdDate(text) {
+    const line = text.split('\n').find(l => /Published:/i.test(l));
+    if (!line) return null;
+    const raw = line.replace(/\*/g, '').replace(/Published:/i, '').trim();
+    const t = Date.parse(raw);
+    return isNaN(t) ? null : new Date(t).toISOString().slice(0, 10);
 }
 
 async function hydrateSearchBodies(items, onProgress) {
@@ -576,6 +586,14 @@ async function hydrateSearchBodies(items, onProgress) {
             item.haystack += ' ' + text.toLowerCase();
             const firstHeading = text.split('\n').find(l => l.startsWith('# '));
             if (firstHeading) item.title = firstHeading.substring(2).trim();
+
+            // Prefer explicit *Published:* line, then HTTP Last-Modified, then existing item.date.
+            const mdDate = parseMdDate(text);
+            const httpLm = res.headers.get('last-modified');
+            const httpDate = httpLm ? new Date(httpLm).toISOString().slice(0, 10) : null;
+            const candidates = [mdDate, httpDate, item.date].filter(Boolean).sort();
+            if (candidates.length) item.date = candidates[candidates.length - 1];
+
             if (onProgress) onProgress();
         } catch (_) { /* offline / missing — skip */ }
     }));
@@ -623,7 +641,12 @@ function initSearchPage() {
             ? index.map(i => ({ i, s: score(i, terms) })).filter(x => x.s >= 0)
             : index.map(i => ({ i, s: 0 }));
         if (filter !== 'all') hits = hits.filter(x => x.i.kind === filter);
-        hits.sort((a, b) => b.s - a.s);
+        hits.sort((a, b) => {
+            if (b.s !== a.s) return b.s - a.s;
+            const da = a.i.date || '';
+            const db = b.i.date || '';
+            return db.localeCompare(da);
+        });
 
         if (!hits.length) {
             const msg = q
