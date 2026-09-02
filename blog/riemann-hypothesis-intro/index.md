@@ -3,110 +3,121 @@
 *Published: August 31, 2026*
 *Category: Riemann*
 
-Why should anyone care about the zeros of a strange complex-valued function? Because they hold the deepest secret we know about the distribution of the [prime numbers](https://en.wikipedia.org/wiki/Prime_number). This post walks through the statement of the [Riemann Hypothesis](https://en.wikipedia.org/wiki/Riemann_hypothesis) with just enough machinery to see *why* it matters.
+The [Riemann Hypothesis](https://en.wikipedia.org/wiki/Riemann_hypothesis) states that the non-trivial zeros of the [Riemann zeta function](https://en.wikipedia.org/wiki/Riemann_zeta_function) lie on the line $\operatorname{Re}(s) = 1/2$. This post presents the statement, the objects that appear in it, and the connection to the distribution of [prime numbers](https://en.wikipedia.org/wiki/Prime_number).
 
 ## Contents
 
-1. [Motivation: primes are irregular](#motivation)
-2. [Enter the zeta function](#zeta)
+1. [The Prime Number Theorem](#pnt)
+2. [The zeta function](#zeta)
 3. [Analytic continuation and the critical strip](#continuation)
-4. [The Riemann Hypothesis, stated](#hypothesis)
-5. [Why it controls the primes](#primes)
-6. [Where things stand](#status)
+4. [The Riemann Hypothesis](#hypothesis)
+5. [Connection to the primes](#primes)
+6. [Status](#status)
 
 ---
 
-<a id="motivation"></a>
-## 1. Motivation: primes are irregular
+<a id="pnt"></a>
+## 1. The Prime Number Theorem
 
-The primes seem chaotic up close but tame in the aggregate. Let $\pi(x)$ denote the [prime-counting function](https://en.wikipedia.org/wiki/Prime-counting_function) — the number of primes $\le x$. Numerical experiments suggest
+Let $\pi(x)$ denote the [prime-counting function](https://en.wikipedia.org/wiki/Prime-counting_function): the number of primes $\le x$.
+
+The [Prime Number Theorem](https://en.wikipedia.org/wiki/Prime_number_theorem) (PNT), proved independently by [Hadamard](https://en.wikipedia.org/wiki/Jacques_Hadamard) and [de la Vallée Poussin](https://en.wikipedia.org/wiki/Charles_Jean_de_la_Vall%C3%A9e_Poussin) in 1896, states
 
 $$\pi(x) \sim \frac{x}{\log x}.$$
 
-This is the [Prime Number Theorem](https://en.wikipedia.org/wiki/Prime_number_theorem) (PNT), proved independently by [Hadamard](https://en.wikipedia.org/wiki/Jacques_Hadamard) and [de la Vallée Poussin](https://en.wikipedia.org/wiki/Charles_Jean_de_la_Vall%C3%A9e_Poussin) in 1896. A sharper approximation is the [logarithmic integral](https://en.wikipedia.org/wiki/Logarithmic_integral_function)
+A closer approximation is the [logarithmic integral](https://en.wikipedia.org/wiki/Logarithmic_integral_function)
 
 $$\mathrm{Li}(x) = \int_2^x \frac{dt}{\log t}.$$
 
 !interactive[prime-counting]
 
-*Move the slider to change the upper bound. The plot is drawn live using the same sieve-based algorithm as [`prime_counting.py`](https://github.com/TensorTheorist/TensorTheorist.github.io/blob/main/scripts/blog/riemann-hypothesis-intro/prime_counting.py).*
+*Slider changes the upper bound. Curves computed live using the same sieve-based algorithm as [`prime_counting.py`](https://github.com/TensorTheorist/TensorTheorist.github.io/blob/main/scripts/blog/riemann-hypothesis-intro/prime_counting.py).*
 
-PNT tells us *how many* primes there are up to $x$. It does **not** tell us how far off the estimate can drift. That question is where $\zeta$ enters.
+PNT gives the leading term of $\pi(x)$. It does not bound the error. The size of that error is what $\zeta$ controls.
 
 ---
 
 <a id="zeta"></a>
-## 2. Enter the zeta function
+## 2. The zeta function
 
-For $\operatorname{Re}(s) > 1$, [Riemann's zeta function](https://en.wikipedia.org/wiki/Riemann_zeta_function) is
+For $\operatorname{Re}(s) > 1$,
 
 $$\zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^{s}}.$$
 
-[Euler's product formula](https://en.wikipedia.org/wiki/Euler_product) rewrites this sum as a product over primes:
+[Euler's product formula](https://en.wikipedia.org/wiki/Euler_product) rewrites the sum as a product over primes:
 
 $$\zeta(s) = \prod_{p \text{ prime}} \frac{1}{1 - p^{-s}}, \qquad \operatorname{Re}(s) > 1.$$
 
-The identity is short but astonishing — it welds the additive structure of the integers on the left to the multiplicative structure of the primes on the right. Any analytic fact about $\zeta$ is therefore, secretly, an arithmetic fact about primes.
+<details class="bulb">
+<summary>Short derivation of the Euler product</summary>
+
+Expand each factor as a geometric series:
+
+$$\frac{1}{1 - p^{-s}} = 1 + p^{-s} + p^{-2s} + \cdots.$$
+
+Multiplying these over all primes and using unique prime factorization, every integer $n \ge 1$ appears exactly once as a product $\prod p_i^{k_i}$, contributing $n^{-s}$. The product equals $\sum_{n=1}^{\infty} n^{-s}$.
+
+</details>
+
+The identity links the additive structure of the integers on the left to the multiplicative structure of the primes on the right. Analytic properties of $\zeta$ therefore encode arithmetic properties of primes.
 
 ---
 
 <a id="continuation"></a>
 ## 3. Analytic continuation and the critical strip
 
-Riemann showed that $\zeta(s)$ can be extended to a [meromorphic function](https://en.wikipedia.org/wiki/Meromorphic_function) on all of $\mathbb{C}$, with a single [simple pole](https://en.wikipedia.org/wiki/Pole_(complex_analysis)) at $s = 1$. The extended function satisfies a symmetry called the [functional equation](https://en.wikipedia.org/wiki/Riemann_zeta_function#Riemann's_functional_equation):
+Riemann showed that $\zeta(s)$ extends to a [meromorphic function](https://en.wikipedia.org/wiki/Meromorphic_function) on $\mathbb{C}$ with a single simple [pole](https://en.wikipedia.org/wiki/Pole_(complex_analysis)) at $s = 1$. The extension satisfies the [functional equation](https://en.wikipedia.org/wiki/Riemann_zeta_function#Riemann's_functional_equation)
 
 $$\zeta(s) = 2^{s} \pi^{s-1} \sin\!\left(\frac{\pi s}{2}\right) \Gamma(1 - s)\, \zeta(1 - s).$$
 
-Two kinds of zeros appear:
+Two families of zeros appear:
 
-- **Trivial zeros** at $s = -2, -4, -6, \dots$, forced by the sine factor.
+- **Trivial zeros** at $s = -2, -4, -6, \dots$, forced by the factor $\sin(\pi s / 2)$.
 - **Non-trivial zeros** inside the [critical strip](https://en.wikipedia.org/wiki/Riemann_hypothesis#Zeros_on_the_critical_line) $0 < \operatorname{Re}(s) < 1$.
 
 ![The critical strip with the first ten non-trivial zeros on Re(s) = 1/2](assets/blogs/riemann-hypothesis-intro/critical-strip.svg)
 
-*Generated by [`critical_strip.py`](https://github.com/TensorTheorist/TensorTheorist.github.io/blob/main/scripts/blog/riemann-hypothesis-intro/critical_strip.py). Zero heights are the real published imaginary parts of the first ten non-trivial zeros.*
+*Generated by [`critical_strip.py`](https://github.com/TensorTheorist/TensorTheorist.github.io/blob/main/scripts/blog/riemann-hypothesis-intro/critical_strip.py). Zero heights are the published imaginary parts of the first ten non-trivial zeros.*
 
-The functional equation says the strip is symmetric about the line $\operatorname{Re}(s) = \tfrac{1}{2}$, called the **critical line**.
+The functional equation makes the strip symmetric about the **critical line** $\operatorname{Re}(s) = \tfrac{1}{2}$.
 
 ---
 
 <a id="hypothesis"></a>
-## 4. The Riemann Hypothesis, stated
+## 4. The Riemann Hypothesis
 
 > **Riemann Hypothesis.** Every non-trivial zero of $\zeta(s)$ satisfies
 >
 > $$\operatorname{Re}(s) = \frac{1}{2}.$$
 
-That's it. One line. All non-trivial zeros lie exactly on the critical line.
-
 ---
 
 <a id="primes"></a>
-## 5. Why it controls the primes
+## 5. Connection to the primes
 
-Riemann derived an *explicit formula* for $\pi(x)$ (or, more cleanly, for the closely related $\psi(x) = \sum_{p^{k} \le x} \log p$). Schematically:
+Riemann derived an explicit formula for the closely related Chebyshev function $\psi(x) = \sum_{p^{k} \le x} \log p$:
 
 $$\psi(x) = x - \sum_{\rho} \frac{x^{\rho}}{\rho} - \log(2\pi) - \tfrac{1}{2}\log(1 - x^{-2}),$$
 
-where $\rho$ runs over the non-trivial zeros. Each zero contributes an oscillation of size $x^{\operatorname{Re}(\rho)}$.
+where $\rho$ ranges over the non-trivial zeros. Each zero contributes an oscillation of size $x^{\operatorname{Re}(\rho)}$.
 
-- If **every** $\rho$ has $\operatorname{Re}(\rho) = \tfrac{1}{2}$, the error term in the Prime Number Theorem is bounded by $O(\sqrt{x}\, \log^{2} x)$ — the best possible.
-- If **some** $\rho$ drifts off the critical line, the primes wobble more than we'd like.
+- If every $\rho$ satisfies $\operatorname{Re}(\rho) = \tfrac{1}{2}$, the PNT error term is $O(\sqrt{x}\, \log^{2} x)$.
+- If some $\rho$ drifts off the critical line, the error grows accordingly.
 
-So the Riemann Hypothesis is, in disguise, the statement that primes are as regularly distributed as they possibly can be.
+<div class="intuition"><strong>Intuition.</strong> The Riemann Hypothesis is equivalent to the statement that the PNT error term is as small as possible.</div>
 
 ---
 
 <a id="status"></a>
-## 6. Where things stand
+## 6. Status
 
-- Trillions of zeros have been checked and all lie on the critical line.
+- Trillions of zeros have been computed; all lie on the critical line.
 - [Hardy](https://en.wikipedia.org/wiki/G._H._Hardy) (1914) proved that infinitely many zeros lie on the critical line.
-- The best known unconditional bounds still allow zeros to drift arbitrarily close to $\operatorname{Re}(s) = 1$.
-- No proof — and no plausible strategy — is currently known.
+- Current unconditional bounds still permit zeros arbitrarily close to $\operatorname{Re}(s) = 1$.
+- No proof is known.
 
-The Riemann Hypothesis is one of the seven [Clay Millennium Problems](https://en.wikipedia.org/wiki/Millennium_Prize_Problems). A proof would immediately upgrade thousands of conditional theorems in number theory to unconditional ones.
+The Riemann Hypothesis is one of the seven [Clay Millennium Problems](https://en.wikipedia.org/wiki/Millennium_Prize_Problems). A proof would upgrade thousands of conditional theorems in [analytic number theory](https://en.wikipedia.org/wiki/Analytic_number_theory) to unconditional ones.
 
 ---
 
-*Next in this series:* the explicit formula, worked out slowly, from $\zeta$ to $\psi(x)$.
+<div class="sneak-peek"><strong>Sneak peek.</strong> The next post derives the explicit formula for $\psi(x)$ from $\zeta(s)$ step by step, and shows how each zero contributes an oscillation to the prime count.</div>

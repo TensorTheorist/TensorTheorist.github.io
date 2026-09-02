@@ -1985,3 +1985,104 @@ a.note-card:hover {
 .blog-post-body .interactive-slot canvas {
     max-width: 100%;
 }
+
+/* ============================================
+   Sneak peek (mint pastel)
+   Use in markdown as:
+       <div class="sneak-peek"><strong>Sneak peek.</strong> ...</div>
+   ============================================ */
+.sneak-peek {
+    background: #e6fff5;
+    border-left: 4px solid #10b981;
+    color: #063f2b;
+    padding: 0.9rem 1.1rem;
+    margin: 1.25rem 0;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    line-height: 1.55;
+}
+
+.sneak-peek strong {
+    color: #047857;
+    letter-spacing: 0.02em;
+}
+
+.sneak-peek em { color: #065f46; }
+
+.sneak-peek p { margin: 0; }
+.sneak-peek p + p { margin-top: 0.4rem; }
+
+[data-theme="dark"] .sneak-peek,
+:root:not([data-theme="light"]) .sneak-peek {
+    background: rgba(16, 185, 129, 0.10);
+    color: #b6f4dc;
+    border-left-color: #10b981;
+}
+
+[data-theme="dark"] .sneak-peek strong,
+:root:not([data-theme="light"]) .sneak-peek strong {
+    color: #6ee7b7;
+}
+
+/* ============================================
+   Bulb — expandable off-ramp (default collapsed)
+   Use in markdown as:
+       <details class="bulb">
+       <summary>Show a small example</summary>
+
+       Body markdown here (leave blank lines).
+
+       </details>
+   ============================================ */
+.bulb {
+    background: #fffbeb;
+    border-left: 4px solid #f59e0b;
+    border-radius: 8px;
+    margin: 1.1rem 0;
+    padding: 0.15rem 0;
+    color: #78350f;
+}
+
+.bulb summary {
+    padding: 0.55rem 1rem;
+    font-size: 0.88rem;
+    cursor: pointer;
+    list-style: none;
+    color: #78350f;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    user-select: none;
+}
+
+.bulb summary::-webkit-details-marker { display: none; }
+
+.bulb summary::before {
+    content: "💡";
+    font-size: 1rem;
+}
+
+.bulb[open] summary {
+    border-bottom: 1px dashed rgba(245, 158, 11, 0.4);
+}
+
+.bulb > *:not(summary) {
+    padding: 0.4rem 1rem 0.85rem 1rem;
+}
+
+.bulb p { margin: 0.35rem 0; font-size: 0.92rem; line-height: 1.55; }
+.bulb ul, .bulb ol { margin: 0.35rem 0 0.35rem 1.2rem; font-size: 0.92rem; }
+.bulb code { background: rgba(245, 158, 11, 0.15); }
+
+[data-theme="dark"] .bulb,
+:root:not([data-theme="light"]) .bulb {
+    background: rgba(245, 158, 11, 0.10);
+    color: #fde68a;
+    border-left-color: #f59e0b;
+}
+
+[data-theme="dark"] .bulb summary,
+:root:not([data-theme="light"]) .bulb summary {
+    color: #fde68a;
+}

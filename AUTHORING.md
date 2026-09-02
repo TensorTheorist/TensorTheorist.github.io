@@ -11,13 +11,10 @@ follow these.
 | Blog post `<slug>`   | `blog/<slug>/index.md`                       | `assets/blogs/<slug>/`                        | `scripts/blog/<slug>/*.py`                           |
 | Note page            | `notes/<cat>/<sub>/<slug>.md`                | `assets/notes/<cat>/<sub>/`                   | `scripts/notes/<cat>/<sub>/*.py`                     |
 
-Note page slugs sort **lexicographically** — this is the number the site displays
-next to the title in the subject dropdown. Prefix with `1-`, `2-`, `3-…` to
-control ordering.
+Note page slugs sort **lexicographically** — this is the number the site
+displays next to the title. Prefix with `1-`, `2-`, `3-…` to control ordering.
 
 ## 2. Markdown header (required)
-
-Every `.md` starts with exactly this shape (renderer parses these lines):
 
 ```markdown
 # <Human title — becomes the H1 and the search index title>
@@ -34,59 +31,102 @@ Break each post into thematic sections, and separate every section with a
 `---` horizontal rule. If you use in-page anchors, put an `<a id="…"></a>`
 directly above the heading and link to it from a "Contents" list near the top.
 
-## 4. Intuition callouts (reusable pastel blob)
+## 4. Tone — direct facts, no editorial
 
-Whenever you want to state an intuition — a "why does this feel right"
-paragraph — wrap it in the shared blob. It is styled with a light lavender
-background in both light and dark themes.
+Write mathematical exposition as statements of fact.
+
+- Declarative, present tense: *"Euler's identity rewrites the sum as a product over primes."*
+- **Never** hype the math itself: no "astonishing", "beautiful", "deepest secret", "everything falls out".
+- No exclamations. No adjectives about the subject.
+- If a fact is important, state it. Do not tell the reader it is important.
+- If a claim needs justification, either prove it or point at a reference. Do not gesture.
+
+## 5. Callouts — three kinds
+
+Three distinct visual callouts. Use them sparingly and only where the rule fits.
+
+### 5.1 Intuition (lavender, always visible)
+
+A specific takeaway. One sentence, at most one paragraph. Reserved for the
+"if you remember one thing" moment.
 
 ```markdown
-<div class="intuition"><strong>Intuition.</strong> Your one-paragraph
-intuition here. Inline math like $a \wedge b$ works. <em>Emphasis</em> is
-tinted to match.</div>
+<div class="intuition"><strong>Intuition.</strong> A pre-order is the
+simplest kind of category: at most one arrow between any two objects.</div>
 ```
 
-Guidelines:
+Rules:
 
-- Keep each blob to **one paragraph**. If you need two, use two blobs.
-- Lead with the word **Intuition** in `<strong>`.
-- Never explain notation inside an intuition — explain it first, then use the
-  blob to give the "aha".
+- **At most one per section.** Often zero.
+- Never a running commentary. Never appears immediately after every definition.
+- Lead with `<strong>Intuition.</strong>`.
 
-## 5. Wikipedia links on first appearance
+### 5.2 Sneak peek (mint, always visible)
+
+A forward pointer to something the piece deliberately defers.
+
+```markdown
+<div class="sneak-peek"><strong>Sneak peek.</strong> The exponential object
+$b^a$ turns "$a \Rightarrow b$" into a first-class arrow. Covered in
+the next note.</div>
+```
+
+Rules:
+
+- Only when there is a **concrete later item** to point at.
+- Lead with `<strong>Sneak peek.</strong>`.
+- Ends the section or the file.
+
+### 5.3 Bulb (amber, collapsed by default)
+
+An expandable off-ramp for a reader who needs it: small example, short
+derivation, or plain-language version. Uses the HTML5 `<details>` element so
+the flow of the main text stays intact.
+
+```markdown
+<details class="bulb">
+<summary>Show a small example</summary>
+
+Concrete example goes here. Blank lines around markdown so the parser
+handles it.
+
+</details>
+```
+
+Rules:
+
+- Default state is **collapsed**. Do not add `open`.
+- Summary is a short imperative: `Show a small example`, `Short derivation`,
+  `Explained without jargon`, `See the calculation`.
+- CSS auto-prepends the 💡 icon — do not include it in the summary text.
+- Use freely where a curious reader might stumble but the main line should
+  not stop.
+
+## 6. Wikipedia links on first appearance
 
 The **first time** a mathematical term appears in a note or blog, link it to
-its Wikipedia page. This is a hard rule — it lets casual readers dive deeper
-without leaving the paragraph they are on.
+its Wikipedia page. Once per term per file.
 
 ```markdown
 A [pre-order](https://en.wikipedia.org/wiki/Preorder) on a set …
-The [Prime Number Theorem](https://en.wikipedia.org/wiki/Prime_number_theorem) …
 ```
 
-Do **not** re-link the same term again in the same file. Do **not** link
-common English words. If a term has no dedicated Wikipedia page but does have
-a section (`#Anchor`), link to the section.
+Do not re-link the same term again. Do not link common English words.
 
-## 6. Figures come from Python
+## 7. Figures come from Python
 
-Every non-photographic figure on the site is produced by a Python script that
-lives next to the content it illustrates. The script imports the shared style
-in `scripts/lib/svg_style.py` so every figure shares:
+Every non-photographic figure is produced by a Python script that lives next
+to the content it illustrates. Every figure imports the shared style in
+`scripts/lib/svg_style.py` so the whole site shares one visual language
+(pastel lavender background, JetBrains Mono labels, violet edges, amber
+nodes, muted text, rose highlight).
 
-- the same pastel lavender background,
-- the same `JetBrains Mono` label font,
-- the same accent palette (violet edges, amber nodes, muted text, rose highlight).
-
-Template for a new figure script:
+Template:
 
 ```python
 """One-line description of what the figure shows."""
-import argparse
-import os
-import sys
+import argparse, os, sys
 
-# Adjust the number of ..'s to reach scripts/lib/ from your file's directory.
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__),
                                                 "..", "..", "..", "lib")))
 
@@ -112,15 +152,7 @@ if __name__ == "__main__":
         print(svg)
 ```
 
-Commit the generated SVG under `assets/…` and reference it from the markdown
-with a caption that links to the generator on GitHub (see the next rule).
-
-## 7. Caption every generated figure with a GitHub link
-
-Directly under every figure, add an italic caption pointing to the script on
-GitHub, so any reader can inspect (or regenerate) the plot. Use the `blob/main`
-URL — not a relative path — so browsers view the file instead of downloading
-it:
+Caption every generated figure with a GitHub link to the script:
 
 ```markdown
 ![Alt text describing what the reader sees](assets/…/figure.svg)
@@ -130,36 +162,38 @@ it:
 
 ## 8. Interactive figures
 
-If a figure has a user control (slider, toggle, dropdown), do it as an
-interactive embed:
-
-- Reference from markdown as `!interactive[<slug>]` on its own line.
-- Ship the hydration script at `assets/<blog-or-notes>/<parent>/<slug>.js`.
-- The script must self-hydrate: find `[data-interactive="<slug>"]` and fill
-  the container.
-- Reuse the palette by defining `const PALETTE = { bg: '#f5f1ff', … }` at the
-  top of the JS. Keep it in sync with `scripts/lib/svg_style.py`.
-- Always link to a Python reference implementation from the widget header.
+Reference from markdown as `!interactive[<slug>]` on its own line. Ship the
+hydration script at `assets/<blog-or-notes>/<parent>/<slug>.js`. The script
+self-hydrates: finds `[data-interactive="<slug>"]` and fills the container.
+Reuse the same palette by defining `const PALETTE = { bg: '#f5f1ff', … }` at
+the top of the JS. Link to a Python reference from the widget header.
 
 ## 9. Site-wide image sizing
 
-`style.css` caps every image and canvas inside an article at `max-width: 480px`
-and centers it. Do not override this in the markdown — the small default is
-deliberate. If a figure genuinely needs to be wider, ask before changing it.
+`style.css` caps every image and canvas inside an article at
+`max-width: 480px` and centers it. Do not override this in markdown.
 
-## 10. Regenerating everything
+## 10. Handwritten notes → site content pipeline
 
-```bash
-python3 scripts/blog/riemann-hypothesis-intro/critical_strip.py \
-    --out assets/blogs/riemann-hypothesis-intro/critical-strip.svg
-python3 scripts/notes/specialized/category-theory/hasse_diagram.py \
-    --example divisors12 \
-    --out assets/notes/specialized/category-theory/hasse-divisors12.svg
-# … one command per figure.
-```
+The intended flow when you send hand-drawn notes:
 
-When you add a new figure, add it to this list (or a per-content
-`Makefile` — happy to add one once we have more than a handful).
+1. You send: **screenshots** of your handwritten pages **+ one line** stating
+   where they belong, e.g.
+   > *This is a note for `notes/algebra/abstract-algebra/`, page 2 of the
+   > groups series. Slug: `2-subgroups`.*
+2. Claude transcribes:
+   - Prose → direct-tone markdown.
+   - Math → KaTeX.
+   - Any hand-drawn figure → a new Python script under
+     `scripts/<same-path>/`, output SVG under `assets/<same-path>/`, using
+     `svg_style` so it matches the rest of the site.
+3. Callouts are applied only where the rules in §5 fit — not automatically
+   after every definition.
+4. First-appearance Wikipedia links are added.
+5. The page is registered in `script.js` under the right subject; the file is
+   deployed via `./deploy.sh`.
+6. If any hand-written line is ambiguous, Claude asks a targeted question
+   before writing.
 
 ## 11. Publishing
 
@@ -167,7 +201,5 @@ When you add a new figure, add it to this list (or a per-content
 ./deploy.sh "Short imperative commit message"
 ```
 
-- Rewrites `?v=<timestamp>` cache-buster on `script.js` and `style.css` in
-  every top-level `.html`.
-- Stages, commits, pushes to `main`. GitHub Pages rebuilds automatically.
-- Live at https://tensortheorist.github.io.
+Rewrites `?v=<timestamp>` cache-buster on `script.js` and `style.css`;
+stages, commits, pushes to `main`. Live at https://tensortheorist.github.io.
