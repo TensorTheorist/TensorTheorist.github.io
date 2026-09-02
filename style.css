@@ -1927,3 +1927,42 @@ a.note-card:hover {
     padding: 2rem 0;
     font-style: italic;
 }
+
+/* ============================================
+   Intuition callout (reusable pastel blob)
+   Use in markdown as:
+       <div class="intuition"><strong>Intuition.</strong> ...</div>
+   ============================================ */
+.intuition {
+    background: #f7f3ff;              /* very light lavender */
+    border-left: 4px solid #a78bfa;   /* soft violet */
+    color: #2b2545;
+    padding: 0.9rem 1.1rem;
+    margin: 1.25rem 0;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    line-height: 1.55;
+}
+
+.intuition strong {
+    color: #5b21b6;
+    letter-spacing: 0.02em;
+}
+
+.intuition em { color: #4c1d95; }
+
+.intuition p { margin: 0; }
+.intuition p + p { margin-top: 0.4rem; }
+
+/* Dark theme variant — still pastel but lifted to be readable on a dark page. */
+[data-theme="dark"] .intuition,
+:root:not([data-theme="light"]) .intuition {
+    background: rgba(167, 139, 250, 0.10);
+    color: #e0d9ff;
+    border-left-color: #a78bfa;
+}
+
+[data-theme="dark"] .intuition strong,
+:root:not([data-theme="light"]) .intuition strong {
+    color: #c4b5fd;
+}

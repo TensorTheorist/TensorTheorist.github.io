@@ -358,7 +358,10 @@ const notesCategories = [
         title: 'Specialized',
         blurb: 'Focused areas outside the standard undergraduate/graduate track.',
         subjects: [
-            { id: 'category-theory', title: 'Category Theory', textbook: 'Fong & Spivak — Seven Sketches in Compositionality', image: 'assets/textbooks/spivak-fong.png', pages: [] }
+            { id: 'category-theory', title: 'Category Theory', textbook: 'Fong & Spivak — Seven Sketches in Compositionality', image: 'assets/textbooks/spivak-fong.png',
+              pages: [
+                  { id: '1-category-theory-intro', title: 'Pre-orders, meets and joins' }
+              ] }
         ]
     },
     {
