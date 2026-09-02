@@ -9,6 +9,12 @@ Usage:
 """
 
 import argparse
+import os
+import sys
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "lib")))
+
+from svg_style import PALETTE, FONT, open_svg, close_svg, rect, text  # noqa: E402
 
 ROWS = [
     ("false", "false"),
@@ -18,63 +24,48 @@ ROWS = [
 ]
 
 
-def cell(x, y, w, h, text, fill, tx_color):
-    return (
-        f'<rect x="{x}" y="{y}" width="{w}" height="{h}" fill="{fill}" '
-        f'stroke="#4a5578" stroke-width="0.6"/>'
-        f'<text x="{x + w / 2}" y="{y + h / 2 + 4}" fill="{tx_color}" '
-        f'font-family="JetBrains Mono, monospace" font-size="12" '
-        f'text-anchor="middle">{text}</text>'
-    )
+def draw_cell(x, y, w, h, s, *, header=False, value=None):
+    fill = "#efe6ff" if header else PALETTE["surface"]
+    color = PALETTE["muted"] if header else PALETTE["text"]
+    if value is False:
+        color = PALETTE["muted"]
+    if value is True:
+        color = PALETTE["accent"]
+    out = rect(x, y, w, h, fill=fill, stroke=PALETTE["grid"], stroke_width=1)
+    out += text(x + w / 2, y + h / 2 + 4, s, color=color, size=12, anchor="middle",
+                weight="600" if header else "normal")
+    return out
 
 
-def render_table(x0, y0, title, op):
-    # Column widths
-    cw = 78
-    rh = 30
-    lines = []
-    lines.append(
-        f'<text x="{x0 + 1.5 * cw}" y="{y0 - 12}" fill="#ffd166" '
-        f'font-family="JetBrains Mono, monospace" font-size="13" '
-        f'text-anchor="middle">{title}</text>'
-    )
-    # header row
-    header = ["a", "b", "a " + op + " b"]
-    for i, h in enumerate(header):
-        lines.append(cell(x0 + i * cw, y0, cw, rh, h, "#1a1f3a", "#9aa4c7"))
-    # data rows
+def draw_table(x0, y0, title, op):
+    cw, rh = 72, 26
+    out = text(x0 + 1.5 * cw, y0 - 10, title, color=PALETTE["accent"],
+               size=13, anchor="middle", weight="600")
+
+    for i, h in enumerate(["a", "b", f"a {op} b"]):
+        out += draw_cell(x0 + i * cw, y0, cw, rh, h, header=True)
+
     for r, (a, b) in enumerate(ROWS):
-        if op == "∧":
-            out = "true" if a == "true" and b == "true" else "false"
-        else:
-            out = "true" if a == "true" or b == "true" else "false"
-        row = [a, b, out]
-        for i, v in enumerate(row):
-            fill = "#0e1220"
-            color = "#e6edf3" if v == "true" else "#8b949e"
-            lines.append(
-                cell(x0 + i * cw, y0 + (r + 1) * rh, cw, rh, v, fill, color)
-            )
-    return "\n".join(lines)
+        result = (a == "true" and b == "true") if op == "∧" else (a == "true" or b == "true")
+        row = [(a, a == "true"), (b, b == "true"), ("true" if result else "false", result)]
+        for i, (label, val) in enumerate(row):
+            out += draw_cell(x0 + i * cw, y0 + (r + 1) * rh, cw, rh, label, value=val)
+    return out
 
 
-def render_svg(width=620, height=240):
-    parts = [
-        f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}" '
-        f'role="img" aria-label="AND and OR truth tables">'
-    ]
-    parts.append('<rect width="100%" height="100%" fill="#0e1220"/>')
-    parts.append(render_table(20, 40, "meet: a ∧ b  (AND)", "∧"))
-    parts.append(render_table(325, 40, "join: a ∨ b  (OR)", "∨"))
-    parts.append("</svg>")
-    return "\n".join(parts) + "\n"
+def render(width=520, height=220):
+    parts = [open_svg(width, height, aria="AND and OR truth tables")]
+    parts.append(draw_table(20, 40, "meet  ·  a ∧ b  (AND)", "∧"))
+    parts.append(draw_table(275, 40, "join  ·  a ∨ b  (OR)", "∨"))
+    parts.append(close_svg())
+    return "".join(parts)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--out", default=None)
     args = parser.parse_args()
-    svg = render_svg()
+    svg = render()
     if args.out:
         with open(args.out, "w") as f:
             f.write(svg)

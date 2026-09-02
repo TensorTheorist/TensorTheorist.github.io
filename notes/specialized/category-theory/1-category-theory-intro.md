@@ -3,24 +3,24 @@
 *Published: September 2, 2026*
 *Category: Category Theory*
 
-<div class="intuition"><strong>Intuition.</strong> A pre-order is the simplest kind of category. Objects are just "things", and there is at most one arrow between any two things — the arrow $a \to b$ exists iff $a \le b$. Once you see this, the whole vocabulary of category theory (composition, identity, terminal object, product) lands on familiar ground.</div>
+<div class="intuition"><strong>Intuition.</strong> A <a href="https://en.wikipedia.org/wiki/Preorder" target="_blank">pre-order</a> is the simplest kind of <a href="https://en.wikipedia.org/wiki/Category_(mathematics)" target="_blank">category</a>. Objects are just "things", and there is at most one arrow between any two things — the arrow $a \to b$ exists iff $a \le b$. Once you see this, the whole vocabulary of category theory (composition, identity, terminal object, product) lands on familiar ground.</div>
 
 ---
 
 ## Pre-order
 
-A **pre-order** on a set $P$ is a binary relation $\le$ that is
+A [pre-order](https://en.wikipedia.org/wiki/Preorder) on a set $P$ is a binary relation $\le$ that is
 
-- **reflexive**: $a \le a$ for every $a$, and
-- **transitive**: $a \le b$ and $b \le c$ imply $a \le c$.
+- [reflexive](https://en.wikipedia.org/wiki/Reflexive_relation): $a \le a$ for every $a$, and
+- [transitive](https://en.wikipedia.org/wiki/Transitive_relation): $a \le b$ and $b \le c$ imply $a \le c$.
 
-A **partial order** additionally asks for antisymmetry ($a \le b$ and $b \le a$ imply $a = b$). We won't need it right away.
+A [partial order](https://en.wikipedia.org/wiki/Partially_ordered_set) additionally asks for [antisymmetry](https://en.wikipedia.org/wiki/Antisymmetric_relation) ($a \le b$ and $b \le a$ imply $a = b$). We won't need it right away.
 
-<div class="intuition"><strong>Intuition.</strong> Think of $a \le b$ as "$a$ implies $b$" or "$a$ is at most $b$". Reflexivity says "$a$ implies itself" and transitivity says implication chains together. Every pre-order you've ever met — divisibility, subset inclusion, logical implication — obeys these two rules.</div>
+<div class="intuition"><strong>Intuition.</strong> Think of $a \le b$ as "$a$ implies $b$" or "$a$ is at most $b$". Reflexivity says "$a$ implies itself" and transitivity says implication chains together. Every pre-order you've ever met — <a href="https://en.wikipedia.org/wiki/Divisor" target="_blank">divisibility</a>, subset inclusion, <a href="https://en.wikipedia.org/wiki/Logical_consequence" target="_blank">logical implication</a> — obeys these two rules.</div>
 
 ### Example: divisors of 12
 
-Take $P = \{1, 2, 3, 4, 6, 12\}$ with $a \le b$ iff $a$ divides $b$.
+Take $P = \{1, 2, 3, 4, 6, 12\}$ with $a \le b$ iff $a$ [divides](https://en.wikipedia.org/wiki/Divisor) $b$.
 
 - Reflexive: every number divides itself.
 - Transitive: if $a \mid b$ and $b \mid c$ then $a \mid c$.
@@ -31,7 +31,7 @@ So $(P, \mid)$ is a pre-order (in fact a partial order).
 
 ## Hasse diagram
 
-Drawing every $\le$-arrow is redundant — transitivity fills them in for free. A **Hasse diagram** draws only the *cover relations*: pairs $a < b$ with no $c$ strictly between.
+Drawing every $\le$-arrow is redundant — transitivity fills them in for free. A [Hasse diagram](https://en.wikipedia.org/wiki/Hasse_diagram) draws only the [cover relations](https://en.wikipedia.org/wiki/Covering_relation): pairs $a < b$ with no $c$ strictly between.
 
 ![Hasse diagram of the divisors of 12](assets/notes/specialized/category-theory/hasse-divisors12.svg)
 
@@ -47,18 +47,18 @@ Read the picture bottom-up: $1$ divides every number above it; $2$ and $3$ each 
 
 Given two elements $a, b \in P$, ask two questions:
 
-- **Meet** $a \wedge b$ — the *largest* element that sits below both $a$ and $b$.
-- **Join** $a \vee b$ — the *smallest* element that sits above both $a$ and $b$.
+- The [meet](https://en.wikipedia.org/wiki/Join_and_meet) $a \wedge b$ — the *largest* element that sits below both $a$ and $b$.
+- The [join](https://en.wikipedia.org/wiki/Join_and_meet) $a \vee b$ — the *smallest* element that sits above both $a$ and $b$.
 
 For the divisor pre-order: $a \wedge b = \gcd(a, b)$ and $a \vee b = \operatorname{lcm}(a, b)$. Try it: $4 \wedge 6 = 2$, $4 \vee 6 = 12$.
 
-<div class="intuition"><strong>Intuition.</strong> In category-theoretic language, the meet is the <em>product</em> and the join is the <em>coproduct</em>. Pre-orders are the pocket-sized universe where products and coproducts are just $\min$ and $\max$ under the order.</div>
+<div class="intuition"><strong>Intuition.</strong> In category-theoretic language, the meet is the <a href="https://en.wikipedia.org/wiki/Product_(category_theory)" target="_blank"><em>product</em></a> and the join is the <a href="https://en.wikipedia.org/wiki/Coproduct" target="_blank"><em>coproduct</em></a>. Pre-orders are the pocket-sized universe where products and coproducts are just $\min$ and $\max$ under the order.</div>
 
 ---
 
 ## The Boolean pre-order: `false ≤ true`
 
-Now the smallest interesting pre-order. Let $\mathbb{B} = \{\text{false}, \text{true}\}$ and declare
+Now the smallest interesting pre-order. Let $\mathbb{B} = \{\text{false}, \text{true}\}$ (the [Booleans](https://en.wikipedia.org/wiki/Boolean_algebra)) and declare
 
 $$\text{false} \le \text{true}.$$
 
@@ -68,7 +68,7 @@ Reflexivity gives $\text{false} \le \text{false}$ and $\text{true} \le \text{tru
 
 *Generated by [`hasse_diagram.py --example boolean`](https://github.com/TensorTheorist/TensorTheorist.github.io/blob/main/scripts/notes/specialized/category-theory/hasse_diagram.py).*
 
-<div class="intuition"><strong>Intuition.</strong> "false implies true" is literally the only non-trivial fact in this universe. Everything downstream — logic gates, Booleans, propositional calculus — falls out of this one arrow.</div>
+<div class="intuition"><strong>Intuition.</strong> "false implies true" is literally the only non-trivial fact in this universe. Everything downstream — <a href="https://en.wikipedia.org/wiki/Logic_gate" target="_blank">logic gates</a>, Booleans, <a href="https://en.wikipedia.org/wiki/Propositional_calculus" target="_blank">propositional calculus</a> — falls out of this one arrow.</div>
 
 ---
 
@@ -76,8 +76,8 @@ Reflexivity gives $\text{false} \le \text{false}$ and $\text{true} \le \text{tru
 
 Compute the meet and join for every pair $(a, b) \in \mathbb{B}^2$.
 
-- $a \wedge b$: the biggest element $\le a$ and $\le b$. That's true only when both are true — this is **AND**.
-- $a \vee b$: the smallest element $\ge a$ and $\ge b$. That's true when at least one is true — this is **OR**.
+- $a \wedge b$: the biggest element $\le a$ and $\le b$. That's true only when both are true — this is [AND](https://en.wikipedia.org/wiki/Logical_conjunction).
+- $a \vee b$: the smallest element $\ge a$ and $\ge b$. That's true when at least one is true — this is [OR](https://en.wikipedia.org/wiki/Logical_disjunction).
 
 ![AND and OR truth tables computed as meet and join in the Boolean pre-order](assets/notes/specialized/category-theory/and-or-tables.svg)
 
@@ -95,8 +95,8 @@ OR (a, b) := a ∨ b     // join
 NOT a     := (a ⇒ ⊥)   // exponential to bottom, saved for the next note
 ```
 
-Composing these gives every Boolean function. In category-theoretic terms, $\mathbb{B}$ with $\wedge$ and $\vee$ is a **bounded lattice** — and lattices are exactly pre-orders with all finite meets and joins.
+Composing these gives every Boolean function. In category-theoretic terms, $\mathbb{B}$ with $\wedge$ and $\vee$ is a [bounded lattice](https://en.wikipedia.org/wiki/Lattice_(order)) — and lattices are exactly pre-orders with all finite meets and joins.
 
 ---
 
-*Next in this series:* the exponential object $b^a$ in a pre-order, which turns "$a \Rightarrow b$" into a first-class arrow and completes the picture into a **cartesian closed** pre-order.
+*Next in this series:* the [exponential object](https://en.wikipedia.org/wiki/Exponential_object) $b^a$ in a pre-order, which turns "$a \Rightarrow b$" into a first-class arrow and completes the picture into a [cartesian closed](https://en.wikipedia.org/wiki/Cartesian_closed_category) pre-order.

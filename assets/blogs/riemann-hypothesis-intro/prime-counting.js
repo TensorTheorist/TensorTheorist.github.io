@@ -19,9 +19,9 @@
             </div>
             <canvas data-role="canvas" width="640" height="360"></canvas>
             <div class="interactive-legend">
-                <span><i style="background:#ffd166"></i> π(x)</span>
-                <span><i style="background:#7c9cff"></i> x / log x</span>
-                <span><i style="background:#ff7ea8"></i> Li(x)</span>
+                <span><i style="background:#f59e0b"></i> π(x)</span>
+                <span><i style="background:#2563eb"></i> x / log x</span>
+                <span><i style="background:#e11d48"></i> Li(x)</span>
             </div>
         </div>
     `;
@@ -66,11 +66,17 @@
         return { xs, pi, xlog, liv };
     }
 
+    const PALETTE = {
+        bg: '#f5f1ff', grid: '#e5deff', axis: '#8b7ac0',
+        muted: '#6b5b95',
+        series1: '#f59e0b', series2: '#2563eb', series3: '#e11d48'
+    };
+
     function draw(N) {
         const data = compute(N);
         const ctx = canvas.getContext('2d');
         const W = canvas.width, H = canvas.height;
-        ctx.fillStyle = '#0e1220';
+        ctx.fillStyle = PALETTE.bg;
         ctx.fillRect(0, 0, W, H);
         const L = 60, R = W - 30, T = 25, B = H - 40;
         const xmax = N;
@@ -78,8 +84,7 @@
         const X = x => L + (x / xmax) * (R - L);
         const Y = y => B - (y / ymax) * (B - T);
 
-        // gridlines
-        ctx.strokeStyle = '#232a44'; ctx.lineWidth = 0.5;
+        ctx.strokeStyle = PALETTE.grid; ctx.lineWidth = 0.6;
         for (let k = 1; k <= 5; k++) {
             const x = (xmax * k) / 5;
             ctx.beginPath(); ctx.moveTo(X(x), T); ctx.lineTo(X(x), B); ctx.stroke();
@@ -89,11 +94,10 @@
             ctx.beginPath(); ctx.moveTo(L, Y(y)); ctx.lineTo(R, Y(y)); ctx.stroke();
         }
 
-        // axes
-        ctx.strokeStyle = '#4a5578'; ctx.lineWidth = 1;
+        ctx.strokeStyle = PALETTE.axis; ctx.lineWidth = 1;
         ctx.beginPath(); ctx.moveTo(L, T); ctx.lineTo(L, B); ctx.lineTo(R, B); ctx.stroke();
 
-        ctx.fillStyle = '#9aa4c7'; ctx.font = '10px JetBrains Mono, monospace';
+        ctx.fillStyle = PALETTE.muted; ctx.font = '10px JetBrains Mono, monospace';
         ctx.textAlign = 'center';
         for (let k = 0; k <= 5; k++) {
             const x = (xmax * k) / 5;
@@ -117,9 +121,9 @@
             }
             ctx.stroke();
         }
-        plot(data.pi, '#ffd166', false);
-        plot(data.xlog, '#7c9cff', false);
-        plot(data.liv, '#ff7ea8', true);
+        plot(data.pi, PALETTE.series1, false);
+        plot(data.xlog, PALETTE.series2, false);
+        plot(data.liv, PALETTE.series3, true);
         ctx.setLineDash([]);
     }
 

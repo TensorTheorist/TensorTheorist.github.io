@@ -1966,3 +1966,22 @@ a.note-card:hover {
 :root:not([data-theme="light"]) .intuition strong {
     color: #c4b5fd;
 }
+
+/* ============================================
+   Article figure sizing (blog + notes)
+   ============================================ */
+.blog-post-body img,
+.blog-post-body svg,
+.blog-post-body .interactive-slot canvas {
+    display: block;
+    margin: 1.25rem auto;
+    max-width: 480px;
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+    background: #f5f1ff;
+}
+
+.blog-post-body .interactive-slot canvas {
+    max-width: 100%;
+}

@@ -1,15 +1,7 @@
 """Regenerate the critical-strip SVG figure for the Riemann blog post.
 
-Produces `assets/blogs/riemann-hypothesis-intro/critical-strip.svg`
-with:
-  - the complex plane with gridlines and labelled axes,
-  - the critical strip 0 < Re(s) < 1 shaded,
-  - the critical line Re(s) = 1/2 dashed,
-  - the first ten non-trivial zeros of zeta placed at their true
-    imaginary parts on the critical line,
-  - the first trivial zero at s = -2.
-
-Zero heights are taken from Odlyzko's published tables.
+Uses the shared pastel palette from scripts/lib/svg_style.py so this
+figure matches every other visual on the site.
 
 Usage:
     python3 scripts/blog/riemann-hypothesis-intro/critical_strip.py \\
@@ -17,9 +9,13 @@ Usage:
 """
 
 import argparse
+import os
+import sys
 
-# First ten non-trivial zeros of zeta on the critical line, i.e. their
-# imaginary parts. Real part is 1/2 for each (assuming RH).
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "lib")))
+
+from svg_style import PALETTE, open_svg, close_svg, line, circle, text, rect  # noqa: E402
+
 ZEROS_IM = [
     14.134725141734693,
     21.022039638771556,
@@ -34,111 +30,57 @@ ZEROS_IM = [
 ]
 
 
-def render_svg(width: int = 640, height: int = 420,
-               re_min: float = -3.0, re_max: float = 3.0,
-               im_max: float = 55.0, n_zeros: int = 10) -> str:
-    left, right, top, bottom = 70, width - 40, 30, height - 50
+def render_svg(width=580, height=380, re_min=-3.0, re_max=3.0,
+               im_max=55.0, n_zeros=10):
+    left, right, top, bottom = 60, width - 30, 30, height - 46
 
-    def x_of(re: float) -> float:
+    def x_of(re):
         return left + (re - re_min) / (re_max - re_min) * (right - left)
 
-    def y_of(im: float) -> float:
+    def y_of(im):
         return bottom - (im / im_max) * (bottom - top)
 
-    parts = []
-    parts.append(
-        f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}" '
-        f'role="img" aria-label="Critical strip and non-trivial zeros of zeta">'
-    )
-    parts.append('<rect width="100%" height="100%" fill="#0e1220"/>')
+    parts = [open_svg(width, height, aria="Critical strip and non-trivial zeros of zeta")]
 
     # gridlines
     for re in range(int(re_min), int(re_max) + 1):
-        parts.append(
-            f'<line x1="{x_of(re):.1f}" y1="{top}" x2="{x_of(re):.1f}" y2="{bottom}" '
-            f'stroke="#232a44" stroke-width="0.5"/>'
-        )
+        parts.append(line(x_of(re), top, x_of(re), bottom, color=PALETTE["grid"], width=0.6))
     for im in range(0, int(im_max) + 1, 10):
-        parts.append(
-            f'<line x1="{left}" y1="{y_of(im):.1f}" x2="{right}" y2="{y_of(im):.1f}" '
-            f'stroke="#232a44" stroke-width="0.5"/>'
-        )
+        parts.append(line(left, y_of(im), right, y_of(im), color=PALETTE["grid"], width=0.6))
 
     # critical strip
-    parts.append(
-        f'<rect x="{x_of(0):.1f}" y="{top}" width="{x_of(1) - x_of(0):.1f}" '
-        f'height="{bottom - top}" fill="#7c9cff" fill-opacity="0.12"/>'
-    )
+    parts.append(rect(x_of(0), top, x_of(1) - x_of(0), bottom - top, fill="#efe6ff"))
     # critical line
-    parts.append(
-        f'<line x1="{x_of(0.5):.1f}" y1="{top}" x2="{x_of(0.5):.1f}" y2="{bottom}" '
-        f'stroke="#ff7ea8" stroke-dasharray="4 3" stroke-width="1.4"/>'
-    )
-
+    parts.append(line(x_of(0.5), top, x_of(0.5), bottom,
+                      color=PALETTE["critical"], width=1.4, dashed=True))
     # axes
-    parts.append(
-        f'<line x1="{x_of(0):.1f}" y1="{top}" x2="{x_of(0):.1f}" y2="{bottom}" '
-        f'stroke="#4a5578"/>'
-    )
-    parts.append(
-        f'<line x1="{left}" y1="{bottom}" x2="{right}" y2="{bottom}" stroke="#4a5578"/>'
-    )
+    parts.append(line(x_of(0), top, x_of(0), bottom, color=PALETTE["axis"], width=1))
+    parts.append(line(left, bottom, right, bottom, color=PALETTE["axis"], width=1))
 
-    # x tick labels
     for re in range(int(re_min), int(re_max) + 1):
-        parts.append(
-            f'<line x1="{x_of(re):.1f}" y1="{bottom}" x2="{x_of(re):.1f}" y2="{bottom + 4}" '
-            f'stroke="#4a5578"/>'
-        )
-        parts.append(
-            f'<text x="{x_of(re):.1f}" y="{bottom + 18}" fill="#9aa4c7" '
-            f'font-family="JetBrains Mono, monospace" font-size="10" '
-            f'text-anchor="middle">{re}</text>'
-        )
-    # y tick labels
+        parts.append(line(x_of(re), bottom, x_of(re), bottom + 4, color=PALETTE["axis"]))
+        parts.append(text(x_of(re), bottom + 16, str(re),
+                          color=PALETTE["muted"], size=10, anchor="middle"))
     for im in range(0, int(im_max) + 1, 10):
-        parts.append(
-            f'<line x1="{left - 4}" y1="{y_of(im):.1f}" x2="{left}" y2="{y_of(im):.1f}" '
-            f'stroke="#4a5578"/>'
-        )
-        parts.append(
-            f'<text x="{left - 8}" y="{y_of(im) + 3:.1f}" fill="#9aa4c7" '
-            f'font-family="JetBrains Mono, monospace" font-size="10" '
-            f'text-anchor="end">{im}</text>'
-        )
+        parts.append(line(left - 4, y_of(im), left, y_of(im), color=PALETTE["axis"]))
+        parts.append(text(left - 8, y_of(im) + 3, str(im),
+                          color=PALETTE["muted"], size=10, anchor="end"))
 
-    # non-trivial zeros
     for im in ZEROS_IM[:n_zeros]:
-        parts.append(
-            f'<circle cx="{x_of(0.5):.1f}" cy="{y_of(im):.1f}" r="4" fill="#ffd166"/>'
-        )
-    # first trivial zero -2 (also -4 outside range)
-    parts.append(
-        f'<circle cx="{x_of(-2):.1f}" cy="{y_of(0):.1f}" r="3.5" fill="#9aa4c7"/>'
-    )
+        parts.append(circle(x_of(0.5), y_of(im), 4, fill=PALETTE["node"]))
+    parts.append(circle(x_of(-2), y_of(0), 3.5, fill=PALETTE["muted"]))
 
-    # labels
-    parts.append(
-        f'<text x="{x_of(0.5) + 8:.1f}" y="{top + 16}" fill="#ff7ea8" '
-        f'font-family="JetBrains Mono, monospace" font-size="11">Re(s) = 1/2</text>'
-    )
-    parts.append(
-        f'<text x="{right - 4}" y="{bottom - 6}" fill="#9aa4c7" '
-        f'font-family="JetBrains Mono, monospace" font-size="11" '
-        f'text-anchor="end">Re(s)</text>'
-    )
-    parts.append(
-        f'<text x="{x_of(0) + 8:.1f}" y="{top + 14}" fill="#9aa4c7" '
-        f'font-family="JetBrains Mono, monospace" font-size="11">Im(s)</text>'
-    )
-    parts.append(
-        f'<text x="{x_of(-2):.1f}" y="{y_of(0) + 18:.1f}" fill="#9aa4c7" '
-        f'font-family="JetBrains Mono, monospace" font-size="10" '
-        f'text-anchor="middle">s = -2</text>'
-    )
+    parts.append(text(x_of(0.5) + 8, top + 14, "Re(s) = 1/2",
+                      color=PALETTE["critical"], size=11))
+    parts.append(text(right - 4, bottom - 6, "Re(s)",
+                      color=PALETTE["muted"], size=11, anchor="end"))
+    parts.append(text(x_of(0) + 8, top + 12, "Im(s)",
+                      color=PALETTE["muted"], size=11))
+    parts.append(text(x_of(-2), y_of(0) + 18, "s = -2",
+                      color=PALETTE["muted"], size=10, anchor="middle"))
 
-    parts.append('</svg>')
-    return "\n".join(parts) + "\n"
+    parts.append(close_svg())
+    return "".join(parts)
 
 
 if __name__ == "__main__":
@@ -146,7 +88,6 @@ if __name__ == "__main__":
     parser.add_argument("--out", default=None)
     parser.add_argument("--n-zeros", type=int, default=10)
     args = parser.parse_args()
-
     svg = render_svg(n_zeros=args.n_zeros)
     if args.out:
         with open(args.out, "w") as f:

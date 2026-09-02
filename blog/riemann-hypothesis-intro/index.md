@@ -3,7 +3,7 @@
 *Published: August 31, 2026*
 *Category: Riemann*
 
-Why should anyone care about the zeros of a strange complex-valued function? Because they hold the deepest secret we know about the distribution of the prime numbers. This post walks through the statement of the Riemann Hypothesis with just enough machinery to see *why* it matters.
+Why should anyone care about the zeros of a strange complex-valued function? Because they hold the deepest secret we know about the distribution of the [prime numbers](https://en.wikipedia.org/wiki/Prime_number). This post walks through the statement of the [Riemann Hypothesis](https://en.wikipedia.org/wiki/Riemann_hypothesis) with just enough machinery to see *why* it matters.
 
 ## Contents
 
@@ -19,11 +19,11 @@ Why should anyone care about the zeros of a strange complex-valued function? Bec
 <a id="motivation"></a>
 ## 1. Motivation: primes are irregular
 
-The primes seem chaotic up close but tame in the aggregate. Let $\pi(x)$ denote the number of primes $\le x$. Numerical experiments suggest
+The primes seem chaotic up close but tame in the aggregate. Let $\pi(x)$ denote the [prime-counting function](https://en.wikipedia.org/wiki/Prime-counting_function) — the number of primes $\le x$. Numerical experiments suggest
 
 $$\pi(x) \sim \frac{x}{\log x}.$$
 
-This is the **Prime Number Theorem** (PNT), proved independently by Hadamard and de la Vallée Poussin in 1896. A sharper approximation is the logarithmic integral
+This is the [Prime Number Theorem](https://en.wikipedia.org/wiki/Prime_number_theorem) (PNT), proved independently by [Hadamard](https://en.wikipedia.org/wiki/Jacques_Hadamard) and [de la Vallée Poussin](https://en.wikipedia.org/wiki/Charles_Jean_de_la_Vall%C3%A9e_Poussin) in 1896. A sharper approximation is the [logarithmic integral](https://en.wikipedia.org/wiki/Logarithmic_integral_function)
 
 $$\mathrm{Li}(x) = \int_2^x \frac{dt}{\log t}.$$
 
@@ -38,11 +38,11 @@ PNT tells us *how many* primes there are up to $x$. It does **not** tell us how 
 <a id="zeta"></a>
 ## 2. Enter the zeta function
 
-For $\operatorname{Re}(s) > 1$, Riemann's zeta function is
+For $\operatorname{Re}(s) > 1$, [Riemann's zeta function](https://en.wikipedia.org/wiki/Riemann_zeta_function) is
 
 $$\zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^{s}}.$$
 
-Euler's product formula rewrites this sum as a product over primes:
+[Euler's product formula](https://en.wikipedia.org/wiki/Euler_product) rewrites this sum as a product over primes:
 
 $$\zeta(s) = \prod_{p \text{ prime}} \frac{1}{1 - p^{-s}}, \qquad \operatorname{Re}(s) > 1.$$
 
@@ -53,14 +53,14 @@ The identity is short but astonishing — it welds the additive structure of the
 <a id="continuation"></a>
 ## 3. Analytic continuation and the critical strip
 
-Riemann showed that $\zeta(s)$ can be extended to a meromorphic function on all of $\mathbb{C}$, with a single simple pole at $s = 1$. The extended function satisfies a symmetry called the **functional equation**:
+Riemann showed that $\zeta(s)$ can be extended to a [meromorphic function](https://en.wikipedia.org/wiki/Meromorphic_function) on all of $\mathbb{C}$, with a single [simple pole](https://en.wikipedia.org/wiki/Pole_(complex_analysis)) at $s = 1$. The extended function satisfies a symmetry called the [functional equation](https://en.wikipedia.org/wiki/Riemann_zeta_function#Riemann's_functional_equation):
 
 $$\zeta(s) = 2^{s} \pi^{s-1} \sin\!\left(\frac{\pi s}{2}\right) \Gamma(1 - s)\, \zeta(1 - s).$$
 
 Two kinds of zeros appear:
 
 - **Trivial zeros** at $s = -2, -4, -6, \dots$, forced by the sine factor.
-- **Non-trivial zeros** inside the *critical strip* $0 < \operatorname{Re}(s) < 1$.
+- **Non-trivial zeros** inside the [critical strip](https://en.wikipedia.org/wiki/Riemann_hypothesis#Zeros_on_the_critical_line) $0 < \operatorname{Re}(s) < 1$.
 
 ![The critical strip with the first ten non-trivial zeros on Re(s) = 1/2](assets/blogs/riemann-hypothesis-intro/critical-strip.svg)
 
@@ -101,11 +101,11 @@ So the Riemann Hypothesis is, in disguise, the statement that primes are as regu
 ## 6. Where things stand
 
 - Trillions of zeros have been checked and all lie on the critical line.
-- Hardy (1914) proved that infinitely many zeros lie on the critical line.
+- [Hardy](https://en.wikipedia.org/wiki/G._H._Hardy) (1914) proved that infinitely many zeros lie on the critical line.
 - The best known unconditional bounds still allow zeros to drift arbitrarily close to $\operatorname{Re}(s) = 1$.
 - No proof — and no plausible strategy — is currently known.
 
-The Riemann Hypothesis is one of the seven [Clay Millennium Problems](blog-post.html?post=millennium-problems-overview). A proof would immediately upgrade thousands of conditional theorems in number theory to unconditional ones.
+The Riemann Hypothesis is one of the seven [Clay Millennium Problems](https://en.wikipedia.org/wiki/Millennium_Prize_Problems). A proof would immediately upgrade thousands of conditional theorems in number theory to unconditional ones.
 
 ---
 
