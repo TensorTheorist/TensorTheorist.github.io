@@ -19,6 +19,10 @@ document.addEventListener('DOMContentLoaded', () => {
         initNotesSubjectGrid();
     }
 
+    if (document.getElementById('searchResults')) {
+        initSearchPage();
+    }
+
     if (document.getElementById('profileImageContainer')) {
         initImageZoom();
     }
@@ -529,4 +533,115 @@ function initNotesSubjectGrid() {
             }
         });
     });
+}
+
+function buildSearchIndex() {
+    const items = [];
+    (typeof blogPosts !== 'undefined' ? blogPosts : []).forEach(p => {
+        items.push({
+            kind: 'blog',
+            label: 'BLOG',
+            title: p.title,
+            haystack: [p.title, p.excerpt, p.id, ...(p.tags || [])].join(' ').toLowerCase(),
+            crumbs: (p.tags || []).slice(0, 3).map(t => t.replace(/-/g, ' ')).join(' · '),
+            href: `blog-post.html?post=${p.id}`
+        });
+    });
+    (typeof notesCategories !== 'undefined' ? notesCategories : []).forEach(cat => {
+        items.push({
+            kind: 'notes',
+            label: 'NOTES',
+            title: cat.title,
+            haystack: [cat.title, cat.blurb, cat.id].join(' ').toLowerCase(),
+            crumbs: 'category',
+            href: `notes-category.html?cat=${cat.id}`
+        });
+        (cat.subjects || []).forEach(sub => {
+            items.push({
+                kind: 'notes',
+                label: 'NOTES',
+                title: sub.title,
+                haystack: [sub.title, sub.textbook, sub.id, cat.title].join(' ').toLowerCase(),
+                crumbs: cat.title,
+                href: `notes-category.html?cat=${cat.id}`
+            });
+            (sub.pages || []).forEach(pg => {
+                items.push({
+                    kind: 'notes',
+                    label: 'NOTES',
+                    title: pg.title || pg.id,
+                    haystack: [pg.title, pg.id, sub.title, cat.title].join(' ').toLowerCase(),
+                    crumbs: `${cat.title} · ${sub.title}`,
+                    href: `note-post.html?cat=${cat.id}&sub=${sub.id}&page=${pg.id}`
+                });
+            });
+        });
+    });
+    return items;
+}
+
+function initSearchPage() {
+    const input = document.getElementById('searchInput');
+    const resultsEl = document.getElementById('searchResults');
+    const filterEl = document.getElementById('searchFilters');
+    if (!input || !resultsEl) return;
+
+    const index = buildSearchIndex();
+    let filter = 'all';
+
+    const urlQ = new URLSearchParams(window.location.search).get('q') || '';
+    if (urlQ) input.value = urlQ;
+
+    function score(item, terms) {
+        let s = 0;
+        for (const t of terms) {
+            if (!item.haystack.includes(t)) return -1;
+            if (item.title.toLowerCase().includes(t)) s += 3;
+            s += 1;
+        }
+        return s;
+    }
+
+    function highlight(text, terms) {
+        if (!terms.length) return text;
+        const escaped = terms.map(t => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
+        return text.replace(new RegExp(`(${escaped})`, 'gi'), '<mark>$1</mark>');
+    }
+
+    function render() {
+        const q = input.value.trim().toLowerCase();
+        const terms = q ? q.split(/\s+/) : [];
+        let hits = terms.length
+            ? index.map(i => ({ i, s: score(i, terms) })).filter(x => x.s >= 0)
+            : index.map(i => ({ i, s: 0 }));
+        if (filter !== 'all') hits = hits.filter(x => x.i.kind === filter);
+        hits.sort((a, b) => b.s - a.s);
+
+        if (!hits.length) {
+            resultsEl.innerHTML = `<p class="search-empty">${q ? 'No matches.' : 'Start typing to search…'}</p>`;
+            return;
+        }
+
+        resultsEl.innerHTML = hits.slice(0, 60).map(({ i }) => `
+            <a class="search-result" href="${i.href}">
+                <span class="search-result-tag search-result-tag-${i.kind}">[${i.label}]</span>
+                <span class="search-result-body">
+                    <span class="search-result-title">${highlight(i.title, terms)}</span>
+                    <span class="search-result-crumbs">${i.crumbs}</span>
+                </span>
+            </a>
+        `).join('');
+    }
+
+    input.addEventListener('input', render);
+    filterEl.addEventListener('click', e => {
+        const btn = e.target.closest('.search-filter-btn');
+        if (!btn) return;
+        filter = btn.dataset.filter;
+        filterEl.querySelectorAll('.search-filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        render();
+    });
+
+    render();
 }
