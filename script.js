@@ -172,6 +172,15 @@ async function initGitHubStats() {
 
 const blogPosts = [
     {
+        id: 'understanding-analytic-continuation',
+        title: 'Understanding Analytic Continuation',
+        excerpt: 'Two elementary examples — a punctured point and a restricted domain — that show what analytic continuation actually does.',
+        date: '2026-09-02',
+        tags: ['analytic-continuation', 'complex-analysis', 'popular'],
+        image: 'math',
+        youtube: ''
+    },
+    {
         id: 'riemann-hypothesis-intro',
         title: 'The Riemann Hypothesis: A Gentle Introduction',
         excerpt: 'Why the zeros of a single complex function encode the deepest secrets of the prime numbers.',
