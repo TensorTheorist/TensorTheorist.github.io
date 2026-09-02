@@ -51,9 +51,10 @@ def render(spec):
         parts.append(line(a["x"], a["y"], b["x"], b["y"], color=PALETTE["accent"], width=1.6))
 
     for n in positioned:
-        parts.append(circle(n["x"], n["y"], 8, fill=PALETTE["node"], stroke=PALETTE["bg"], stroke_width=2))
+        parts.append(circle(n["x"], n["y"], 14, fill=PALETTE["node"], stroke=PALETTE["bg"], stroke_width=2))
         parts.append(
-            text(n["x"], n["y"] + 26, n["label"], color=PALETTE["text"], size=12, anchor="middle")
+            text(n["x"], n["y"] + 4, n["label"], color=PALETTE["text"],
+                 size=12, anchor="middle", weight="600")
         )
 
     parts.append(close_svg())
@@ -65,8 +66,8 @@ EXAMPLES = {
     "boolean": {
         "levels": 2,
         "nodes": [
-            {"id": "F", "label": "false", "level": 0, "col": 0},
-            {"id": "T", "label": "true",  "level": 1, "col": 0},
+            {"id": "F", "label": "F", "level": 0, "col": 0},
+            {"id": "T", "label": "T", "level": 1, "col": 0},
         ],
         "edges": [{"lower": "F", "upper": "T"}],
         "aria": "Hasse diagram of the Boolean pre-order",

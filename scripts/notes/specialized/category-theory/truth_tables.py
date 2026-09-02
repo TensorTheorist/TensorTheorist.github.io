@@ -17,10 +17,10 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..",
 from svg_style import PALETTE, FONT, open_svg, close_svg, rect, text  # noqa: E402
 
 ROWS = [
-    ("false", "false"),
-    ("false", "true"),
-    ("true",  "false"),
-    ("true",  "true"),
+    ("F", "F"),
+    ("F", "T"),
+    ("T",  "F"),
+    ("T",  "T"),
 ]
 
 
@@ -46,8 +46,8 @@ def draw_table(x0, y0, title, op):
         out += draw_cell(x0 + i * cw, y0, cw, rh, h, header=True)
 
     for r, (a, b) in enumerate(ROWS):
-        result = (a == "true" and b == "true") if op == "∧" else (a == "true" or b == "true")
-        row = [(a, a == "true"), (b, b == "true"), ("true" if result else "false", result)]
+        result = (a == "T" and b == "T") if op == "∧" else (a == "T" or b == "T")
+        row = [(a, a == "T"), (b, b == "T"), ("T" if result else "F", result)]
         for i, (label, val) in enumerate(row):
             out += draw_cell(x0 + i * cw, y0 + (r + 1) * rh, cw, rh, label, value=val)
     return out

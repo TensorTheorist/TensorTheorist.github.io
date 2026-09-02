@@ -8,29 +8,29 @@
 <rect x="164" y="40" width="72" height="26" fill="#efe6ff" stroke="#e5deff" stroke-width="1"/>
 <text x="200.0" y="57.0" fill="#6b5b95" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="600">a ∧ b</text>
 <rect x="20" y="66" width="72" height="26" fill="#ffffff" stroke="#e5deff" stroke-width="1"/>
-<text x="56.0" y="83.0" fill="#6b5b95" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">false</text>
+<text x="56.0" y="83.0" fill="#6b5b95" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">F</text>
 <rect x="92" y="66" width="72" height="26" fill="#ffffff" stroke="#e5deff" stroke-width="1"/>
-<text x="128.0" y="83.0" fill="#6b5b95" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">false</text>
+<text x="128.0" y="83.0" fill="#6b5b95" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">F</text>
 <rect x="164" y="66" width="72" height="26" fill="#ffffff" stroke="#e5deff" stroke-width="1"/>
-<text x="200.0" y="83.0" fill="#6b5b95" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">false</text>
+<text x="200.0" y="83.0" fill="#6b5b95" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">F</text>
 <rect x="20" y="92" width="72" height="26" fill="#ffffff" stroke="#e5deff" stroke-width="1"/>
-<text x="56.0" y="109.0" fill="#6b5b95" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">false</text>
+<text x="56.0" y="109.0" fill="#6b5b95" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">F</text>
 <rect x="92" y="92" width="72" height="26" fill="#ffffff" stroke="#e5deff" stroke-width="1"/>
-<text x="128.0" y="109.0" fill="#7c3aed" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">true</text>
+<text x="128.0" y="109.0" fill="#7c3aed" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">T</text>
 <rect x="164" y="92" width="72" height="26" fill="#ffffff" stroke="#e5deff" stroke-width="1"/>
-<text x="200.0" y="109.0" fill="#6b5b95" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">false</text>
+<text x="200.0" y="109.0" fill="#6b5b95" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">F</text>
 <rect x="20" y="118" width="72" height="26" fill="#ffffff" stroke="#e5deff" stroke-width="1"/>
-<text x="56.0" y="135.0" fill="#7c3aed" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">true</text>
+<text x="56.0" y="135.0" fill="#7c3aed" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">T</text>
 <rect x="92" y="118" width="72" height="26" fill="#ffffff" stroke="#e5deff" stroke-width="1"/>
-<text x="128.0" y="135.0" fill="#6b5b95" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">false</text>
+<text x="128.0" y="135.0" fill="#6b5b95" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">F</text>
 <rect x="164" y="118" width="72" height="26" fill="#ffffff" stroke="#e5deff" stroke-width="1"/>
-<text x="200.0" y="135.0" fill="#6b5b95" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">false</text>
+<text x="200.0" y="135.0" fill="#6b5b95" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">F</text>
 <rect x="20" y="144" width="72" height="26" fill="#ffffff" stroke="#e5deff" stroke-width="1"/>
-<text x="56.0" y="161.0" fill="#7c3aed" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">true</text>
+<text x="56.0" y="161.0" fill="#7c3aed" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">T</text>
 <rect x="92" y="144" width="72" height="26" fill="#ffffff" stroke="#e5deff" stroke-width="1"/>
-<text x="128.0" y="161.0" fill="#7c3aed" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">true</text>
+<text x="128.0" y="161.0" fill="#7c3aed" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">T</text>
 <rect x="164" y="144" width="72" height="26" fill="#ffffff" stroke="#e5deff" stroke-width="1"/>
-<text x="200.0" y="161.0" fill="#7c3aed" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">true</text>
+<text x="200.0" y="161.0" fill="#7c3aed" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">T</text>
 <text x="383.0" y="30" fill="#7c3aed" font-family="JetBrains Mono, monospace" font-size="13" text-anchor="middle" font-weight="600">join  ·  a ∨ b  (OR)</text>
 <rect x="275" y="40" width="72" height="26" fill="#efe6ff" stroke="#e5deff" stroke-width="1"/>
 <text x="311.0" y="57.0" fill="#6b5b95" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="600">a</text>
@@ -39,27 +39,27 @@
 <rect x="419" y="40" width="72" height="26" fill="#efe6ff" stroke="#e5deff" stroke-width="1"/>
 <text x="455.0" y="57.0" fill="#6b5b95" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="600">a ∨ b</text>
 <rect x="275" y="66" width="72" height="26" fill="#ffffff" stroke="#e5deff" stroke-width="1"/>
-<text x="311.0" y="83.0" fill="#6b5b95" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">false</text>
+<text x="311.0" y="83.0" fill="#6b5b95" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">F</text>
 <rect x="347" y="66" width="72" height="26" fill="#ffffff" stroke="#e5deff" stroke-width="1"/>
-<text x="383.0" y="83.0" fill="#6b5b95" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">false</text>
+<text x="383.0" y="83.0" fill="#6b5b95" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">F</text>
 <rect x="419" y="66" width="72" height="26" fill="#ffffff" stroke="#e5deff" stroke-width="1"/>
-<text x="455.0" y="83.0" fill="#6b5b95" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">false</text>
+<text x="455.0" y="83.0" fill="#6b5b95" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">F</text>
 <rect x="275" y="92" width="72" height="26" fill="#ffffff" stroke="#e5deff" stroke-width="1"/>
-<text x="311.0" y="109.0" fill="#6b5b95" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">false</text>
+<text x="311.0" y="109.0" fill="#6b5b95" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">F</text>
 <rect x="347" y="92" width="72" height="26" fill="#ffffff" stroke="#e5deff" stroke-width="1"/>
-<text x="383.0" y="109.0" fill="#7c3aed" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">true</text>
+<text x="383.0" y="109.0" fill="#7c3aed" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">T</text>
 <rect x="419" y="92" width="72" height="26" fill="#ffffff" stroke="#e5deff" stroke-width="1"/>
-<text x="455.0" y="109.0" fill="#7c3aed" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">true</text>
+<text x="455.0" y="109.0" fill="#7c3aed" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">T</text>
 <rect x="275" y="118" width="72" height="26" fill="#ffffff" stroke="#e5deff" stroke-width="1"/>
-<text x="311.0" y="135.0" fill="#7c3aed" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">true</text>
+<text x="311.0" y="135.0" fill="#7c3aed" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">T</text>
 <rect x="347" y="118" width="72" height="26" fill="#ffffff" stroke="#e5deff" stroke-width="1"/>
-<text x="383.0" y="135.0" fill="#6b5b95" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">false</text>
+<text x="383.0" y="135.0" fill="#6b5b95" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">F</text>
 <rect x="419" y="118" width="72" height="26" fill="#ffffff" stroke="#e5deff" stroke-width="1"/>
-<text x="455.0" y="135.0" fill="#7c3aed" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">true</text>
+<text x="455.0" y="135.0" fill="#7c3aed" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">T</text>
 <rect x="275" y="144" width="72" height="26" fill="#ffffff" stroke="#e5deff" stroke-width="1"/>
-<text x="311.0" y="161.0" fill="#7c3aed" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">true</text>
+<text x="311.0" y="161.0" fill="#7c3aed" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">T</text>
 <rect x="347" y="144" width="72" height="26" fill="#ffffff" stroke="#e5deff" stroke-width="1"/>
-<text x="383.0" y="161.0" fill="#7c3aed" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">true</text>
+<text x="383.0" y="161.0" fill="#7c3aed" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">T</text>
 <rect x="419" y="144" width="72" height="26" fill="#ffffff" stroke="#e5deff" stroke-width="1"/>
-<text x="455.0" y="161.0" fill="#7c3aed" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">true</text>
+<text x="455.0" y="161.0" fill="#7c3aed" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle" font-weight="normal">T</text>
 </svg>
