@@ -1970,8 +1970,11 @@ a.note-card:hover {
 /* ============================================
    Article figure sizing (blog + notes)
    ============================================ */
+/* Article figures. Uses `<img>` (from markdown ![alt](file.svg)) and
+   the interactive canvas. Do NOT include a bare `svg` selector here —
+   KaTeX renders its stretchy delimiters (\left|, \sqrt, …) as inline
+   <svg> elements and any `width: 100%` on those breaks the math. */
 .blog-post-body img,
-.blog-post-body svg,
 .blog-post-body .interactive-slot canvas {
     display: block;
     margin: 1.25rem auto;
@@ -1984,6 +1987,17 @@ a.note-card:hover {
 
 .blog-post-body .interactive-slot canvas {
     max-width: 100%;
+}
+
+/* Belt-and-braces: never let a KaTeX-owned SVG be affected by outer rules. */
+.blog-post-body .katex svg,
+.blog-post-body .katex-display svg {
+    display: inline;
+    width: auto;
+    max-width: none;
+    height: auto;
+    margin: 0;
+    background: none;
 }
 
 /* ============================================
