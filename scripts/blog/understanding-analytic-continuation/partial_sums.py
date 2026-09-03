@@ -16,7 +16,7 @@ import argparse
 import json
 
 
-def compute(n_terms: int, steps: int = 400, eps: float = 1e-5) -> dict:
+def compute(n_terms: int, steps: int = 400, eps: float = 1e-2) -> dict:
     xs, s_n, exact = [], [], []
     lo, hi = -1.0 + eps, 1.0 - eps
     for i in range(steps + 1):

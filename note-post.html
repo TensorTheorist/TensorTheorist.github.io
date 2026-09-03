@@ -20,7 +20,7 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     
     <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
-    <link rel="stylesheet" href="style.css?v=20260902151123">
+    <link rel="stylesheet" href="style.css?v=20260903104949">
 </head>
 <body>
     <nav class="nav" id="nav">
@@ -89,7 +89,7 @@
         </div>
     </footer>
 
-    <script src="script.js?v=20260902151123"></script>
+    <script src="script.js?v=20260903104949"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             loadNotePost();
@@ -180,16 +180,30 @@
                 });
                 
                 // Math rendering
+                const katexOpts = {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false },
+                        { left: '\\[', right: '\\]', display: true },
+                        { left: '\\(', right: '\\)', display: false }
+                    ]
+                };
                 if (typeof renderMathInElement === 'function') {
-                    renderMathInElement(contentEl, {
-                        delimiters: [
-                            { left: '$$', right: '$$', display: true },
-                            { left: '$', right: '$', display: false },
-                            { left: '\\[', right: '\\]', display: true },
-                            { left: '\\(', right: '\\)', display: false }
-                        ]
-                    });
+                    renderMathInElement(contentEl, katexOpts);
                 }
+                // Re-render math inside a <details> when it first opens —
+                // closed <details> gives KaTeX zero height, so \left|/\right|
+                // delimiters get sized incorrectly on the initial pass.
+                contentEl.querySelectorAll('details').forEach(d => {
+                    d.addEventListener('toggle', () => {
+                        if (d.open && !d.dataset.katexRerendered) {
+                            d.dataset.katexRerendered = '1';
+                            if (typeof renderMathInElement === 'function') {
+                                renderMathInElement(d, katexOpts);
+                            }
+                        }
+                    });
+                });
             }
         }
         
