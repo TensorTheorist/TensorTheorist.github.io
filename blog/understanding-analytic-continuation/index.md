@@ -35,11 +35,11 @@ The [radius of convergence](https://en.wikipedia.org/wiki/Radius_of_convergence)
 
 The [Ratio Test](https://en.wikipedia.org/wiki/Ratio_test):
 
-$$\frac{1}{R} = \lim_{k \to \infty} \left| \frac{a_{k+1}}{a_{k}} \right|.$$
+$$\frac{1}{R} = \lim_{k \to \infty} \Big| \frac{a_{k+1}}{a_{k}} \Big|.$$
 
 The [Cauchy–Hadamard formula](https://en.wikipedia.org/wiki/Cauchy%E2%80%93Hadamard_theorem):
 
-$$\frac{1}{R} = \limsup_{k \to \infty} \sqrt[k]{|a_{k}|}.$$
+$$\frac{1}{R} = \limsup_{k \to \infty} |a_{k}|^{1/k}.$$
 
 For $g(x) = x$ centered at $x_{0} \neq 0$, only $a_{0} = x_{0}$ and $a_{1} = 1$ are nonzero, so $1/R = 0$ and $R = \infty$.
 

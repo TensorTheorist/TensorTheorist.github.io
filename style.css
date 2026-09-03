@@ -1989,16 +1989,6 @@ a.note-card:hover {
     max-width: 100%;
 }
 
-/* Belt-and-braces: never let a KaTeX-owned SVG be affected by outer rules. */
-.blog-post-body .katex svg,
-.blog-post-body .katex-display svg {
-    display: inline;
-    width: auto;
-    max-width: none;
-    height: auto;
-    margin: 0;
-    background: none;
-}
 
 /* ============================================
    Sneak peek (mint pastel)
