@@ -173,6 +173,35 @@ the top of the JS. Link to a Python reference from the widget header.
 `style.css` caps every image and canvas inside an article at
 `max-width: 480px` and centers it. Do not override this in markdown.
 
+**Do NOT add a bare `.blog-post-body svg` (or `.blog-post-body *` etc.) rule
+to size figures.** KaTeX draws `\left|`, `\right|`, `\sqrt`, and other
+stretchy shapes as inline `<svg>` elements *inside the article body*. Any
+outer rule that forces `width: 100%`, `max-width`, `height: auto`, or
+`display: block` on those SVGs shreds the math (bars detach, surds vanish,
+overlines slide onto text). The current sizing rule intentionally targets
+only `img` and `.interactive-slot canvas`.
+
+## 9a. KaTeX authoring rules — avoid the fragile constructs
+
+The parts of KaTeX that render as auto-stretched inline SVG are the source
+of every math bug we have hit. Write around them:
+
+- **Absolute values / delimiters.** Prefer fixed-size `\Big|…\Big|` (or
+  `\bigl|…\bigr|`) over `\left|…\right|` for short expressions. `\left/\right`
+  triggers KaTeX's SVG delimiter pipeline; `\Big` uses a plain font glyph.
+- **k-th roots.** Prefer the power form `|a_k|^{1/k}` over `\sqrt[k]{|a_k|}`.
+  The `\sqrt[…]` surd uses SVG; the power form is pure font glyphs.
+- **Square roots.** `\sqrt{x}` (no index) is usually fine; if it acts up,
+  switch to `x^{1/2}`.
+- **No `\;` spacing** inside `$$…$$` — the markdown parser eats the backslash
+  and leaves a literal `;` in the output. Use plain space or `\,` if you need it.
+- **Math inside `<details>` still works** because a `toggle` listener
+  re-renders KaTeX on first open (see `blog-post.html` /
+  `note-post.html`). Leave that in place.
+
+When in doubt, write the math the fragile way once, load the page, hard-refresh
+(Cmd+Shift+R) once, and check every `<details>` after opening it.
+
 ## 10. Handwritten notes → site content pipeline
 
 The intended flow when you send hand-drawn notes:
