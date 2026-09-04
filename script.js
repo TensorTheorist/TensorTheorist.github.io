@@ -59,11 +59,13 @@ function initVisitorCounter() {
     link.target = '_blank';
     link.rel = 'noopener';
     link.className = 'nav-counter';
-    link.title = 'Visitor count';
+    link.title = 'Unique visitors — one per hashed IP+UA per day';
     link.innerHTML = `
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"></path>
-            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
         </svg>
         <span class="nav-counter-value">—</span>
     `;
@@ -76,20 +78,26 @@ function initVisitorCounter() {
 
     const valueEl = link.querySelector('.nav-counter-value');
 
-    // Try JSON first (returns { count, count_unique }), fall back to
-    // parsing the SVG counter for a number.
+    // Show ONLY unique visitors (count_unique), never pageviews (count).
+    // GoatCounter defines a unique visitor as a hash of IP+User-Agent
+    // salted with a value that rotates daily — the closest a static site
+    // can get to "same IP = one view" without storing raw IPs.
     fetch(`https://${GC_SUB}.goatcounter.com/counter/TOTAL.json`)
         .then(r => r.ok ? r.json() : Promise.reject())
         .then(data => {
-            const n = data.count_unique ?? data.count;
+            const n = data.count_unique;
             if (n != null) valueEl.textContent = n;
+            else link.remove();
         })
         .catch(() => {
-            fetch(`https://${GC_SUB}.goatcounter.com/counter/TOTAL.svg`)
+            // Fallback: the SVG endpoint accepts type=unique to display
+            // unique visitors instead of pageviews.
+            fetch(`https://${GC_SUB}.goatcounter.com/counter/TOTAL.svg?type=unique`)
                 .then(r => r.ok ? r.text() : Promise.reject())
                 .then(svg => {
                     const m = svg.match(/>\s*([0-9][0-9,.\s]*)\s*</);
                     if (m) valueEl.textContent = m[1].trim();
+                    else link.remove();
                 })
                 .catch(() => link.remove());
         });
