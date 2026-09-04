@@ -2092,24 +2092,47 @@ a.note-card:hover {
 }
 
 /* ============================================
-   Visitor counter badge in footer (GoatCounter)
+   Nav-bar visitor counter (GoatCounter)
+   Styled to match the theme-toggle button.
    ============================================ */
-.footer-counter {
-    display: inline-block;
-    margin: 0.35rem 0 0.65rem;
-    opacity: 0.85;
-    transition: opacity 0.2s ease;
-    line-height: 0;
+.nav-counter {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    height: 34px;
+    padding: 0 0.65rem;
+    margin-left: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-secondary);
+    background: none;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    text-decoration: none;
+    transition: all var(--transition);
 }
 
-.footer-counter:hover { opacity: 1; }
+.nav-counter:hover {
+    color: var(--text-primary);
+    border-color: var(--text-muted);
+}
 
-.footer-counter img {
-    height: 22px;
-    width: auto;
-    vertical-align: middle;
-    background: none;
-    border-radius: 0;
-    margin: 0;
+.nav-counter svg {
+    width: 15px;
+    height: 15px;
     display: inline-block;
+    background: none;
+    max-width: none;
+    margin: 0;
+}
+
+.nav-counter-value {
+    letter-spacing: 0.03em;
+    min-width: 1.6ch;
+    text-align: right;
+}
+
+@media (max-width: 640px) {
+    .nav-counter { padding: 0 0.5rem; font-size: 0.72rem; }
+    .nav-counter svg { width: 13px; height: 13px; }
 }

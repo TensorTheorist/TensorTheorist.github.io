@@ -49,28 +49,50 @@ function initVisitorCounter() {
     s.src = '//gc.zgo.at/count.js';
     document.body.appendChild(s);
 
-    // Insert the visitor-count badge into the footer.
-    const footerContent = document.querySelector('.footer-content');
-    if (!footerContent) return;
+    // Nav-bar counter button, styled to match the theme toggle.
+    const navContainer = document.querySelector('.nav-container');
+    const themeToggle = document.getElementById('themeToggle');
+    if (!navContainer) return;
 
     const link = document.createElement('a');
     link.href = `https://${GC_SUB}.goatcounter.com`;
     link.target = '_blank';
     link.rel = 'noopener';
-    link.className = 'footer-counter';
+    link.className = 'nav-counter';
+    link.title = 'Visitor count';
+    link.innerHTML = `
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"></path>
+            <circle cx="12" cy="12" r="3"></circle>
+        </svg>
+        <span class="nav-counter-value">—</span>
+    `;
 
-    const img = document.createElement('img');
-    img.src = `https://${GC_SUB}.goatcounter.com/counter/TOTAL.svg`;
-    img.alt = 'Visitor count';
-    img.onerror = () => link.remove();
-    link.appendChild(img);
-
-    const copyright = footerContent.querySelector('.footer-copyright');
-    if (copyright) {
-        footerContent.insertBefore(link, copyright);
+    if (themeToggle && themeToggle.nextSibling) {
+        navContainer.insertBefore(link, themeToggle.nextSibling);
     } else {
-        footerContent.appendChild(link);
+        navContainer.appendChild(link);
     }
+
+    const valueEl = link.querySelector('.nav-counter-value');
+
+    // Try JSON first (returns { count, count_unique }), fall back to
+    // parsing the SVG counter for a number.
+    fetch(`https://${GC_SUB}.goatcounter.com/counter/TOTAL.json`)
+        .then(r => r.ok ? r.json() : Promise.reject())
+        .then(data => {
+            const n = data.count_unique ?? data.count;
+            if (n != null) valueEl.textContent = n;
+        })
+        .catch(() => {
+            fetch(`https://${GC_SUB}.goatcounter.com/counter/TOTAL.svg`)
+                .then(r => r.ok ? r.text() : Promise.reject())
+                .then(svg => {
+                    const m = svg.match(/>\s*([0-9][0-9,.\s]*)\s*</);
+                    if (m) valueEl.textContent = m[1].trim();
+                })
+                .catch(() => link.remove());
+        });
 }
 
 function initThemeToggle() {
