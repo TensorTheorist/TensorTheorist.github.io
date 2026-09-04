@@ -2090,3 +2090,26 @@ a.note-card:hover {
 :root:not([data-theme="light"]) .bulb summary {
     color: #fde68a;
 }
+
+/* ============================================
+   Visitor counter badge in footer (GoatCounter)
+   ============================================ */
+.footer-counter {
+    display: inline-block;
+    margin: 0.35rem 0 0.65rem;
+    opacity: 0.85;
+    transition: opacity 0.2s ease;
+    line-height: 0;
+}
+
+.footer-counter:hover { opacity: 1; }
+
+.footer-counter img {
+    height: 22px;
+    width: auto;
+    vertical-align: middle;
+    background: none;
+    border-radius: 0;
+    margin: 0;
+    display: inline-block;
+}

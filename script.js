@@ -26,7 +26,52 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('profileImageContainer')) {
         initImageZoom();
     }
+
+    initVisitorCounter();
 });
+
+// ============================================================
+// Visitor counter (GoatCounter, no cookies, privacy-friendly)
+// Flip GC_ENABLED to true once you have signed up at
+//   https://www.goatcounter.com/signup
+// and set GC_SUB to your chosen subdomain.
+// ============================================================
+function initVisitorCounter() {
+    const GC_SUB = 'tensortheorist';   // your GoatCounter subdomain
+    const GC_ENABLED = false;          // set to true after signup
+
+    if (!GC_ENABLED || !GC_SUB) return;
+
+    // Inject the tracking pixel.
+    const s = document.createElement('script');
+    s.async = true;
+    s.setAttribute('data-goatcounter', `https://${GC_SUB}.goatcounter.com/count`);
+    s.src = '//gc.zgo.at/count.js';
+    document.body.appendChild(s);
+
+    // Insert the visitor-count badge into the footer.
+    const footerContent = document.querySelector('.footer-content');
+    if (!footerContent) return;
+
+    const link = document.createElement('a');
+    link.href = `https://${GC_SUB}.goatcounter.com`;
+    link.target = '_blank';
+    link.rel = 'noopener';
+    link.className = 'footer-counter';
+
+    const img = document.createElement('img');
+    img.src = `https://${GC_SUB}.goatcounter.com/counter/TOTAL.svg`;
+    img.alt = 'Visitor count';
+    img.onerror = () => link.remove();
+    link.appendChild(img);
+
+    const copyright = footerContent.querySelector('.footer-copyright');
+    if (copyright) {
+        footerContent.insertBefore(link, copyright);
+    } else {
+        footerContent.appendChild(link);
+    }
+}
 
 function initThemeToggle() {
     const themeToggle = document.getElementById('themeToggle');
