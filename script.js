@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // ============================================================
 function initVisitorCounter() {
     const GC_SUB = 'tensortheorist';   // your GoatCounter subdomain
-    const GC_ENABLED = false;          // set to true after signup
+    const GC_ENABLED = true;           // set to true after signup
 
     if (!GC_ENABLED || !GC_SUB) return;
 
