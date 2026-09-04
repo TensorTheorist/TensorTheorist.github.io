@@ -20,7 +20,7 @@
                 <label>Number of terms N: <strong data-role="value">10</strong></label>
                 <input type="range" min="1" max="500" step="1" value="10" data-role="slider">
             </div>
-            <canvas data-role="canvas" width="640" height="360"></canvas>
+            <canvas data-role="canvas" width="640" height="420"></canvas>
             <div class="interactive-legend">
                 <span><i style="background:#7c3aed"></i> convergence interval (-1, 1)</span>
                 <span><i style="background:#2563eb"></i> 1 / (1 − x)</span>
@@ -40,13 +40,17 @@
         asymptote: '#e11d48', band: '#efe6ff'
     };
 
-    // Plot window — wider than (-1, 1) so divergence outside is visible.
-    const X_MIN = -2.5, X_MAX = 3.0;
-    const Y_MIN = -4.0, Y_MAX = 8.0;
-    const SAMPLES = 800;
+    // Wide plot window; ticks land only on even integers.
+    const X_MIN = -10, X_MAX = 10;
+    const Y_MIN = -10, Y_MAX = 10;
+    const SAMPLES = 1200;
 
-    // Skip the tiniest slice around x = 1 to avoid the pole.
-    const POLE_EPS = 0.015;
+    // Skip a small slice around x = 1 (the pole of 1/(1-x)).
+    const POLE_EPS = 0.04;
+    // Break the partial-sum polyline when adjacent samples differ by more
+    // than this in y — otherwise floating-point spikes near x = ±1 draw
+    // spurious near-vertical connectors.
+    const Y_JUMP = 3.5;
 
     function partialSum(x, N) {
         let term = 1, total = 0;
@@ -81,20 +85,20 @@
         const X = x => L + (x - X_MIN) / (X_MAX - X_MIN) * (R - L);
         const Y = y => B - (y - Y_MIN) / (Y_MAX - Y_MIN) * (B - T);
 
-        // Convergence band shading
+        // Convergence-band shading
         ctx.fillStyle = PALETTE.band;
         ctx.fillRect(X(-1), T, X(1) - X(-1), B - T);
 
-        // Gridlines
+        // Gridlines at every even integer (-10, -8, ..., 8, 10)
         ctx.strokeStyle = PALETTE.grid; ctx.lineWidth = 0.6;
-        for (let xg = Math.ceil(X_MIN); xg <= Math.floor(X_MAX); xg++) {
+        for (let xg = X_MIN; xg <= X_MAX; xg += 2) {
             ctx.beginPath(); ctx.moveTo(X(xg), T); ctx.lineTo(X(xg), B); ctx.stroke();
         }
-        for (let yg = Math.ceil(Y_MIN); yg <= Math.floor(Y_MAX); yg++) {
+        for (let yg = Y_MIN; yg <= Y_MAX; yg += 2) {
             ctx.beginPath(); ctx.moveTo(L, Y(yg)); ctx.lineTo(R, Y(yg)); ctx.stroke();
         }
 
-        // Axes
+        // Axes through 0
         ctx.strokeStyle = PALETTE.axis; ctx.lineWidth = 1;
         ctx.beginPath(); ctx.moveTo(L, Y(0)); ctx.lineTo(R, Y(0)); ctx.stroke();
         ctx.beginPath(); ctx.moveTo(X(0), T); ctx.lineTo(X(0), B); ctx.stroke();
@@ -109,15 +113,15 @@
         ctx.textAlign = 'left';
         ctx.fillText('x = 1', X(1) + 6, T + 12);
 
-        // Tick labels
+        // Tick labels — even integers only
         ctx.fillStyle = PALETTE.muted;
         ctx.font = '10px JetBrains Mono, monospace';
         ctx.textAlign = 'center';
-        for (let xg = Math.ceil(X_MIN); xg <= Math.floor(X_MAX); xg++) {
+        for (let xg = X_MIN; xg <= X_MAX; xg += 2) {
             ctx.fillText(xg.toString(), X(xg), B + 14);
         }
         ctx.textAlign = 'right';
-        for (let yg = Math.ceil(Y_MIN); yg <= Math.floor(Y_MAX); yg++) {
+        for (let yg = Y_MIN; yg <= Y_MAX; yg += 2) {
             if (yg === 0) continue;
             ctx.fillText(yg.toString(), L - 6, Y(yg) + 3);
         }
@@ -128,20 +132,29 @@
             ctx.setLineDash(dashed ? [4, 3] : []);
             ctx.beginPath();
             let started = false;
+            let lastY = null;
+            let lastX = null;
             for (let i = 0; i < data.xs.length; i++) {
                 const y = arr[i];
+                // Off-canvas — break the segment.
                 if (!isFinite(y) || y < Y_MIN || y > Y_MAX) {
-                    started = false;
+                    started = false; lastY = null; lastX = null;
                     continue;
                 }
-                // break the polyline at the pole
-                if (i > 0 && Math.abs(data.xs[i] - data.xs[i - 1]) > 0.1) {
+                // Sample gap (pole neighbourhood) — break.
+                if (lastX !== null && Math.abs(data.xs[i] - lastX) > 0.1) {
+                    started = false; lastY = null;
+                }
+                // Sudden y-jump between adjacent samples — floating-point
+                // spike at |x| = 1 boundary of the partial-sum. Break.
+                if (started && lastY !== null && Math.abs(y - lastY) > Y_JUMP) {
                     started = false;
                 }
                 const px = X(data.xs[i]);
                 const py = Y(y);
                 if (!started) { ctx.moveTo(px, py); started = true; }
                 else ctx.lineTo(px, py);
+                lastY = y; lastX = data.xs[i];
             }
             ctx.stroke();
             ctx.setLineDash([]);
@@ -150,13 +163,13 @@
         plot(data.exact, PALETTE.exact, false);
         plot(data.sN, PALETTE.partial, false);
 
-        // Annotate: "converges" and "diverges" labels
+        // Annotations
         ctx.fillStyle = PALETTE.muted;
         ctx.font = '10px JetBrains Mono, monospace';
         ctx.textAlign = 'center';
         ctx.fillText('|x| < 1: S_N → 1/(1−x)', X(0), B - 8);
         ctx.textAlign = 'left';
-        ctx.fillText('outside (-1, 1): S_N diverges', X(1.15), B - 8);
+        ctx.fillText('outside (-1, 1): S_N diverges', X(2), B - 8);
     }
 
     let handle = null;

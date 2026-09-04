@@ -2160,3 +2160,23 @@ a.note-card:hover {
     min-height: 200px;
     border: none;
 }
+
+/* ============================================
+   Image / visualization captions
+   Any paragraph whose ONLY child is an <em>
+   (i.e. `*text*` on its own line in markdown,
+   the convention we use for figure captions)
+   renders smaller and muted.
+   ============================================ */
+.blog-post-body p:has(> em:only-child) {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    text-align: center;
+    line-height: 1.5;
+    margin-top: -0.4rem;
+    margin-bottom: 1.4rem;
+}
+
+.blog-post-body p:has(> em:only-child) em {
+    font-style: italic;
+}
