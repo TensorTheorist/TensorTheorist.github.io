@@ -28,7 +28,57 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     initVisitorCounter();
+    mountGiscusComments();
 });
+
+// ============================================================
+// Comments + reactions via giscus (backed by GitHub Discussions).
+// Mounts under any element with id="postComments" (blog + note posts).
+// Theme is synced to the site's data-theme attribute.
+// ============================================================
+function giscusThemeName() {
+    const t = document.documentElement.getAttribute('data-theme');
+    return t === 'light' ? 'light' : 'dark_dimmed';
+}
+
+function mountGiscusComments() {
+    const host = document.getElementById('postComments');
+    if (!host || host.dataset.giscusMounted) return;
+    host.dataset.giscusMounted = '1';
+
+    const s = document.createElement('script');
+    s.src = 'https://giscus.app/client.js';
+    s.crossOrigin = 'anonymous';
+    s.async = true;
+    const cfg = {
+        'data-repo': 'TensorTheorist/TensorTheorist.github.io',
+        'data-repo-id': 'R_kgDOLxBnQA',
+        'data-category': 'Announcements',
+        'data-category-id': 'DIC_kwDOLxBnQM4DE2AQ',
+        'data-mapping': 'pathname',
+        'data-strict': '0',
+        'data-reactions-enabled': '1',
+        'data-emit-metadata': '0',
+        'data-input-position': 'bottom',
+        'data-theme': giscusThemeName(),
+        'data-lang': 'en',
+        'data-loading': 'lazy'
+    };
+    Object.entries(cfg).forEach(([k, v]) => s.setAttribute(k, v));
+    host.appendChild(s);
+
+    // Keep giscus in sync with the site's light/dark toggle.
+    new MutationObserver(() => {
+        const frame = document.querySelector('iframe.giscus-frame');
+        if (!frame || !frame.contentWindow) return;
+        frame.contentWindow.postMessage(
+            { giscus: { setConfig: { theme: giscusThemeName() } } },
+            'https://giscus.app'
+        );
+    }).observe(document.documentElement, {
+        attributes: true, attributeFilter: ['data-theme']
+    });
+}
 
 // ============================================================
 // Visitor counter (GoatCounter, no cookies, privacy-friendly)
