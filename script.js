@@ -724,12 +724,12 @@ async function hydrateSearchBodies(items, onProgress) {
             const firstHeading = text.split('\n').find(l => l.startsWith('# '));
             if (firstHeading) item.title = firstHeading.substring(2).trim();
 
-            // Prefer explicit *Published:* line, then HTTP Last-Modified, then existing item.date.
+            // Ordering date = creation date only. The *Published:* line in
+            // the markdown is the canonical creation date and MUST NOT
+            // be edited when content is updated. HTTP Last-Modified is
+            // deliberately ignored so re-deploys never change ordering.
             const mdDate = parseMdDate(text);
-            const httpLm = res.headers.get('last-modified');
-            const httpDate = httpLm ? new Date(httpLm).toISOString().slice(0, 10) : null;
-            const candidates = [mdDate, httpDate, item.date].filter(Boolean).sort();
-            if (candidates.length) item.date = candidates[candidates.length - 1];
+            if (mdDate) item.date = mdDate;
 
             if (onProgress) onProgress();
         } catch (_) { /* offline / missing — skip */ }

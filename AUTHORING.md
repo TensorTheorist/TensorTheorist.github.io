@@ -25,6 +25,26 @@ displays next to the title. Prefix with `1-`, `2-`, `3-…` to control ordering.
 <Lead paragraph>
 ```
 
+### 2a. `Published:` is immutable
+
+The `*Published:*` line is the **creation date** of the piece. It is tied to
+the file's slug / URL — that is, to the unique ID of the post. It **must
+not be changed** when the content is later edited. All of the following
+depend on this rule:
+
+- The date printed at the top of the article.
+- The default (empty-box) sort order on the search page.
+- The date shown next to search results.
+
+If you want to signal that a post has been substantively updated, add an
+extra `*Updated:*` line beneath `Published:`. It is purely informational —
+neither the sort order nor the primary date on the article uses it.
+
+For blog posts, the same date lives in `script.js` under the post's entry
+in `blogPosts` as the `date` field. Keep the two in sync at creation time,
+and never edit either after. HTTP `Last-Modified` is deliberately ignored
+by the search index so that re-deploys do not shift ordering.
+
 ## 3. Sections and dividers
 
 Break each post into thematic sections, and separate every section with a
