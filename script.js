@@ -129,27 +129,35 @@ function initVisitorCounter() {
     const valueEl = link.querySelector('.nav-counter-value');
 
     // Show ONLY unique visitors (count_unique), never pageviews (count).
-    // GoatCounter defines a unique visitor as a hash of IP+User-Agent
-    // salted with a value that rotates daily — the closest a static site
-    // can get to "same IP = one view" without storing raw IPs.
-    fetch(`https://${GC_SUB}.goatcounter.com/counter/TOTAL.json`)
-        .then(r => r.ok ? r.json() : Promise.reject())
-        .then(data => {
-            const n = data.count_unique;
-            if (n != null) valueEl.textContent = n;
-            else link.remove();
+    // Failure paths leave the icon in place so the user can see something
+    // and diagnose in DevTools if the number doesn't fill in.
+    const jsonUrl = `https://${GC_SUB}.goatcounter.com/counter/TOTAL.json`;
+    const svgUrl  = `https://${GC_SUB}.goatcounter.com/counter/TOTAL.svg`;
+
+    function setCount(n) {
+        if (n == null || n === '') return;
+        valueEl.textContent = String(n).trim();
+    }
+
+    fetch(jsonUrl, { cache: 'no-store' })
+        .then(r => {
+            if (!r.ok) throw new Error('json HTTP ' + r.status);
+            return r.json();
         })
-        .catch(() => {
-            // Fallback: the SVG endpoint accepts type=unique to display
-            // unique visitors instead of pageviews.
-            fetch(`https://${GC_SUB}.goatcounter.com/counter/TOTAL.svg?type=unique`)
-                .then(r => r.ok ? r.text() : Promise.reject())
+        .then(data => {
+            setCount(data.count_unique ?? data.count);
+        })
+        .catch(err => {
+            console.warn('[counter] JSON failed:', err && err.message);
+            return fetch(svgUrl, { cache: 'no-store' })
+                .then(r => r.ok ? r.text() : Promise.reject(new Error('svg HTTP ' + r.status)))
                 .then(svg => {
-                    const m = svg.match(/>\s*([0-9][0-9,.\s]*)\s*</);
-                    if (m) valueEl.textContent = m[1].trim();
-                    else link.remove();
+                    const m = svg.match(/<text[^>]*>\s*([0-9][0-9,.\s]*)\s*<\/text>/i)
+                          || svg.match(/>\s*([0-9][0-9,.\s]*)\s*</);
+                    if (m) setCount(m[1]);
+                    else console.warn('[counter] SVG had no number:', svg.slice(0, 200));
                 })
-                .catch(() => link.remove());
+                .catch(e2 => console.warn('[counter] SVG failed:', e2 && e2.message));
         });
 }
 
