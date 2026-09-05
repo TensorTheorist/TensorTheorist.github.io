@@ -11,8 +11,26 @@ document.addEventListener('DOMContentLoaded', () => {
         initBlogSection();
     }
 
+    if (document.getElementById('blogInlineSearch')) {
+        initInlineSearch({
+            inputId: 'blogInlineSearch',
+            defaultContainerId: 'blogDefault',
+            resultsContainerId: 'blogInlineResults',
+            kind: 'blog'
+        });
+    }
+
     if (document.getElementById('notesCategoryGrid')) {
         initNotesCategoryGrid();
+    }
+
+    if (document.getElementById('notesInlineSearch')) {
+        initInlineSearch({
+            inputId: 'notesInlineSearch',
+            defaultContainerId: 'notesDefault',
+            resultsContainerId: 'notesInlineResults',
+            kind: 'notes'
+        });
     }
 
     if (document.getElementById('notesSubjectGrid')) {
@@ -452,7 +470,7 @@ const notesCategories = [
         subjects: [
             { id: 'abstract-algebra', title: 'Abstract Algebra', textbook: 'Dummit & Foote — Abstract Algebra', image: 'assets/textbooks/dummit-foote.jpeg',
               pages: [
-                  { id: 'groups-intuition', title: 'Groups: the intuition first' }
+                  { id: 'groups-intuition', title: 'Groups: the intuition first', date: '2026-08-31' }
               ] },
             { id: 'module-theory', title: 'Module Theory', textbook: 'Lang — Algebra (Ch. III)', image: 'assets/textbooks/lang-algebra.jpg', pages: [] },
             { id: 'galois-theory', title: 'Galois Theory', textbook: 'Milne — Fields and Galois Theory', image: 'assets/textbooks/milne-galois.jpg', pages: [] },
@@ -502,7 +520,7 @@ const notesCategories = [
         subjects: [
             { id: 'category-theory', title: 'Category Theory', textbook: 'Fong & Spivak — Seven Sketches in Compositionality', image: 'assets/textbooks/spivak-fong.png',
               pages: [
-                  { id: '1-category-theory-intro', title: 'Pre-orders, meets and joins' }
+                  { id: '1-category-theory-intro', title: 'Pre-orders, meets and joins', date: '2026-09-02' }
               ] }
         ]
     },
@@ -517,7 +535,7 @@ const notesCategories = [
             { id: 'imo', title: 'IMO', textbook: 'Engel — Problem-Solving Strategies', image: 'assets/textbooks/engel.jpg', pages: [] },
             { id: 'ioqm-rmo', title: 'IOQM / RMO', textbook: 'Pathfinder for Olympiad Mathematics (Tiwari & Seshan)', image: 'assets/textbooks/ioqm-rmo.jpg',
               pages: [
-                  { id: 'polynomials-solved-1', title: 'Polynomials — Solved Problem 1' }
+                  { id: 'polynomials-solved-1', title: 'Polynomials — Solved Problem 1', date: '2026-09-05' }
               ] }
         ]
     }
@@ -527,15 +545,62 @@ function initNotesCategoryGrid() {
     const grid = document.getElementById('notesCategoryGrid');
     if (!grid) return;
     const visible = notesCategories.filter(c => !c.hiddenFromNotesLanding);
-    grid.innerHTML = visible.map(cat => `
-        <a href="notes-category.html?cat=${cat.id}" class="note-card note-card-cat">
-            <div class="note-card-body">
-                <h3 class="note-card-title">${cat.title}</h3>
-                <p class="note-card-blurb">${cat.blurb}</p>
-                <span class="note-card-meta">${cat.subjects.length} subject${cat.subjects.length === 1 ? '' : 's'} &rarr;</span>
+
+    grid.innerHTML = visible.map(cat => {
+        // Gather every page in the category, sorted by date desc (fallback: id desc).
+        const allPages = [];
+        (cat.subjects || []).forEach(sub => {
+            (sub.pages || []).forEach(pg => {
+                allPages.push({
+                    catId: cat.id, subId: sub.id, subTitle: sub.title,
+                    id: pg.id, title: pg.title || pg.id,
+                    date: pg.date || ''
+                });
+            });
+        });
+        allPages.sort((a, b) => {
+            if (a.date !== b.date) return (b.date || '').localeCompare(a.date || '');
+            return b.id.localeCompare(a.id);
+        });
+        const recent = allPages.slice(0, 5);
+
+        const subjectsHtml = (cat.subjects || []).map(sub => `
+            <a class="notes-flyout-sub"
+               href="notes-category.html?cat=${cat.id}&open=${sub.id}">
+                ${sub.title}
+            </a>
+        `).join('');
+
+        const recentHtml = recent.length
+            ? `<div class="notes-flyout-recent">
+                   <h4>Recent notes</h4>
+                   <ul>${recent.map(p => `
+                       <li>
+                           <a href="note-post.html?cat=${p.catId}&sub=${p.subId}&page=${p.id}">
+                               ${p.title}
+                               <span class="notes-flyout-sub-tag">${p.subTitle}</span>
+                           </a>
+                       </li>
+                   `).join('')}</ul>
+               </div>`
+            : '';
+
+        return `
+            <div class="note-card-wrap">
+                <a href="notes-category.html?cat=${cat.id}" class="note-card note-card-cat">
+                    <div class="note-card-body">
+                        <h3 class="note-card-title">${cat.title}</h3>
+                        <p class="note-card-blurb">${cat.blurb}</p>
+                        <span class="note-card-meta">${cat.subjects.length} subject${cat.subjects.length === 1 ? '' : 's'} &rarr;</span>
+                    </div>
+                </a>
+                <div class="notes-flyout" role="menu">
+                    <div class="notes-flyout-subjects">${subjectsHtml}</div>
+                    ${recentHtml}
+                </div>
             </div>
-        </a>
-    `).join('');
+        `;
+    }).join('');
 }
 
 function setupBookRack(rack) {
@@ -680,6 +745,19 @@ function initNotesSubjectGrid() {
             }
         });
     });
+
+    // If the URL carries ?open=<subject>, expand that folder and scroll it
+    // into view — used by the notes-landing hover flyout.
+    const openSub = params.get('open');
+    if (openSub) {
+        const target = host.querySelector(`.subject-folder[data-sub="${openSub}"]`);
+        if (target) {
+            target.open = true;
+            requestAnimationFrame(() => {
+                target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+        }
+    }
 }
 
 function buildSearchIndex() {
@@ -746,6 +824,77 @@ async function hydrateSearchBodies(items, onProgress) {
     }));
 }
 
+function searchScore(item, terms) {
+    let s = 0;
+    for (const t of terms) {
+        if (!item.haystack.includes(t)) return -1;
+        if (item.title.toLowerCase().includes(t)) s += 3;
+        s += 1;
+    }
+    return s;
+}
+
+function searchHighlight(text, terms) {
+    if (!terms.length) return text;
+    const escaped = terms.map(t => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
+    return text.replace(new RegExp(`(${escaped})`, 'gi'), '<mark>$1</mark>');
+}
+
+function renderSearchResults(container, hits, terms, emptyMsg) {
+    if (!hits.length) {
+        container.innerHTML = `<p class="search-empty">${emptyMsg}</p>`;
+        return;
+    }
+    container.innerHTML = hits.slice(0, 60).map(({ i }) => `
+        <a class="search-result" href="${i.href}">
+            <span class="search-result-tag search-result-tag-${i.kind}">[${i.label}]</span>
+            <span class="search-result-body">
+                <span class="search-result-title">${searchHighlight(i.title, terms)}</span>
+                <span class="search-result-crumbs">${i.crumbs}</span>
+            </span>
+        </a>
+    `).join('');
+}
+
+function initInlineSearch({ inputId, defaultContainerId, resultsContainerId, kind }) {
+    const input = document.getElementById(inputId);
+    const defaultEl = document.getElementById(defaultContainerId);
+    const resultsEl = document.getElementById(resultsContainerId);
+    if (!input || !defaultEl || !resultsEl) return;
+
+    const index = buildSearchIndex().filter(i => i.kind === kind);
+    let bodiesReady = false;
+    hydrateSearchBodies(index).then(() => {
+        bodiesReady = true;
+        if (input.value.trim()) render();
+    });
+
+    function render() {
+        const q = input.value.trim().toLowerCase();
+        if (!q) {
+            defaultEl.style.display = '';
+            resultsEl.style.display = 'none';
+            resultsEl.innerHTML = '';
+            return;
+        }
+        const terms = q.split(/\s+/);
+        const hits = index
+            .map(i => ({ i, s: searchScore(i, terms) }))
+            .filter(x => x.s >= 0)
+            .sort((a, b) => {
+                if (b.s !== a.s) return b.s - a.s;
+                return (b.i.date || '').localeCompare(a.i.date || '');
+            });
+        defaultEl.style.display = 'none';
+        resultsEl.style.display = '';
+        const empty = bodiesReady ? 'No matches.' : 'No matches yet — still loading…';
+        renderSearchResults(resultsEl, hits, terms, empty);
+    }
+
+    input.addEventListener('input', render);
+    render();
+}
+
 function initSearchPage() {
     const input = document.getElementById('searchInput');
     const resultsEl = document.getElementById('searchResults');
@@ -759,59 +908,26 @@ function initSearchPage() {
     const urlQ = new URLSearchParams(window.location.search).get('q') || '';
     if (urlQ) input.value = urlQ;
 
-    // Fetch every blog + note markdown so keyword search hits body text too.
     hydrateSearchBodies(index).then(() => {
         bodiesReady = true;
         render();
     });
 
-    function score(item, terms) {
-        let s = 0;
-        for (const t of terms) {
-            if (!item.haystack.includes(t)) return -1;
-            if (item.title.toLowerCase().includes(t)) s += 3;
-            s += 1;
-        }
-        return s;
-    }
-
-    function highlight(text, terms) {
-        if (!terms.length) return text;
-        const escaped = terms.map(t => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
-        return text.replace(new RegExp(`(${escaped})`, 'gi'), '<mark>$1</mark>');
-    }
-
     function render() {
         const q = input.value.trim().toLowerCase();
         const terms = q ? q.split(/\s+/) : [];
         let hits = terms.length
-            ? index.map(i => ({ i, s: score(i, terms) })).filter(x => x.s >= 0)
+            ? index.map(i => ({ i, s: searchScore(i, terms) })).filter(x => x.s >= 0)
             : index.map(i => ({ i, s: 0 }));
         if (filter !== 'all') hits = hits.filter(x => x.i.kind === filter);
         hits.sort((a, b) => {
             if (b.s !== a.s) return b.s - a.s;
-            const da = a.i.date || '';
-            const db = b.i.date || '';
-            return db.localeCompare(da);
+            return (b.i.date || '').localeCompare(a.i.date || '');
         });
-
-        if (!hits.length) {
-            const msg = q
-                ? (bodiesReady ? 'No matches.' : 'No matches yet — still loading note bodies…')
-                : 'Start typing to search…';
-            resultsEl.innerHTML = `<p class="search-empty">${msg}</p>`;
-            return;
-        }
-
-        resultsEl.innerHTML = hits.slice(0, 60).map(({ i }) => `
-            <a class="search-result" href="${i.href}">
-                <span class="search-result-tag search-result-tag-${i.kind}">[${i.label}]</span>
-                <span class="search-result-body">
-                    <span class="search-result-title">${highlight(i.title, terms)}</span>
-                    <span class="search-result-crumbs">${i.crumbs}</span>
-                </span>
-            </a>
-        `).join('');
+        const empty = q
+            ? (bodiesReady ? 'No matches.' : 'No matches yet — still loading note bodies…')
+            : 'Start typing to search…';
+        renderSearchResults(resultsEl, hits, terms, empty);
     }
 
     input.addEventListener('input', render);
