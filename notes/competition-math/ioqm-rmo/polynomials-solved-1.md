@@ -21,7 +21,7 @@ $$\left\lfloor \dfrac{2\alpha + \beta - \gamma}{\beta + \gamma} \right\rfloor.$$
 
 ## Solution
 
-Given different equations in $\alpha, \beta, \gamma$ respectively, we can reformulate them as the same equation via a shift of variable.
+<div class="intuition"><strong>Key insight.</strong> Given different equations in $\alpha, \beta, \gamma$ respectively, we can reformulate them as the <em>same</em> equation via a shift of variable — collapsing three unknowns into one common cubic.</div>
 
 $$\alpha^{3} - 6\alpha^{2} + 17\alpha - 29 = 0 \quad \text{or} \quad (\alpha - 2)^{3} + 5(\alpha - 2) - 11 = 0.$$
 
@@ -33,7 +33,7 @@ So $(\alpha - 2), \; (3 - \beta), \; (\gamma + 1)$ are roots of
 
 $$z^{3} + 5z - 11 = 0.$$
 
-Check the derivative to estimate the number of real roots.
+<div class="intuition"><strong>Key insight.</strong> Check the derivative to bound the number of real roots. If $f'$ has a constant sign, $f$ is strictly monotone and has at most one real root — which forces every real solution to coincide.</div>
 
 $$f(z) = z^{3} + 5z - 11, \qquad f'(z) = 3z^{2} + 5 > 0.$$
 
