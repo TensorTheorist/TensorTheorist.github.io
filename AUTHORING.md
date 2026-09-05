@@ -185,6 +185,22 @@ muted, centered style so figures stay visually anchored to their caption:
 
 The same rule applies to the caption after an `!interactive[…]` block.
 
+## 7a. Competitive notes — no figures
+
+Notes filed under **Competitive** (`notes/competition-math/**`) do **not**
+carry Python-generated figures or interactive visualisations by default.
+They are typically short problem write-ups (statement + solution) and a
+plot would distract from the argument.
+
+- No `scripts/notes/competition-math/**/*.py`.
+- No `assets/notes/competition-math/**/*.svg`.
+- No `!interactive[…]` blocks.
+
+Callouts (`intuition`, `sneak-peek`, `bulb`) are still available if useful.
+
+Only depart from this rule when the user explicitly asks for a figure on
+a specific competitive note.
+
 ## 8. Interactive figures
 
 Reference from markdown as `!interactive[<slug>]` on its own line. Ship the

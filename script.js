@@ -515,8 +515,10 @@ const notesCategories = [
             { id: 'jee', title: 'JEE', textbook: 'Cengage / Arihant / TMH', image: 'assets/textbooks/jee.jpg', pages: [] },
             { id: 'aime', title: 'AIME', textbook: 'Art of Problem Solving — AIME Volumes', image: 'assets/textbooks/aime.jpg', pages: [] },
             { id: 'imo', title: 'IMO', textbook: 'Engel — Problem-Solving Strategies', image: 'assets/textbooks/engel.jpg', pages: [] },
-            { id: 'inmo', title: 'INMO', textbook: 'Mathematical Olympiad Challenges (Andreescu & Enescu)', image: 'assets/textbooks/inmo.jpg', pages: [] },
-            { id: 'putnam', title: 'Putnam', textbook: 'Putnam and Beyond (Andreescu & Gelca)', image: 'assets/textbooks/putnam.jpg', pages: [] }
+            { id: 'ioqm-rmo', title: 'IOQM / RMO', textbook: 'Pathfinder for Olympiad Mathematics (Tiwari & Seshan)', image: 'assets/textbooks/ioqm-rmo.jpg',
+              pages: [
+                  { id: 'polynomials-solved-1', title: 'Polynomials — Solved Problem 1' }
+              ] }
         ]
     }
 ];
