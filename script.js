@@ -323,6 +323,15 @@ async function initGitHubStats() {
 
 const blogPosts = [
     {
+        id: 'hierarchy-abstract-algebra',
+        title: 'The Hierarchy of Abstract Algebra',
+        excerpt: 'From set to field one axiom at a time — the road that runs through semigroup, monoid, group, ring, and the branches that split off along the way.',
+        date: '2026-09-08',
+        tags: ['abstract-algebra', 'algebra', 'popular'],
+        image: 'math',
+        youtube: ''
+    },
+    {
         id: 'understanding-analytic-continuation',
         title: 'Understanding Analytic Continuation',
         excerpt: 'Two elementary examples — a punctured point and a restricted domain — that show what analytic continuation actually does.',
