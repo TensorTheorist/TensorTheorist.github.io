@@ -1989,6 +1989,13 @@ a.note-card:hover {
     max-width: 100%;
 }
 
+/* Opt-in: images marked `wide` span the full article width. */
+.blog-post-body img.wide {
+    max-width: 100%;
+    width: 100%;
+    cursor: zoom-in;
+}
+
 
 /* ============================================
    Sneak peek (mint pastel)

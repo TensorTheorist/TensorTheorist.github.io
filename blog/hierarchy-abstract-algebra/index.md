@@ -5,7 +5,7 @@
 
 Algebraic structures are built by starting with a [set](https://en.wikipedia.org/wiki/Set_(mathematics)) and layering axioms one at a time. Each new axiom carves the previous class into a smaller, better-behaved subclass. This post walks the path from a bare set to a [field](https://en.wikipedia.org/wiki/Field_(mathematics)), naming each structure at the point it appears.
 
-![Abstract algebra hierarchy diagram: Set → Semigroup → Monoid → Group → Abelian Group → Rng → Ring → Module, Vector Space, Division Ring, Field, Commutative Ring, Integral Domain](hierarchy.png)
+<img class="wide" src="hierarchy.png" alt="Abstract algebra hierarchy diagram: Set → Semigroup → Monoid → Group → Abelian Group → Rng → Ring → Module, Vector Space, Division Ring, Field, Commutative Ring, Integral Domain">
 
 *The main road runs Set → Group → Abelian Group → Rng → Ring → Field. Side branches (Semigroup, Monoid, Module, Vector Space, Division Ring, Commutative Ring, Integral Domain) mark structures that sit off the main line.*
 
